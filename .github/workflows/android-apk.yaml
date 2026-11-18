@@ -54,7 +54,7 @@ jobs:
       - name: Analyze & run tests
         run: |
           flutter analyze --no-fatal-infos
-          flutter test test/views/environment_check_test.dart test/l10n test/lint
+          flutter test -r expanded test/views/environment_check_test.dart test/l10n test/lint
 
       - name: Fetch CA certificates
         shell: bash

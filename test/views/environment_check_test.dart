@@ -192,15 +192,20 @@ void main() {
       expect(find.text(l10n.envCheckVpnPermission), findsOneWidget);
       expect(find.text(l10n.envCheckPrivateDns), findsOneWidget);
 
+      await tester.ensureVisible(find.text(l10n.envCheckVpnPermission));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(l10n.envCheckVpnPermission));
       await tester.pumpAndSettle();
       expect(prepared, isTrue);
 
+      await tester.ensureVisible(find.text(l10n.envCheckPrivateDns));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(l10n.envCheckPrivateDns));
       await tester.pumpAndSettle();
       expect(openedTarget, AndroidSettingsTarget.network);
 
-      await tester.scrollUntilVisible(find.text(l10n.envCheckVpnMode), 200);
+      await tester.ensureVisible(find.text(l10n.envCheckVpnMode));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(l10n.envCheckVpnMode));
       await tester.pumpAndSettle();
       expect(container.read(vpnSettingProvider).enable, isTrue);

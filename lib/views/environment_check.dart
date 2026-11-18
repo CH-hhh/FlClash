@@ -386,7 +386,7 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
   void initState() {
     super.initState();
     _lifecycle = AppLifecycleListener(onResume: _refresh);
-    unawaited(_refresh());
+    unawaited(_refresh(initial: true));
   }
 
   @override
@@ -395,13 +395,14 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
     super.dispose();
   }
 
-  Future<void> _refresh() async {
+  Future<void> _refresh({bool initial = false}) async {
     if (_refreshing) {
       return;
     }
-    setState(() {
-      _refreshing = true;
-    });
+    _refreshing = true;
+    if (!initial && mounted) {
+      setState(() {});
+    }
     try {
       final loader = widget.environmentLoader ?? app?.getEnvironmentInfo;
       final result = loader == null ? null : await loader();
@@ -413,9 +414,9 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
         _loading = false;
       });
     } finally {
+      _refreshing = false;
       if (mounted) {
         setState(() {
-          _refreshing = false;
           _loading = false;
         });
       }
