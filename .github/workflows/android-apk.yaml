@@ -75,9 +75,17 @@ jobs:
       - name: Analyze & run tests
         shell: bash
         run: |
-          flutter analyze --no-fatal-infos
-          sed -i -E 's/build_assets:\s*true/build_assets: false/g' pubspec.yaml
           set +e
+          flutter analyze --no-fatal-infos > /tmp/analyze.log 2>&1
+          analyze_code=$?
+          cat /tmp/analyze.log
+          if [ $analyze_code -ne 0 ]; then
+            grep -E 'error •|warning •|info •' /tmp/analyze.log | head -n 25 | while IFS= read -r line; do
+              echo "::error::ANALYZE_FAIL: $line"
+            done
+            exit $analyze_code
+          fi
+          sed -i -E 's/build_assets:\s*true/build_assets: false/g' pubspec.yaml
           flutter test -r expanded test/views/environment_check_test.dart test/l10n test/lint > /tmp/test.log 2>&1
           code=$?
           git checkout -- pubspec.yaml

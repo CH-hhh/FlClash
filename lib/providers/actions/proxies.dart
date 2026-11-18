@@ -418,7 +418,7 @@ class ProxiesAction extends _$ProxiesAction {
 
         if (end < targets.length &&
             !job.cancelled &&
-            delayTestBatchRestDuration > Duration.zero) {
+            delayTestBatchRestDuration.inMilliseconds > 0) {
           await Future<void>.delayed(delayTestBatchRestDuration);
         }
       }
