@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "Проверка и подготовка баз Geo",
   "envCheckStepRestartCore": "Перезапуск и переинициализация ядра",
   "envCheckStepRecheckEnv": "Повторная проверка окружения устройства",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "Параллельность теста задержки",
+  "delayTestConcurrencyDesc": "Управляет параллельными соединениями и паузами между пакетами для снижения нагрузки на слабые роутеры и CPE"
 }

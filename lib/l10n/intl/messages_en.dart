@@ -643,6 +643,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("Failed"),
     "delayTest": MessageLookupByLibrary.simpleMessage("Delay test"),
     "delayTestTimeout": MessageLookupByLibrary.simpleMessage(
+    "delayTestConcurrency": MessageLookupByLibrary.simpleMessage(
+        "Delay test concurrency"),
+    "delayTestConcurrencyDesc": MessageLookupByLibrary.simpleMessage(
+        "Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs"),
       "Delay test timeout",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),

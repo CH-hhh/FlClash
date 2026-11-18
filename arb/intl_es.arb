@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "Verificando y preparando bases de datos Geo",
   "envCheckStepRestartCore": "Reiniciando y reinicializando el núcleo",
   "envCheckStepRecheckEnv": "Volviendo a comprobar el entorno del dispositivo",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "Concurrencia de prueba de retraso",
+  "delayTestConcurrencyDesc": "Controla las conexiones paralelas y el ritmo de los lotes para reducir la carga en enrutadores y CPE débiles"
 }

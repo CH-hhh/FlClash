@@ -36,6 +36,25 @@ class Preferences {
     return _instance!;
   }
 
+  int? _delayTestConcurrencyCache;
+
+  int get delayTestConcurrencySync =>
+      _delayTestConcurrencyCache ?? defaultDelayTestConcurrency;
+
+  Future<int> getDelayTestConcurrency() async {
+    final preferences = await _store.value;
+    final val = preferences?.getInt(delayTestConcurrencyKey) ??
+        defaultDelayTestConcurrency;
+    _delayTestConcurrencyCache = val;
+    return val;
+  }
+
+  Future<void> setDelayTestConcurrency(int value) async {
+    _delayTestConcurrencyCache = value;
+    final preferences = await _store.value;
+    await preferences?.setInt(delayTestConcurrencyKey, value);
+  }
+
   Future<int> getVersion() async {
     final preferences = await _store.value;
     return preferences?.getInt('version') ?? 0;

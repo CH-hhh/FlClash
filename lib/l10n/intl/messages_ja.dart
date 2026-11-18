@@ -554,6 +554,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("失敗"),
     "delayTest": MessageLookupByLibrary.simpleMessage("遅延テスト"),
     "delayTestTimeout": MessageLookupByLibrary.simpleMessage("遅延テストのタイムアウト"),
+    "delayTestConcurrency": MessageLookupByLibrary.simpleMessage(
+        "遅延テストの並行数"),
+    "delayTestConcurrencyDesc": MessageLookupByLibrary.simpleMessage(
+        "遅延テストの並行接続数とバッチ間隔を制御し、低性能ルーターやCPEの負荷を軽減します"),
     "delete": MessageLookupByLibrary.simpleMessage("削除"),
     "deleteMultipTip": m22,
     "deleteTip": m23,

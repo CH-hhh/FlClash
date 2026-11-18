@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "Geo データベースを確認・準備",
   "envCheckStepRestartCore": "コアを再起動して再初期化",
   "envCheckStepRecheckEnv": "端末の動作環境を再チェック",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "遅延テストの並行数",
+  "delayTestConcurrencyDesc": "遅延テストの並行接続数とバッチ間隔を制御し、低性能ルーターやCPEの負荷を軽減します"
 }

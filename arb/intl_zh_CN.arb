@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "检查并补齐 Geo 数据库文件",
   "envCheckStepRestartCore": "重启并重新初始化内核",
   "envCheckStepRecheckEnv": "重新检测手机运行环境",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "延迟测试并发数",
+  "delayTestConcurrencyDesc": "控制全部测速时的并行连接数与批次休眠，降低弱路由器与 CPE 设备负载"
 }

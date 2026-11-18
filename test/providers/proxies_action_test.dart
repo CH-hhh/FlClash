@@ -59,6 +59,7 @@ ProviderContainer _delayContainer(ProviderContainer Function() build) {
   final container = build();
   container.read(patchClashConfigProvider.notifier).value =
       const PatchClashConfig(testUrl: _testUrl);
+  container.read(delayTestConcurrencyProvider.notifier).update(maxConcurrentDelayTests);
   return container;
 }
 
@@ -509,7 +510,9 @@ void main() {
         expect(phaseOf(maxConcurrentDelayTests - 1), DelayTestPhase.running);
         expect(phaseOf(maxConcurrentDelayTests), DelayTestPhase.queued);
 
-        answers['HK-0']!.completeError(TimeoutException('no answer'));
+        for (var i = 0; i < maxConcurrentDelayTests; i++) {
+          answers['HK-$i']!.completeError(TimeoutException('no answer'));
+        }
         await Future<void>.delayed(renderThrottleDuration * 2);
 
         expect(phaseOf(0), isNull);

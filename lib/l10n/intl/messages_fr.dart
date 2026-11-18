@@ -692,6 +692,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("Échec"),
     "delayTest": MessageLookupByLibrary.simpleMessage("Test de délai"),
     "delayTestTimeout": MessageLookupByLibrary.simpleMessage(
+    "delayTestConcurrency": MessageLookupByLibrary.simpleMessage(
+        "Simultanéité du test de délai"),
+    "delayTestConcurrencyDesc": MessageLookupByLibrary.simpleMessage(
+        "Contrôle les connexions parallèles et le rythme des lots pour réduire la charge sur les routeurs et CPE faibles"),
       "Délai d’expiration du test de latence",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Supprimer"),

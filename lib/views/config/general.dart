@@ -66,6 +66,24 @@ class DelayTestTimeoutItem extends ConsumerWidget {
   }
 }
 
+class DelayTestConcurrencyItem extends ConsumerWidget {
+  const DelayTestConcurrencyItem({super.key});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    return ConfigOptionsItem<int>(
+      title: (l) => l.delayTestConcurrency,
+      subtitle: (l) => l.delayTestConcurrencyDesc,
+      options: delayTestConcurrencyOptions,
+      textBuilder: (value) => '$value',
+      selector: delayTestConcurrencyProvider,
+      onChanged: (ref, value) => ref
+          .read(delayTestConcurrencyProvider.notifier)
+          .update(value),
+    );
+  }
+}
+
 class PortItem extends ConsumerWidget {
   const PortItem({super.key});
 
@@ -320,6 +338,7 @@ class GeneralView extends ConsumerWidget {
   List<Widget> _connectionItems() {
     return [
       const DelayTestTimeoutItem(),
+      const DelayTestConcurrencyItem(),
       _clashToggle(
         title: (l) => l.findProcessMode,
         select: (state) => state.findProcessMode == FindProcessMode.always,

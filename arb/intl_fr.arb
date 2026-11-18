@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "Vérification et préparation des bases Geo",
   "envCheckStepRestartCore": "Redémarrage et réinitialisation du noyau",
   "envCheckStepRecheckEnv": "Revérification de l'environnement de l'appareil",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "Simultanéité du test de délai",
+  "delayTestConcurrencyDesc": "Contrôle les connexions parallèles et le rythme des lots pour réduire la charge sur les routeurs et CPE faibles"
 }

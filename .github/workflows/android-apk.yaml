@@ -105,7 +105,7 @@ jobs:
           ANDROID_NDK_HOME: ${{ steps.build-ndk.outputs.ndk-path }}
         run: |
           set +e
-          flutter build apk --release --target-platform android-arm64 --split-per-abi --dart-define=APP_ENV=pre > /tmp/build.log 2>&1
+          flutter build apk --release --target-platform android-arm64 --split-per-abi --dart-define=APP_ENV=stable > /tmp/build.log 2>&1
           code=$?
           tail -n 120 /tmp/build.log
           if [ $code -ne 0 ]; then

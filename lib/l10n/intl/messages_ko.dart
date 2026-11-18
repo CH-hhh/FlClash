@@ -542,6 +542,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("실패"),
     "delayTest": MessageLookupByLibrary.simpleMessage("지연 테스트"),
     "delayTestTimeout": MessageLookupByLibrary.simpleMessage("지연 테스트 시간 제한"),
+    "delayTestConcurrency": MessageLookupByLibrary.simpleMessage(
+        "지연 테스트 동시성"),
+    "delayTestConcurrencyDesc": MessageLookupByLibrary.simpleMessage(
+        "지연 테스트의 병렬 연결 수와 배치 간격을 제어하여 저사양 라우터 및 CPE의 부하를 줄입니다"),
     "delete": MessageLookupByLibrary.simpleMessage("삭제"),
     "deleteMultipTip": m22,
     "deleteTip": m23,

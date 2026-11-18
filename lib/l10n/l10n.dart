@@ -9788,4 +9788,22 @@ class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
     }
     return false;
   }
+
+  String get delayTestConcurrency {
+    return Intl.message(
+      'Delay test concurrency',
+      name: 'delayTestConcurrency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get delayTestConcurrencyDesc {
+    return Intl.message(
+      'Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs',
+      name: 'delayTestConcurrencyDesc',
+      desc: '',
+      args: [],
+    );
+  }
 }

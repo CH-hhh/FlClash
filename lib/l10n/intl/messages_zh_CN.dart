@@ -518,6 +518,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "delayFailed": MessageLookupByLibrary.simpleMessage("失败"),
     "delayTest": MessageLookupByLibrary.simpleMessage("延迟测试"),
     "delayTestTimeout": MessageLookupByLibrary.simpleMessage("延迟测试超时"),
+    "delayTestConcurrency": MessageLookupByLibrary.simpleMessage(
+        "延迟测试并发数"),
+    "delayTestConcurrencyDesc": MessageLookupByLibrary.simpleMessage(
+        "控制全部测速时的并行连接数与批次休眠，降低弱路由器与 CPE 设备负载"),
     "delete": MessageLookupByLibrary.simpleMessage("删除"),
     "deleteMultipTip": m22,
     "deleteTip": m23,

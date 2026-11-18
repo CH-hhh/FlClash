@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "Verifying & preparing Geo databases",
   "envCheckStepRestartCore": "Restarting & reinitializing core",
   "envCheckStepRecheckEnv": "Rechecking device environment",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "Delay test concurrency",
+  "delayTestConcurrencyDesc": "Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs"
 }

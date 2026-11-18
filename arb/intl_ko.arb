@@ -1152,5 +1152,7 @@
   "envCheckStepInitGeo": "Geo 데이터베이스 확인 및 준비",
   "envCheckStepRestartCore": "코어 재시작 및 다시 초기화",
   "envCheckStepRecheckEnv": "기기 환경 다시 검사",
-  "envCheckRecoveryStepProgress": "{done} / {total}"
+  "envCheckRecoveryStepProgress": "{done} / {total}",
+  "delayTestConcurrency": "지연 테스트 동시성",
+  "delayTestConcurrencyDesc": "지연 테스트의 병렬 연결 수와 배치 간격을 제어하여 저사양 라우터 및 CPE의 부하를 줄입니다"
 }
