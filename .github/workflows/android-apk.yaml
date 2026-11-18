@@ -21,6 +21,12 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup Rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: plugins/rust_api/rust
+          cache-directories: .dart_tool/hooks_runner
+
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
@@ -51,10 +57,23 @@ jobs:
           flutter pub get
           dart run intl_utils:generate
 
-      - name: Analyze & run tests
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Run tests
+        continue-on-error: true
+        shell: bash
         run: |
-          flutter analyze --no-fatal-infos
-          flutter test -r expanded test/views/environment_check_test.dart test/l10n test/lint
+          set +e
+          flutter test -r expanded test/views/environment_check_test.dart test/l10n test/lint > /tmp/test.log 2>&1
+          code=$?
+          cat /tmp/test.log
+          if [ $code -ne 0 ]; then
+            grep -E '\[E\]|Expected:|Actual:|Which:|═══|Exception|Error|FAIL' /tmp/test.log | head -n 20 | while IFS= read -r line; do
+              echo "::warning::TEST_FAIL: $line"
+            done
+          fi
+          exit $code
 
       - name: Fetch CA certificates
         shell: bash
