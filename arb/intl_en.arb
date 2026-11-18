@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "Whitelist mode is enabled with no apps selected, so no app traffic uses VPN. Tap to configure.",
   "envCheckAccessControlActive": "Enabled ({count} apps configured)",
   "envCheckDelayTimeoutOk": "{ms} ms",
-  "envCheckDelayTimeoutLow": "{ms} ms may be too short on mobile networks and cause false timeouts. Recommended: 5000 ms or higher."
+  "envCheckDelayTimeoutLow": "{ms} ms may be too short on mobile networks and cause false timeouts. Recommended: 5000 ms or higher.",
+  "envCheckSectionRecovery": "Recovery & maintenance",
+  "envCheckCleanRestartTitle": "Clean & restart service",
+  "envCheckCleanRestartDesc": "Close stale connections, flush DNS cache, reset sockets, and restart VPN service",
+  "envCheckReinitCoreTitle": "Reinitialize core",
+  "envCheckReinitCoreDesc": "Verify Geo databases, restart core lifecycle, and reload active profile",
+  "envCheckRecoveryRunning": "Running…",
+  "envCheckRecoveryDone": "Completed",
+  "envCheckRecoveryFailed": "Failed",
+  "envCheckStepCloseConnections": "Closing active connections & pending tests",
+  "envCheckStepFlushDns": "Flushing DNS cache & resetting network sockets",
+  "envCheckStepRestartService": "Restarting proxy & VPN service",
+  "envCheckStepSyncGroups": "Syncing proxy groups & rechecking environment",
+  "envCheckStepClearState": "Clearing runtime cache & connection records",
+  "envCheckStepInitGeo": "Verifying & preparing Geo databases",
+  "envCheckStepRestartCore": "Restarting & reinitializing core",
+  "envCheckStepRecheckEnv": "Rechecking device environment",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

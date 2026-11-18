@@ -294,6 +294,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m110(count) => "Требуют внимания: ${count}";
 
+
+  static String m111(done, total) => "${done} / ${total}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("О программе"),
@@ -2349,5 +2352,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("Не предоставлено. Нажмите, чтобы разрешить VPN."),
     "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("Предоставлено"),
     "environmentCheck": MessageLookupByLibrary.simpleMessage("Проверка окружения"),
+    "envCheckCleanRestartDesc": MessageLookupByLibrary.simpleMessage("Закрыть зависшие соединения, очистить кэш DNS, сбросить сеть и перезапустить VPN"),
+    "envCheckCleanRestartTitle": MessageLookupByLibrary.simpleMessage("Очистить и перезапустить сервис"),
+    "envCheckRecoveryDone": MessageLookupByLibrary.simpleMessage("Завершено"),
+    "envCheckRecoveryFailed": MessageLookupByLibrary.simpleMessage("Ошибка"),
+    "envCheckRecoveryRunning": MessageLookupByLibrary.simpleMessage("Выполняется…"),
+    "envCheckRecoveryStepProgress": m111,
+    "envCheckReinitCoreDesc": MessageLookupByLibrary.simpleMessage("Проверить базы Geo, перезапустить ядро и заново применить текущий профиль"),
+    "envCheckReinitCoreTitle": MessageLookupByLibrary.simpleMessage("Переинициализировать ядро"),
+    "envCheckSectionRecovery": MessageLookupByLibrary.simpleMessage("Восстановление и обслуживание"),
+    "envCheckStepClearState": MessageLookupByLibrary.simpleMessage("Очистка кэша и записей соединений"),
+    "envCheckStepCloseConnections": MessageLookupByLibrary.simpleMessage("Закрытие активных соединений и тестов"),
+    "envCheckStepFlushDns": MessageLookupByLibrary.simpleMessage("Очистка кэша DNS и сброс сетевых сокетов"),
+    "envCheckStepInitGeo": MessageLookupByLibrary.simpleMessage("Проверка и подготовка баз Geo"),
+    "envCheckStepRecheckEnv": MessageLookupByLibrary.simpleMessage("Повторная проверка окружения устройства"),
+    "envCheckStepRestartCore": MessageLookupByLibrary.simpleMessage("Перезапуск и переинициализация ядра"),
+    "envCheckStepRestartService": MessageLookupByLibrary.simpleMessage("Перезапуск прокси и VPN-сервиса"),
+    "envCheckStepSyncGroups": MessageLookupByLibrary.simpleMessage("Синхронизация групп и повторная проверка"),
   };
 }

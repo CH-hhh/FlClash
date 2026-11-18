@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "已开启白名单模式但未勾选任何应用，导致所有应用都不走代理。点击配置",
   "envCheckAccessControlActive": "已启用（已配置 {count} 个应用）",
   "envCheckDelayTimeoutOk": "当前超时阈值 {ms} ms",
-  "envCheckDelayTimeoutLow": "当前仅 {ms} ms，手机网络下过短易导致测速误报超时，建议设为 5000 ms 及以上"
+  "envCheckDelayTimeoutLow": "当前仅 {ms} ms，手机网络下过短易导致测速误报超时，建议设为 5000 ms 及以上",
+  "envCheckSectionRecovery": "恢复与维护",
+  "envCheckCleanRestartTitle": "清理并重启服务",
+  "envCheckCleanRestartDesc": "关闭残留连接、清空 DNS 缓存、重置网络并重启代理服务",
+  "envCheckReinitCoreTitle": "重新初始化内核",
+  "envCheckReinitCoreDesc": "校验补齐 Geo 数据、重启内核并重新加载当前配置",
+  "envCheckRecoveryRunning": "正在执行…",
+  "envCheckRecoveryDone": "恢复完成",
+  "envCheckRecoveryFailed": "执行失败",
+  "envCheckStepCloseConnections": "关闭残留连接并取消进行中的测速",
+  "envCheckStepFlushDns": "清空 DNS 缓存并重置网络套接字",
+  "envCheckStepRestartService": "重启代理与 VPN 服务",
+  "envCheckStepSyncGroups": "同步节点组并重新检测环境",
+  "envCheckStepClearState": "清理运行态缓存与连接记录",
+  "envCheckStepInitGeo": "检查并补齐 Geo 数据库文件",
+  "envCheckStepRestartCore": "重启并重新初始化内核",
+  "envCheckStepRecheckEnv": "重新检测手机运行环境",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

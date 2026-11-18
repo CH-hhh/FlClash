@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "화이트리스트 모드가 켜져 있지만 선택된 앱이 없어 VPN을 사용하지 않습니다. 탭하여 설정",
   "envCheckAccessControlActive": "사용 중 ({count}개 앱 설정됨)",
   "envCheckDelayTimeoutOk": "{ms} ms",
-  "envCheckDelayTimeoutLow": "{ms} ms는 모바일 네트워크에서 너무 짧아 오탐 시간 초과가 발생할 수 있습니다. 5000 ms 이상 권장"
+  "envCheckDelayTimeoutLow": "{ms} ms는 모바일 네트워크에서 너무 짧아 오탐 시간 초과가 발생할 수 있습니다. 5000 ms 이상 권장",
+  "envCheckSectionRecovery": "복구 및 유지 관리",
+  "envCheckCleanRestartTitle": "정리 및 서비스 재시작",
+  "envCheckCleanRestartDesc": "잔여 연결 종료, DNS 캐시 삭제, 네트워크 재설정 후 VPN 서비스를 다시 시작합니다",
+  "envCheckReinitCoreTitle": "코어 다시 초기화",
+  "envCheckReinitCoreDesc": "Geo 데이터를 확인하고 코어를 재시작한 뒤 현재 프로필을 다시 불러옵니다",
+  "envCheckRecoveryRunning": "실행 중…",
+  "envCheckRecoveryDone": "완료됨",
+  "envCheckRecoveryFailed": "실패",
+  "envCheckStepCloseConnections": "활성 연결 및 진행 중인 테스트 종료",
+  "envCheckStepFlushDns": "DNS 캐시 삭제 및 네트워크 소켓 재설정",
+  "envCheckStepRestartService": "프록시 및 VPN 서비스 재시작",
+  "envCheckStepSyncGroups": "프록시 그룹 동기화 및 환경 다시 검사",
+  "envCheckStepClearState": "런타임 캐시 및 연결 기록 정리",
+  "envCheckStepInitGeo": "Geo 데이터베이스 확인 및 준비",
+  "envCheckStepRestartCore": "코어 재시작 및 다시 초기화",
+  "envCheckStepRecheckEnv": "기기 환경 다시 검사",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

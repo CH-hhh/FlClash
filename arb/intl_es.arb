@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "El modo lista blanca está activo sin apps seleccionadas; ningún tráfico usará VPN. Toca para configurar.",
   "envCheckAccessControlActive": "Activado ({count} apps configuradas)",
   "envCheckDelayTimeoutOk": "{ms} ms",
-  "envCheckDelayTimeoutLow": "{ms} ms puede ser demasiado corto en redes móviles y causar falsos tiempos de espera. Recomendado: 5000 ms o más."
+  "envCheckDelayTimeoutLow": "{ms} ms puede ser demasiado corto en redes móviles y causar falsos tiempos de espera. Recomendado: 5000 ms o más.",
+  "envCheckSectionRecovery": "Recuperación y mantenimiento",
+  "envCheckCleanRestartTitle": "Limpiar y reiniciar servicio",
+  "envCheckCleanRestartDesc": "Cierra conexiones inactivas, limpia la caché DNS, restablece sockets y reinicia la VPN",
+  "envCheckReinitCoreTitle": "Reinicializar el núcleo",
+  "envCheckReinitCoreDesc": "Verifica las bases de datos Geo, reinicia el núcleo y recarga el perfil activo",
+  "envCheckRecoveryRunning": "Ejecutando…",
+  "envCheckRecoveryDone": "Completado",
+  "envCheckRecoveryFailed": "Error",
+  "envCheckStepCloseConnections": "Cerrando conexiones activas y pruebas pendientes",
+  "envCheckStepFlushDns": "Limpiando caché DNS y restableciendo sockets de red",
+  "envCheckStepRestartService": "Reiniciando el servicio proxy y VPN",
+  "envCheckStepSyncGroups": "Sincronizando grupos y volviendo a comprobar el entorno",
+  "envCheckStepClearState": "Limpiando caché en memoria y registros",
+  "envCheckStepInitGeo": "Verificando y preparando bases de datos Geo",
+  "envCheckStepRestartCore": "Reiniciando y reinicializando el núcleo",
+  "envCheckStepRecheckEnv": "Volviendo a comprobar el entorno del dispositivo",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "La liste blanche est active sans aucune application sélectionnée. Touchez pour configurer.",
   "envCheckAccessControlActive": "Activé ({count} applications configurées)",
   "envCheckDelayTimeoutOk": "{ms} ms",
-  "envCheckDelayTimeoutLow": "{ms} ms peut être trop court sur réseau mobile et provoquer de faux délais dépassés. Recommandé : 5000 ms ou plus."
+  "envCheckDelayTimeoutLow": "{ms} ms peut être trop court sur réseau mobile et provoquer de faux délais dépassés. Recommandé : 5000 ms ou plus.",
+  "envCheckSectionRecovery": "Récupération et maintenance",
+  "envCheckCleanRestartTitle": "Nettoyer et redémarrer le service",
+  "envCheckCleanRestartDesc": "Ferme les connexions actives, vide le cache DNS, réinitialise le réseau et redémarre le VPN",
+  "envCheckReinitCoreTitle": "Réinitialiser le noyau",
+  "envCheckReinitCoreDesc": "Vérifie les bases Geo, redémarre le noyau et recharge le profil actif",
+  "envCheckRecoveryRunning": "En cours…",
+  "envCheckRecoveryDone": "Terminé",
+  "envCheckRecoveryFailed": "Échec",
+  "envCheckStepCloseConnections": "Fermeture des connexions actives et tests en cours",
+  "envCheckStepFlushDns": "Vidage du cache DNS et réinitialisation réseau",
+  "envCheckStepRestartService": "Redémarrage du service proxy et VPN",
+  "envCheckStepSyncGroups": "Synchronisation des groupes et revérification",
+  "envCheckStepClearState": "Nettoyage du cache d'exécution et des journaux",
+  "envCheckStepInitGeo": "Vérification et préparation des bases Geo",
+  "envCheckStepRestartCore": "Redémarrage et réinitialisation du noyau",
+  "envCheckStepRecheckEnv": "Revérification de l'environnement de l'appareil",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

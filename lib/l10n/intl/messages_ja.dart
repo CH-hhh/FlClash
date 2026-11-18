@@ -265,6 +265,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m110(count) => "${count} 件の注意項目があります";
 
+
+  static String m111(done, total) => "${done} / ${total}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("アプリについて"),
@@ -1929,5 +1932,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("未許可のためトンネルを作成できません。タップして許可してください"),
     "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("許可済み"),
     "environmentCheck": MessageLookupByLibrary.simpleMessage("環境チェック"),
+    "envCheckCleanRestartDesc": MessageLookupByLibrary.simpleMessage("残留接続の終了、DNS キャッシュ消去、ソケットリセット後に VPN サービスを再起動します"),
+    "envCheckCleanRestartTitle": MessageLookupByLibrary.simpleMessage("キャッシュ消去とサービス再起動"),
+    "envCheckRecoveryDone": MessageLookupByLibrary.simpleMessage("完了"),
+    "envCheckRecoveryFailed": MessageLookupByLibrary.simpleMessage("失敗"),
+    "envCheckRecoveryRunning": MessageLookupByLibrary.simpleMessage("実行中…"),
+    "envCheckRecoveryStepProgress": m111,
+    "envCheckReinitCoreDesc": MessageLookupByLibrary.simpleMessage("Geo データを検証し、コアを再起動して現在のプロファイルを再読み込みします"),
+    "envCheckReinitCoreTitle": MessageLookupByLibrary.simpleMessage("コアを再初期化"),
+    "envCheckSectionRecovery": MessageLookupByLibrary.simpleMessage("復旧とメンテナンス"),
+    "envCheckStepClearState": MessageLookupByLibrary.simpleMessage("実行時キャッシュと接続履歴を消去"),
+    "envCheckStepCloseConnections": MessageLookupByLibrary.simpleMessage("アクティブ接続と実行中のテストを終了中"),
+    "envCheckStepFlushDns": MessageLookupByLibrary.simpleMessage("DNS キャッシュを消去してネットワークをリセット"),
+    "envCheckStepInitGeo": MessageLookupByLibrary.simpleMessage("Geo データベースを確認・準備"),
+    "envCheckStepRecheckEnv": MessageLookupByLibrary.simpleMessage("端末の動作環境を再チェック"),
+    "envCheckStepRestartCore": MessageLookupByLibrary.simpleMessage("コアを再起動して再初期化"),
+    "envCheckStepRestartService": MessageLookupByLibrary.simpleMessage("プロキシと VPN サービスを再起動"),
+    "envCheckStepSyncGroups": MessageLookupByLibrary.simpleMessage("プロキシグループを同期して環境を再チェック"),
   };
 }

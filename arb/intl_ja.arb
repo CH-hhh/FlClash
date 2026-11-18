@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "ホワイトリストが有効ですがアプリが未選択のため、通信が VPN を通りません。タップして設定",
   "envCheckAccessControlActive": "有効（{count} 件のアプリを設定済み）",
   "envCheckDelayTimeoutOk": "{ms} ms",
-  "envCheckDelayTimeoutLow": "{ms} ms はモバイル回線では短すぎてタイムアウト誤判定になりやすいです。5000 ms 以上を推奨します"
+  "envCheckDelayTimeoutLow": "{ms} ms はモバイル回線では短すぎてタイムアウト誤判定になりやすいです。5000 ms 以上を推奨します",
+  "envCheckSectionRecovery": "復旧とメンテナンス",
+  "envCheckCleanRestartTitle": "キャッシュ消去とサービス再起動",
+  "envCheckCleanRestartDesc": "残留接続の終了、DNS キャッシュ消去、ソケットリセット後に VPN サービスを再起動します",
+  "envCheckReinitCoreTitle": "コアを再初期化",
+  "envCheckReinitCoreDesc": "Geo データを検証し、コアを再起動して現在のプロファイルを再読み込みします",
+  "envCheckRecoveryRunning": "実行中…",
+  "envCheckRecoveryDone": "完了",
+  "envCheckRecoveryFailed": "失敗",
+  "envCheckStepCloseConnections": "アクティブ接続と実行中のテストを終了中",
+  "envCheckStepFlushDns": "DNS キャッシュを消去してネットワークをリセット",
+  "envCheckStepRestartService": "プロキシと VPN サービスを再起動",
+  "envCheckStepSyncGroups": "プロキシグループを同期して環境を再チェック",
+  "envCheckStepClearState": "実行時キャッシュと接続履歴を消去",
+  "envCheckStepInitGeo": "Geo データベースを確認・準備",
+  "envCheckStepRestartCore": "コアを再起動して再初期化",
+  "envCheckStepRecheckEnv": "端末の動作環境を再チェック",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

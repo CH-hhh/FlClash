@@ -269,6 +269,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m110(count) => "${count}개 항목을 확인해 주세요";
 
+
+  static String m111(done, total) => "${done} / ${total}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("정보"),
@@ -1901,5 +1904,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("권한이 없습니다. 탭하여 VPN 권한을 허용하세요"),
     "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("허용됨"),
     "environmentCheck": MessageLookupByLibrary.simpleMessage("환경 검사"),
+    "envCheckCleanRestartDesc": MessageLookupByLibrary.simpleMessage("잔여 연결 종료, DNS 캐시 삭제, 네트워크 재설정 후 VPN 서비스를 다시 시작합니다"),
+    "envCheckCleanRestartTitle": MessageLookupByLibrary.simpleMessage("정리 및 서비스 재시작"),
+    "envCheckRecoveryDone": MessageLookupByLibrary.simpleMessage("완료됨"),
+    "envCheckRecoveryFailed": MessageLookupByLibrary.simpleMessage("실패"),
+    "envCheckRecoveryRunning": MessageLookupByLibrary.simpleMessage("실행 중…"),
+    "envCheckRecoveryStepProgress": m111,
+    "envCheckReinitCoreDesc": MessageLookupByLibrary.simpleMessage("Geo 데이터를 확인하고 코어를 재시작한 뒤 현재 프로필을 다시 불러옵니다"),
+    "envCheckReinitCoreTitle": MessageLookupByLibrary.simpleMessage("코어 다시 초기화"),
+    "envCheckSectionRecovery": MessageLookupByLibrary.simpleMessage("복구 및 유지 관리"),
+    "envCheckStepClearState": MessageLookupByLibrary.simpleMessage("런타임 캐시 및 연결 기록 정리"),
+    "envCheckStepCloseConnections": MessageLookupByLibrary.simpleMessage("활성 연결 및 진행 중인 테스트 종료"),
+    "envCheckStepFlushDns": MessageLookupByLibrary.simpleMessage("DNS 캐시 삭제 및 네트워크 소켓 재설정"),
+    "envCheckStepInitGeo": MessageLookupByLibrary.simpleMessage("Geo 데이터베이스 확인 및 준비"),
+    "envCheckStepRecheckEnv": MessageLookupByLibrary.simpleMessage("기기 환경 다시 검사"),
+    "envCheckStepRestartCore": MessageLookupByLibrary.simpleMessage("코어 재시작 및 다시 초기화"),
+    "envCheckStepRestartService": MessageLookupByLibrary.simpleMessage("프록시 및 VPN 서비스 재시작"),
+    "envCheckStepSyncGroups": MessageLookupByLibrary.simpleMessage("프록시 그룹 동기화 및 환경 다시 검사"),
   };
 }

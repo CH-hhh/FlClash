@@ -1135,5 +1135,22 @@
   "envCheckAccessControlEmptyWhitelist": "Включён белый список без выбранных приложений — трафик не идёт через VPN. Нажмите для настройки.",
   "envCheckAccessControlActive": "Включено (настроено приложений: {count})",
   "envCheckDelayTimeoutOk": "{ms} мс",
-  "envCheckDelayTimeoutLow": "{ms} мс может быть слишком мало для мобильной сети и вызывать ложные таймауты. Рекомендуется от 5000 мс."
+  "envCheckDelayTimeoutLow": "{ms} мс может быть слишком мало для мобильной сети и вызывать ложные таймауты. Рекомендуется от 5000 мс.",
+  "envCheckSectionRecovery": "Восстановление и обслуживание",
+  "envCheckCleanRestartTitle": "Очистить и перезапустить сервис",
+  "envCheckCleanRestartDesc": "Закрыть зависшие соединения, очистить кэш DNS, сбросить сеть и перезапустить VPN",
+  "envCheckReinitCoreTitle": "Переинициализировать ядро",
+  "envCheckReinitCoreDesc": "Проверить базы Geo, перезапустить ядро и заново применить текущий профиль",
+  "envCheckRecoveryRunning": "Выполняется…",
+  "envCheckRecoveryDone": "Завершено",
+  "envCheckRecoveryFailed": "Ошибка",
+  "envCheckStepCloseConnections": "Закрытие активных соединений и тестов",
+  "envCheckStepFlushDns": "Очистка кэша DNS и сброс сетевых сокетов",
+  "envCheckStepRestartService": "Перезапуск прокси и VPN-сервиса",
+  "envCheckStepSyncGroups": "Синхронизация групп и повторная проверка",
+  "envCheckStepClearState": "Очистка кэша и записей соединений",
+  "envCheckStepInitGeo": "Проверка и подготовка баз Geo",
+  "envCheckStepRestartCore": "Перезапуск и переинициализация ядра",
+  "envCheckStepRecheckEnv": "Повторная проверка окружения устройства",
+  "envCheckRecoveryStepProgress": "{done} / {total}"
 }

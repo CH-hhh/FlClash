@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
@@ -208,8 +210,8 @@ void main() {
         await tester.pumpAndSettle();
       }
 
+      expect(find.text(l10n.envCheckCleanRestartTitle), findsOneWidget);
       expect(find.text(l10n.envCheckVpnPermission), findsOneWidget);
-      expect(find.text(l10n.envCheckPrivateDns), findsOneWidget);
 
       await tapCentered(find.text(l10n.envCheckVpnPermission));
       expect(prepared, isTrue);
@@ -219,6 +221,95 @@ void main() {
 
       await tapCentered(find.text(l10n.envCheckVpnMode));
       expect(container.read(vpnSettingProvider).enable, isTrue);
+    });
+
+    testWidgets('shows step-by-step progress for clean restart recovery', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final executed = <RecoveryStepId>[];
+      final gate = Completer<void>();
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: TestApp(
+            child: EnvironmentCheckView(
+              environmentLoader: () async => _healthyInfo(),
+              onRunRecoveryStep: (step) async {
+                executed.add(step);
+                if (step == RecoveryStepId.flushDns) {
+                  await gate.future;
+                }
+              },
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(l10n.envCheckCleanRestartTitle));
+      await tester.pump();
+      await tester.pump();
+
+      expect(find.text(l10n.envCheckRecoveryRunning), findsOneWidget);
+      expect(find.text(l10n.envCheckRecoveryStepProgress(1, 4)), findsOneWidget);
+      expect(executed, [
+        RecoveryStepId.closeConnections,
+        RecoveryStepId.flushDns,
+      ]);
+
+      gate.complete();
+      await tester.pumpAndSettle();
+
+      expect(find.text(l10n.envCheckRecoveryDone), findsOneWidget);
+      expect(find.text(l10n.envCheckRecoveryStepProgress(4, 4)), findsOneWidget);
+      expect(executed, recoveryStepsFor(RecoveryMode.cleanRestartService));
+    });
+
+    testWidgets('surfaces failing step during core reinitialization', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 1000);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final executed = <RecoveryStepId>[];
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: TestApp(
+            child: EnvironmentCheckView(
+              environmentLoader: () async => _healthyInfo(),
+              onRunRecoveryStep: (step) async {
+                executed.add(step);
+                if (step == RecoveryStepId.restartCore) {
+                  throw StateError('core init failed');
+                }
+              },
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text(l10n.envCheckReinitCoreTitle));
+      await tester.pumpAndSettle();
+
+      expect(find.text(l10n.envCheckRecoveryFailed), findsOneWidget);
+      expect(find.text(l10n.envCheckRecoveryStepProgress(2, 4)), findsOneWidget);
+      expect(find.textContaining('core init failed'), findsOneWidget);
+      expect(executed, [
+        RecoveryStepId.clearState,
+        RecoveryStepId.initGeo,
+        RecoveryStepId.restartCore,
+      ]);
     });
   });
 }

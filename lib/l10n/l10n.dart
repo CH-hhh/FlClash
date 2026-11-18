@@ -9603,6 +9603,159 @@ class AppLocalizations {
       args: [ms],
     );
   }
+  /// `Recovery & maintenance`
+  String get envCheckSectionRecovery {
+    return Intl.message(
+      'Recovery & maintenance',
+      name: 'envCheckSectionRecovery',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Clean & restart service`
+  String get envCheckCleanRestartTitle {
+    return Intl.message(
+      'Clean & restart service',
+      name: 'envCheckCleanRestartTitle',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Close stale connections, flush DNS cache, reset sockets, and restart VPN service`
+  String get envCheckCleanRestartDesc {
+    return Intl.message(
+      'Close stale connections, flush DNS cache, reset sockets, and restart VPN service',
+      name: 'envCheckCleanRestartDesc',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Reinitialize core`
+  String get envCheckReinitCoreTitle {
+    return Intl.message(
+      'Reinitialize core',
+      name: 'envCheckReinitCoreTitle',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Verify Geo databases, restart core lifecycle, and reload active profile`
+  String get envCheckReinitCoreDesc {
+    return Intl.message(
+      'Verify Geo databases, restart core lifecycle, and reload active profile',
+      name: 'envCheckReinitCoreDesc',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Running…`
+  String get envCheckRecoveryRunning {
+    return Intl.message(
+      'Running…',
+      name: 'envCheckRecoveryRunning',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Completed`
+  String get envCheckRecoveryDone {
+    return Intl.message(
+      'Completed',
+      name: 'envCheckRecoveryDone',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Failed`
+  String get envCheckRecoveryFailed {
+    return Intl.message(
+      'Failed',
+      name: 'envCheckRecoveryFailed',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Closing active connections & pending tests`
+  String get envCheckStepCloseConnections {
+    return Intl.message(
+      'Closing active connections & pending tests',
+      name: 'envCheckStepCloseConnections',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Flushing DNS cache & resetting network sockets`
+  String get envCheckStepFlushDns {
+    return Intl.message(
+      'Flushing DNS cache & resetting network sockets',
+      name: 'envCheckStepFlushDns',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Restarting proxy & VPN service`
+  String get envCheckStepRestartService {
+    return Intl.message(
+      'Restarting proxy & VPN service',
+      name: 'envCheckStepRestartService',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Syncing proxy groups & rechecking environment`
+  String get envCheckStepSyncGroups {
+    return Intl.message(
+      'Syncing proxy groups & rechecking environment',
+      name: 'envCheckStepSyncGroups',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Clearing runtime cache & connection records`
+  String get envCheckStepClearState {
+    return Intl.message(
+      'Clearing runtime cache & connection records',
+      name: 'envCheckStepClearState',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Verifying & preparing Geo databases`
+  String get envCheckStepInitGeo {
+    return Intl.message(
+      'Verifying & preparing Geo databases',
+      name: 'envCheckStepInitGeo',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Restarting & reinitializing core`
+  String get envCheckStepRestartCore {
+    return Intl.message(
+      'Restarting & reinitializing core',
+      name: 'envCheckStepRestartCore',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Rechecking device environment`
+  String get envCheckStepRecheckEnv {
+    return Intl.message(
+      'Rechecking device environment',
+      name: 'envCheckStepRecheckEnv',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `{done} / {total}`
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return Intl.message(
+      '${done} / ${total}',
+      name: 'envCheckRecoveryStepProgress',
+      desc: '',
+      args: [done, total],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

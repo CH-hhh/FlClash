@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fl_clash/common/common.dart';
+import 'package:fl_clash/core/controller.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
@@ -18,6 +19,58 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 const _minRecommendedDelayTimeout = 3000;
 
 enum EnvironmentCheckSeverity { ok, warning, error }
+
+enum RecoveryMode { cleanRestartService, reinitializeCore }
+
+enum RecoveryStepId {
+  closeConnections,
+  flushDns,
+  restartService,
+  syncGroups,
+  clearState,
+  initGeo,
+  restartCore,
+  recheckEnv,
+}
+
+enum RecoveryStepStatus { pending, running, done, failed }
+
+@immutable
+class RecoveryStepState {
+  const RecoveryStepState({
+    required this.id,
+    required this.status,
+    this.error,
+  });
+
+  final RecoveryStepId id;
+  final RecoveryStepStatus status;
+  final String? error;
+
+  RecoveryStepState copyWith({
+    RecoveryStepStatus? status,
+    String? error,
+  }) => RecoveryStepState(
+    id: id,
+    status: status ?? this.status,
+    error: error ?? this.error,
+  );
+}
+
+List<RecoveryStepId> recoveryStepsFor(RecoveryMode mode) => switch (mode) {
+  RecoveryMode.cleanRestartService => const [
+    RecoveryStepId.closeConnections,
+    RecoveryStepId.flushDns,
+    RecoveryStepId.restartService,
+    RecoveryStepId.syncGroups,
+  ],
+  RecoveryMode.reinitializeCore => const [
+    RecoveryStepId.clearState,
+    RecoveryStepId.initGeo,
+    RecoveryStepId.restartCore,
+    RecoveryStepId.recheckEnv,
+  ],
+};
 
 enum EnvironmentCheckAction {
   none,
@@ -365,11 +418,13 @@ class EnvironmentCheckView extends ConsumerStatefulWidget {
     this.environmentLoader,
     this.onPrepareVpn,
     this.onOpenSettings,
+    this.onRunRecoveryStep,
   });
 
   final Future<AndroidEnvironmentInfo?> Function()? environmentLoader;
   final Future<bool> Function()? onPrepareVpn;
   final Future<bool> Function(AndroidSettingsTarget target)? onOpenSettings;
+  final Future<void> Function(RecoveryStepId step)? onRunRecoveryStep;
 
   @override
   ConsumerState<EnvironmentCheckView> createState() =>
@@ -381,6 +436,9 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
   AndroidEnvironmentInfo? _info;
   var _loading = true;
   var _refreshing = false;
+  var _recovering = false;
+  RecoveryMode? _recoveryMode;
+  List<RecoveryStepState> _recoverySteps = const [];
 
   @override
   void initState() {
@@ -429,6 +487,137 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
       return;
     }
     await handler(target);
+  }
+
+  Future<void> _bestEffort(Future<void> Function() task) async {
+    try {
+      await task();
+    } catch (error) {
+      commonPrint.log(
+        'Recovery cleanup step skipped: ${compactError(error)}',
+        logLevel: LogLevel.warning,
+      );
+    }
+  }
+
+  Future<void> _executeRecoveryStep(RecoveryStepId step) async {
+    if (widget.onRunRecoveryStep case final custom?) {
+      await custom(step);
+      return;
+    }
+    final core = ref.read(coreHandlerProvider);
+    final setupAction = ref.read(setupActionProvider.notifier);
+    final proxiesAction = ref.read(proxiesActionProvider.notifier);
+    switch (step) {
+      case RecoveryStepId.closeConnections:
+        proxiesAction.cancelDelayTests();
+        ref.read(delayDataSourceProvider.notifier).value = {};
+        await _bestEffort(core.closeConnections);
+      case RecoveryStepId.flushDns:
+        await _bestEffort(core.clearDnsCache);
+        await _bestEffort(core.reportNetworkChange);
+        await _bestEffort(core.forceGc);
+      case RecoveryStepId.restartService:
+        if (ref.read(isStartProvider)) {
+          await setupAction.restartVpn();
+        } else {
+          final applied = await setupAction.applyProfile(force: true);
+          if (!applied) {
+            throw StateError('Failed to apply profile');
+          }
+        }
+      case RecoveryStepId.syncGroups:
+        if (ref.read(coreStatusProvider) == CoreStatus.connected) {
+          await _bestEffort(proxiesAction.updateGroups);
+        }
+        await _refresh();
+      case RecoveryStepId.clearState:
+        proxiesAction.cancelDelayTests();
+        ref.read(delayDataSourceProvider.notifier).value = {};
+        ref.read(logsProvider.notifier).value = FixedList(maxLogsLength);
+        ref.read(requestsProvider.notifier).value = FixedList(
+          maxRequestsLength,
+        );
+        ref.read(dnsQueriesProvider.notifier).value = FixedList(
+          maxDnsQueriesLength,
+        );
+        ref.read(dnsQueryCountProvider.notifier).value = 0;
+        ref.read(requestCountProvider.notifier).value = 0;
+        await _bestEffort(core.closeConnections);
+        await _bestEffort(core.clearDnsCache);
+      case RecoveryStepId.initGeo:
+        await CoreController.ensureHomeDir();
+        await CoreController.initGeo();
+      case RecoveryStepId.restartCore:
+        final restarted = await ref
+            .read(coreActionProvider.notifier)
+            .restartCore();
+        if (!restarted) {
+          throw StateError('Core restart did not complete');
+        }
+      case RecoveryStepId.recheckEnv:
+        await _refresh();
+    }
+  }
+
+  Future<void> _runRecovery(RecoveryMode mode) async {
+    if (_recovering) {
+      return;
+    }
+    final steps = [
+      for (final id in recoveryStepsFor(mode))
+        RecoveryStepState(id: id, status: RecoveryStepStatus.pending),
+    ];
+    setState(() {
+      _recovering = true;
+      _recoveryMode = mode;
+      _recoverySteps = steps;
+    });
+    try {
+      for (var index = 0; index < steps.length; index++) {
+        if (!mounted) {
+          return;
+        }
+        final runningSteps = List<RecoveryStepState>.of(_recoverySteps);
+        runningSteps[index] = runningSteps[index].copyWith(
+          status: RecoveryStepStatus.running,
+        );
+        setState(() {
+          _recoverySteps = runningSteps;
+        });
+        try {
+          await _executeRecoveryStep(runningSteps[index].id);
+          if (!mounted) {
+            return;
+          }
+          final doneSteps = List<RecoveryStepState>.of(_recoverySteps);
+          doneSteps[index] = doneSteps[index].copyWith(
+            status: RecoveryStepStatus.done,
+          );
+          setState(() {
+            _recoverySteps = doneSteps;
+          });
+        } catch (error) {
+          if (!mounted) {
+            return;
+          }
+          final failedSteps = List<RecoveryStepState>.of(_recoverySteps);
+          failedSteps[index] = failedSteps[index].copyWith(
+            status: RecoveryStepStatus.failed,
+            error: compactError(error),
+          );
+          setState(() {
+            _recoverySteps = failedSteps;
+          });
+          break;
+        }
+      }
+    } finally {
+      _recovering = false;
+      if (mounted) {
+        setState(() {});
+      }
+    }
   }
 
   Future<void> _handleAction(EnvironmentCheckAction action) async {
@@ -585,13 +774,13 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
 
     return Scaffold(
       title: appLocalizations.environmentCheck,
-      isLoading: _refreshing,
+      isLoading: _refreshing || _recovering,
       iconActions: [
         IconButtonData(
           glyph: AppGlyphs.refresh,
           tooltip: appLocalizations.envCheckRecheck,
           isLoading: _refreshing,
-          onPressed: _refresh,
+          onPressed: _recovering ? null : _refresh,
         ),
       ],
       body: NullStatusSwitcher(
@@ -605,9 +794,64 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
             _EnvironmentSummaryCard(
               report: report,
               info: _info,
-              refreshing: _refreshing,
+              refreshing: _refreshing || _recovering,
               onRefresh: _refresh,
             ),
+            generateSection(
+              title: appLocalizations.envCheckSectionRecovery,
+              items: [
+                ListItem(
+                  leading: GlyphIcon(
+                    AppGlyphs.refresh,
+                    color: context.colorScheme.primary,
+                  ),
+                  title: Text(appLocalizations.envCheckCleanRestartTitle),
+                  subtitle: Text(appLocalizations.envCheckCleanRestartDesc),
+                  trailing: _recovering &&
+                          _recoveryMode == RecoveryMode.cleanRestartService
+                      ? const ActivityIndicator(size: 18)
+                      : GlyphIcon(
+                          AppGlyphs.chevronForward,
+                          size: 16,
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
+                  onTap: _recovering
+                      ? null
+                      : () => unawaited(
+                          _runRecovery(RecoveryMode.cleanRestartService),
+                        ),
+                ),
+                ListItem(
+                  leading: GlyphIcon(
+                    AppGlyphs.reset,
+                    color: context.colorScheme.warning,
+                  ),
+                  title: Text(appLocalizations.envCheckReinitCoreTitle),
+                  subtitle: Text(appLocalizations.envCheckReinitCoreDesc),
+                  trailing: _recovering &&
+                          _recoveryMode == RecoveryMode.reinitializeCore
+                      ? const ActivityIndicator(size: 18)
+                      : GlyphIcon(
+                          AppGlyphs.chevronForward,
+                          size: 16,
+                          color: context.colorScheme.onSurfaceVariant,
+                        ),
+                  onTap: _recovering
+                      ? null
+                      : () => unawaited(
+                          _runRecovery(RecoveryMode.reinitializeCore),
+                        ),
+                ),
+              ],
+            ),
+            if (_recoveryMode != null && _recoverySteps.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              _RecoveryProgressCard(
+                mode: _recoveryMode!,
+                steps: _recoverySteps,
+                running: _recovering,
+              ),
+            ],
             if (report.systemItems.isNotEmpty)
               generateSection(
                 title: appLocalizations.envCheckSectionSystem,
@@ -734,6 +978,229 @@ class _EnvironmentSummaryCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+String _recoveryStepLabel(AppLocalizations l, RecoveryStepId step) =>
+    switch (step) {
+      RecoveryStepId.closeConnections => l.envCheckStepCloseConnections,
+      RecoveryStepId.flushDns => l.envCheckStepFlushDns,
+      RecoveryStepId.restartService => l.envCheckStepRestartService,
+      RecoveryStepId.syncGroups => l.envCheckStepSyncGroups,
+      RecoveryStepId.clearState => l.envCheckStepClearState,
+      RecoveryStepId.initGeo => l.envCheckStepInitGeo,
+      RecoveryStepId.restartCore => l.envCheckStepRestartCore,
+      RecoveryStepId.recheckEnv => l.envCheckStepRecheckEnv,
+    };
+
+class _RecoveryProgressCard extends StatelessWidget {
+  const _RecoveryProgressCard({
+    required this.mode,
+    required this.steps,
+    required this.running,
+  });
+
+  final RecoveryMode mode;
+  final List<RecoveryStepState> steps;
+  final bool running;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    final appLocalizations = context.appLocalizations;
+    final doneCount = steps
+        .where((step) => step.status == RecoveryStepStatus.done)
+        .length;
+    final hasFailed = steps.any(
+      (step) => step.status == RecoveryStepStatus.failed,
+    );
+    final total = steps.length;
+    final progress = total == 0 ? 0.0 : doneCount / total;
+    final title = switch (mode) {
+      RecoveryMode.cleanRestartService =>
+        appLocalizations.envCheckCleanRestartTitle,
+      RecoveryMode.reinitializeCore => appLocalizations.envCheckReinitCoreTitle,
+    };
+    final (statusLabel, barColor, chipColor, chipForeground) = running
+        ? (
+            appLocalizations.envCheckRecoveryRunning,
+            colorScheme.primary,
+            colorScheme.primary.opacity15,
+            colorScheme.primary,
+          )
+        : hasFailed
+        ? (
+            appLocalizations.envCheckRecoveryFailed,
+            colorScheme.error,
+            colorScheme.errorContainer,
+            colorScheme.onErrorContainer,
+          )
+        : (
+            appLocalizations.envCheckRecoveryDone,
+            colorScheme.success,
+            colorScheme.successContainer,
+            colorScheme.onSuccessContainer,
+          );
+
+    final cardLevel = context.raisedSurfaceLevel;
+    return SurfaceScope(
+      level: cardLevel,
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: cardLevel.colorOf(colorScheme),
+          shape: AppShape.xl,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 12,
+            children: [
+              Row(
+                spacing: 8,
+                children: [
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: AppTextStyle.subheadline.of(
+                        context,
+                        emphasized: true,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    appLocalizations.envCheckRecoveryStepProgress(
+                      doneCount,
+                      total,
+                    ),
+                    style: AppTextStyle.caption1
+                        .of(context, emphasized: true)
+                        .toTabular
+                        .copyWith(color: colorScheme.onSurfaceVariant),
+                  ),
+                  TonalChip(
+                    label: statusLabel,
+                    color: chipColor,
+                    foregroundColor: chipForeground,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 6,
+                child: DecoratedBox(
+                  decoration: ShapeDecoration(
+                    color: colorScheme.surfaceContainerHighest,
+                    shape: AppShape.full,
+                  ),
+                  child: AnimatedFractionallySizedBox(
+                    duration: context.motionDuration(
+                      const Duration(milliseconds: 220),
+                    ),
+                    alignment: AlignmentDirectional.centerStart,
+                    widthFactor: progress.clamp(0.0, 1.0),
+                    child: DecoratedBox(
+                      decoration: ShapeDecoration(
+                        color: barColor,
+                        shape: AppShape.full,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 8,
+                children: [
+                  for (final step in steps)
+                    _RecoveryStepRow(step: step),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RecoveryStepRow extends StatelessWidget {
+  const _RecoveryStepRow({required this.step});
+
+  final RecoveryStepState step;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+    final label = _recoveryStepLabel(context.appLocalizations, step.id);
+    final leading = switch (step.status) {
+      RecoveryStepStatus.running => const SizedBox.square(
+        dimension: 18,
+        child: Center(child: ActivityIndicator(size: 14)),
+      ),
+      RecoveryStepStatus.done => GlyphIcon(
+        AppGlyphs.checkCircle,
+        size: 18,
+        color: colorScheme.success,
+      ),
+      RecoveryStepStatus.failed => GlyphIcon(
+        AppGlyphs.error,
+        size: 18,
+        color: colorScheme.error,
+      ),
+      RecoveryStepStatus.pending => SizedBox.square(
+        dimension: 18,
+        child: Center(
+          child: SizedBox.square(
+            dimension: 6,
+            child: DecoratedBox(
+              decoration: ShapeDecoration(
+                color: colorScheme.outline,
+                shape: AppShape.full,
+              ),
+            ),
+          ),
+        ),
+      ),
+    };
+
+    final textColor = switch (step.status) {
+      RecoveryStepStatus.pending => colorScheme.onSurfaceVariant,
+      RecoveryStepStatus.running ||
+      RecoveryStepStatus.done => colorScheme.onSurface,
+      RecoveryStepStatus.failed => colorScheme.error,
+    };
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 10,
+      children: [
+        leading,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 2,
+            children: [
+              Text(
+                label,
+                style: AppTextStyle.footnote
+                    .of(
+                      context,
+                      emphasized: step.status == RecoveryStepStatus.running,
+                    )
+                    .copyWith(color: textColor),
+              ),
+              if (step.error case final error? when error.isNotEmpty)
+                Text(
+                  error,
+                  style: AppTextStyle.caption1
+                      .of(context)
+                      .copyWith(color: colorScheme.error),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

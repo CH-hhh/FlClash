@@ -301,6 +301,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m110(count) => "${count} elementos requieren atención";
 
+
+  static String m111(done, total) => "${done} / ${total}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("Acerca de"),
@@ -2406,5 +2409,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("No concedido. Toca para autorizar el acceso VPN."),
     "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("Concedido"),
     "environmentCheck": MessageLookupByLibrary.simpleMessage("Comprobación de entorno"),
+    "envCheckCleanRestartDesc": MessageLookupByLibrary.simpleMessage("Cierra conexiones inactivas, limpia la caché DNS, restablece sockets y reinicia la VPN"),
+    "envCheckCleanRestartTitle": MessageLookupByLibrary.simpleMessage("Limpiar y reiniciar servicio"),
+    "envCheckRecoveryDone": MessageLookupByLibrary.simpleMessage("Completado"),
+    "envCheckRecoveryFailed": MessageLookupByLibrary.simpleMessage("Error"),
+    "envCheckRecoveryRunning": MessageLookupByLibrary.simpleMessage("Ejecutando…"),
+    "envCheckRecoveryStepProgress": m111,
+    "envCheckReinitCoreDesc": MessageLookupByLibrary.simpleMessage("Verifica las bases de datos Geo, reinicia el núcleo y recarga el perfil activo"),
+    "envCheckReinitCoreTitle": MessageLookupByLibrary.simpleMessage("Reinicializar el núcleo"),
+    "envCheckSectionRecovery": MessageLookupByLibrary.simpleMessage("Recuperación y mantenimiento"),
+    "envCheckStepClearState": MessageLookupByLibrary.simpleMessage("Limpiando caché en memoria y registros"),
+    "envCheckStepCloseConnections": MessageLookupByLibrary.simpleMessage("Cerrando conexiones activas y pruebas pendientes"),
+    "envCheckStepFlushDns": MessageLookupByLibrary.simpleMessage("Limpiando caché DNS y restableciendo sockets de red"),
+    "envCheckStepInitGeo": MessageLookupByLibrary.simpleMessage("Verificando y preparando bases de datos Geo"),
+    "envCheckStepRecheckEnv": MessageLookupByLibrary.simpleMessage("Volviendo a comprobar el entorno del dispositivo"),
+    "envCheckStepRestartCore": MessageLookupByLibrary.simpleMessage("Reiniciando y reinicializando el núcleo"),
+    "envCheckStepRestartService": MessageLookupByLibrary.simpleMessage("Reiniciando el servicio proxy y VPN"),
+    "envCheckStepSyncGroups": MessageLookupByLibrary.simpleMessage("Sincronizando grupos y volviendo a comprobar el entorno"),
   };
 }

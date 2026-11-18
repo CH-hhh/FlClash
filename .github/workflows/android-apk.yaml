@@ -45,6 +45,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
 
+      - name: Cache gomobile Android core
+        uses: actions/cache@v4
+        with:
+          path: android/core/build/gomobile
+          key: gomobile-arm64-${{ env.GO_VERSION }}-${{ env.NDK_VERSION }}-${{ hashFiles('core/go.sum', 'core/**/*.go', 'build_config.yaml') }}
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -70,9 +76,11 @@ jobs:
         shell: bash
         run: |
           flutter analyze --no-fatal-infos
+          sed -i -E 's/build_assets:\s*true/build_assets: false/g' pubspec.yaml
           set +e
           flutter test -r expanded test/views/environment_check_test.dart test/l10n test/lint > /tmp/test.log 2>&1
           code=$?
+          git checkout -- pubspec.yaml
           cat /tmp/test.log
           if [ $code -ne 0 ]; then
             grep -E '\[E\]|Expected:|Actual:|Which:|Exception|Error|FAIL' /tmp/test.log | head -n 20 | while IFS= read -r line; do

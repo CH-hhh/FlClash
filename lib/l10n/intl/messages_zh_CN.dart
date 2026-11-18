@@ -261,6 +261,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m110(count) => "${count} 项设置需要注意";
 
+
+  static String m111(done, total) => "${done} / ${total}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("关于"),
@@ -1751,5 +1754,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("未授权，无法接管流量。点击立即授权"),
     "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("已授权，可正常建立 VPN 隧道"),
     "environmentCheck": MessageLookupByLibrary.simpleMessage("环境检测"),
+    "envCheckCleanRestartDesc": MessageLookupByLibrary.simpleMessage("关闭残留连接、清空 DNS 缓存、重置网络并重启代理服务"),
+    "envCheckCleanRestartTitle": MessageLookupByLibrary.simpleMessage("清理并重启服务"),
+    "envCheckRecoveryDone": MessageLookupByLibrary.simpleMessage("恢复完成"),
+    "envCheckRecoveryFailed": MessageLookupByLibrary.simpleMessage("执行失败"),
+    "envCheckRecoveryRunning": MessageLookupByLibrary.simpleMessage("正在执行…"),
+    "envCheckRecoveryStepProgress": m111,
+    "envCheckReinitCoreDesc": MessageLookupByLibrary.simpleMessage("校验补齐 Geo 数据、重启内核并重新加载当前配置"),
+    "envCheckReinitCoreTitle": MessageLookupByLibrary.simpleMessage("重新初始化内核"),
+    "envCheckSectionRecovery": MessageLookupByLibrary.simpleMessage("恢复与维护"),
+    "envCheckStepClearState": MessageLookupByLibrary.simpleMessage("清理运行态缓存与连接记录"),
+    "envCheckStepCloseConnections": MessageLookupByLibrary.simpleMessage("关闭残留连接并取消进行中的测速"),
+    "envCheckStepFlushDns": MessageLookupByLibrary.simpleMessage("清空 DNS 缓存并重置网络套接字"),
+    "envCheckStepInitGeo": MessageLookupByLibrary.simpleMessage("检查并补齐 Geo 数据库文件"),
+    "envCheckStepRecheckEnv": MessageLookupByLibrary.simpleMessage("重新检测手机运行环境"),
+    "envCheckStepRestartCore": MessageLookupByLibrary.simpleMessage("重启并重新初始化内核"),
+    "envCheckStepRestartService": MessageLookupByLibrary.simpleMessage("重启代理与 VPN 服务"),
+    "envCheckStepSyncGroups": MessageLookupByLibrary.simpleMessage("同步节点组并重新检测环境"),
   };
 }
