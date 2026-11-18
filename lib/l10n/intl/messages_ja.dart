@@ -246,6 +246,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m101(count) => "${count} 年前";
 
+
+  static String m102(count) => "有効（${count} 件のアプリを設定済み）";
+
+  static String m103(profile) => "プロファイル「${profile}」を選択中ですが、コアが未接続です";
+
+  static String m104(ms) => "${ms} ms はモバイル回線では短すぎてタイムアウト誤判定になりやすいです。5000 ms 以上を推奨します";
+
+  static String m105(ms) => "${ms} ms";
+
+  static String m106(transport, dns) => "${transport} · DNS: ${dns}";
+
+  static String m107(host) => "固定のプライベート DNS（${host}）は VPN の DNS と競合しタイムアウトの原因になります。オフまたは自動に変更してください";
+
+  static String m108(profile) => "プロファイル「${profile}」· コア接続済み";
+
+  static String m109(count) => "${count} 件の重大な異常が見つかりました";
+
+  static String m110(count) => "${count} 件の注意項目があります";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("アプリについて"),
@@ -1851,5 +1870,64 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearsAgoShort": m101,
     "yes": MessageLookupByLibrary.simpleMessage("はい"),
     "zhCN": MessageLookupByLibrary.simpleMessage("簡体字中国語"),
+    "envCheckAccessControlActive": m102,
+    "envCheckAccessControlEmptyWhitelist": MessageLookupByLibrary.simpleMessage("ホワイトリストが有効ですがアプリが未選択のため、通信が VPN を通りません。タップして設定"),
+    "envCheckAccessControlOk": MessageLookupByLibrary.simpleMessage("すべてのアプリが VPN を経由します"),
+    "envCheckAutoTime": MessageLookupByLibrary.simpleMessage("日時の自動設定"),
+    "envCheckAutoTimeOff": MessageLookupByLibrary.simpleMessage("無効です。時刻ずれにより TLS・VMess・Reality 接続が失敗する恐れがあります。タップして日時設定を開く"),
+    "envCheckAutoTimeOk": MessageLookupByLibrary.simpleMessage("ネットワーク時刻同期が有効です"),
+    "envCheckBatteryOk": MessageLookupByLibrary.simpleMessage("バックグラウンド制限なし"),
+    "envCheckBatteryRestricted": MessageLookupByLibrary.simpleMessage("バッテリー最適化により制限されています。バックグラウンド停止で切断やタイムアウトが起きる恐れがあります"),
+    "envCheckCoreDisconnected": m103,
+    "envCheckDataSaverOn": MessageLookupByLibrary.simpleMessage("データセーバーが FlClash のバックグラウンド通信を制限しています。タップして許可する"),
+    "envCheckDelayTimeoutLow": m104,
+    "envCheckDelayTimeoutOk": m105,
+    "envCheckDnsConfig": MessageLookupByLibrary.simpleMessage("DNS 上書き設定"),
+    "envCheckDnsDisabled": MessageLookupByLibrary.simpleMessage("DNS 上書きで DNS が無効になっています。VPN モードでは名前解決に失敗します。タップして修正"),
+    "envCheckDnsNoNameserver": MessageLookupByLibrary.simpleMessage("上書きされた Nameserver が空のため名前解決に失敗します。タップして DNS を設定"),
+    "envCheckDnsOk": MessageLookupByLibrary.simpleMessage("DNS 設定に問題はありません"),
+    "envCheckFooter": MessageLookupByLibrary.simpleMessage("警告または異常の項目をタップすると、対応する設定を開くか直接修復できます。システム設定から戻ると自動的に再チェックされます。"),
+    "envCheckIpv6": MessageLookupByLibrary.simpleMessage("IPv6 互換性"),
+    "envCheckIpv6Enabled": MessageLookupByLibrary.simpleMessage("IPv6 が有効です。モバイル回線や非対応ノードでは遅延テストがタイムアウトする場合があります"),
+    "envCheckIpv6Ok": MessageLookupByLibrary.simpleMessage("IPv6 は無効です（互換性のため推奨）"),
+    "envCheckNetworkDns": MessageLookupByLibrary.simpleMessage("ネットワークとシステム DNS"),
+    "envCheckNetworkNoDns": MessageLookupByLibrary.simpleMessage("接続済みですがシステム DNS を取得できません。system DNS を使う設定は失敗します"),
+    "envCheckNetworkOffline": MessageLookupByLibrary.simpleMessage("有効なインターネット接続がありません。タップしてネットワーク設定を開く"),
+    "envCheckNetworkOk": m106,
+    "envCheckNotification": MessageLookupByLibrary.simpleMessage("通知権限"),
+    "envCheckNotificationOff": MessageLookupByLibrary.simpleMessage("無効です。バックグラウンドの VPN サービスが終了されやすくなります。タップして通知設定を開く"),
+    "envCheckNotificationOk": MessageLookupByLibrary.simpleMessage("有効（フォアグラウンドサービスの維持に有効）"),
+    "envCheckPowerDataSaver": MessageLookupByLibrary.simpleMessage("省電力とデータセーバー"),
+    "envCheckPowerDataSaverOk": MessageLookupByLibrary.simpleMessage("省電力モードおよびバックグラウンドデータ制限は無効です"),
+    "envCheckPowerSaverOn": MessageLookupByLibrary.simpleMessage("バッテリーセーバーが有効なため通信が制限される場合があります。タップして設定を開く"),
+    "envCheckPrivateDns": MessageLookupByLibrary.simpleMessage("プライベート DNS"),
+    "envCheckPrivateDnsOk": MessageLookupByLibrary.simpleMessage("オフまたは自動（互換性あり）"),
+    "envCheckPrivateDnsStrict": m107,
+    "envCheckProfileCore": MessageLookupByLibrary.simpleMessage("プロファイルとコア状態"),
+    "envCheckProfileCoreOk": m108,
+    "envCheckProfileMissing": MessageLookupByLibrary.simpleMessage("プロファイルが未選択です。先に設定を追加・選択してください"),
+    "envCheckRecheck": MessageLookupByLibrary.simpleMessage("再チェック"),
+    "envCheckSectionApp": MessageLookupByLibrary.simpleMessage("プロキシとアプリ設定"),
+    "envCheckSectionSystem": MessageLookupByLibrary.simpleMessage("システムと権限"),
+    "envCheckStatusOk": MessageLookupByLibrary.simpleMessage("正常"),
+    "envCheckStatusWarning": MessageLookupByLibrary.simpleMessage("注意"),
+    "envCheckSummaryAllGood": MessageLookupByLibrary.simpleMessage("動作環境は正常です"),
+    "envCheckSummaryErrors": m109,
+    "envCheckSummaryWarnings": m110,
+    "envCheckTransportCellular": MessageLookupByLibrary.simpleMessage("モバイルデータ"),
+    "envCheckTransportEthernet": MessageLookupByLibrary.simpleMessage("イーサネット"),
+    "envCheckTransportOther": MessageLookupByLibrary.simpleMessage("ネットワーク"),
+    "envCheckTransportWifi": MessageLookupByLibrary.simpleMessage("Wi-Fi"),
+    "envCheckUnavailable": MessageLookupByLibrary.simpleMessage("Android のシステム環境情報を取得できませんでした。"),
+    "envCheckVpnConflict": MessageLookupByLibrary.simpleMessage("他の VPN との競合"),
+    "envCheckVpnConflictDetected": MessageLookupByLibrary.simpleMessage("他の VPN が有効なため FlClash が動作しない可能性があります。タップして VPN 設定を開く"),
+    "envCheckVpnConflictOk": MessageLookupByLibrary.simpleMessage("競合する他の VPN は検出されませんでした"),
+    "envCheckVpnMode": MessageLookupByLibrary.simpleMessage("VPN モード"),
+    "envCheckVpnModeOff": MessageLookupByLibrary.simpleMessage("無効です。Android ではアプリ通信を転送するため VPN モードが必要です。タップして有効化"),
+    "envCheckVpnModeOk": MessageLookupByLibrary.simpleMessage("有効"),
+    "envCheckVpnPermission": MessageLookupByLibrary.simpleMessage("VPN 権限"),
+    "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("未許可のためトンネルを作成できません。タップして許可してください"),
+    "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("許可済み"),
+    "environmentCheck": MessageLookupByLibrary.simpleMessage("環境チェック"),
   };
 }

@@ -309,6 +309,103 @@ class App {
       return null;
     }
   }
+
+  Future<AndroidEnvironmentInfo?> getEnvironmentInfo() async {
+    try {
+      final raw = await methodChannel
+          .invokeMapMethod<String, Object?>('getEnvironmentInfo')
+          .timeout(_platformProbeTimeout);
+      return raw == null ? null : AndroidEnvironmentInfo.fromMap(raw);
+    } catch (error) {
+      commonPrint.log(
+        'Failed to read Android environment info: ${compactError(error)}',
+        logLevel: LogLevel.warning,
+      );
+      return null;
+    }
+  }
+
+  Future<bool> prepareVpn() async {
+    return await methodChannel.invokeMethod<bool>('prepareVpn') ?? false;
+  }
+
+  Future<bool> openSystemSettings(AndroidSettingsTarget target) async {
+    return await methodChannel.invokeMethod<bool>('openSystemSettings', {
+          'target': target.name,
+        }) ??
+        false;
+  }
+}
+
+enum AndroidSettingsTarget {
+  vpn,
+  network,
+  dateTime,
+  notification,
+  batterySaver,
+  dataSaver,
+  appDetails,
+}
+
+@immutable
+class AndroidEnvironmentInfo {
+  const AndroidEnvironmentInfo({
+    required this.vpnPermissionGranted,
+    required this.vpnActive,
+    required this.hasNetwork,
+    required this.networkTransport,
+    required this.systemDnsServers,
+    required this.privateDnsMode,
+    required this.privateDnsSpecifier,
+    required this.autoTimeEnabled,
+    required this.notificationPermissionGranted,
+    required this.powerSaveMode,
+    required this.backgroundDataRestricted,
+    required this.androidVersion,
+    required this.sdkInt,
+    required this.manufacturer,
+  });
+
+  factory AndroidEnvironmentInfo.fromMap(Map<String, Object?> map) {
+    final rawDns = map['systemDnsServers'];
+    final dnsServers = rawDns is List
+        ? [for (final item in rawDns) '$item']
+        : const <String>[];
+    final specifier = map['privateDnsSpecifier'] as String?;
+    return AndroidEnvironmentInfo(
+      vpnPermissionGranted: map['vpnPermissionGranted'] == true,
+      vpnActive: map['vpnActive'] == true,
+      hasNetwork: map['hasNetwork'] == true,
+      networkTransport: (map['networkTransport'] as String?) ?? 'none',
+      systemDnsServers: dnsServers,
+      privateDnsMode: (map['privateDnsMode'] as String?) ?? 'unknown',
+      privateDnsSpecifier:
+          specifier != null && specifier.isNotEmpty ? specifier : null,
+      autoTimeEnabled: map['autoTimeEnabled'] != false,
+      notificationPermissionGranted:
+          map['notificationPermissionGranted'] != false,
+      powerSaveMode: map['powerSaveMode'] == true,
+      backgroundDataRestricted: map['backgroundDataRestricted'] == true,
+      androidVersion: (map['androidVersion'] as String?) ?? '',
+      sdkInt: (map['sdkInt'] as num?)?.toInt() ?? 0,
+      manufacturer: (map['manufacturer'] as String?) ?? '',
+    );
+  }
+
+  final bool vpnPermissionGranted;
+  final bool vpnActive;
+  final bool hasNetwork;
+  final String networkTransport;
+  final List<String> systemDnsServers;
+  final String privateDnsMode;
+  final String? privateDnsSpecifier;
+  final bool autoTimeEnabled;
+  final bool notificationPermissionGranted;
+  final bool powerSaveMode;
+  final bool backgroundDataRestricted;
+  final String androidVersion;
+  final int sdkInt;
+  final String manufacturer;
 }
 
 final app = system.isAndroid ? App() : null;

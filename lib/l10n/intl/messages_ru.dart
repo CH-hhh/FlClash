@@ -275,6 +275,25 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m101(count) =>
       "${Intl.plural(count, one: '${count} г. назад', few: '${count} г. назад', many: '${count} л. назад', other: '${count} г. назад')}";
 
+
+  static String m102(count) => "Включено (настроено приложений: ${count})";
+
+  static String m103(profile) => "Выбран профиль «${profile}», но ядро ещё не подключено.";
+
+  static String m104(ms) => "${ms} мс может быть слишком мало для мобильной сети и вызывать ложные таймауты. Рекомендуется от 5000 мс.";
+
+  static String m105(ms) => "${ms} мс";
+
+  static String m106(transport, dns) => "${transport} · DNS: ${dns}";
+
+  static String m107(host) => "Заданный частный DNS (${host}) может конфликтовать с DNS VPN и вызывать таймауты. Переключите на Выкл или Авто.";
+
+  static String m108(profile) => "Профиль «${profile}» · Ядро подключено";
+
+  static String m109(count) => "Найдено критических ошибок: ${count}";
+
+  static String m110(count) => "Требуют внимания: ${count}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("О программе"),
@@ -2271,5 +2290,64 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearsAgoShort": m101,
     "yes": MessageLookupByLibrary.simpleMessage("Да"),
     "zhCN": MessageLookupByLibrary.simpleMessage("Упрощённый китайский"),
+    "envCheckAccessControlActive": m102,
+    "envCheckAccessControlEmptyWhitelist": MessageLookupByLibrary.simpleMessage("Включён белый список без выбранных приложений — трафик не идёт через VPN. Нажмите для настройки."),
+    "envCheckAccessControlOk": MessageLookupByLibrary.simpleMessage("Все приложения работают через VPN"),
+    "envCheckAutoTime": MessageLookupByLibrary.simpleMessage("Автоматические дата и время"),
+    "envCheckAutoTimeOff": MessageLookupByLibrary.simpleMessage("Отключено. Расхождение времени нарушает работу TLS, VMess и Reality. Нажмите, чтобы открыть настройки времени."),
+    "envCheckAutoTimeOk": MessageLookupByLibrary.simpleMessage("Синхронизация времени по сети включена"),
+    "envCheckBatteryOk": MessageLookupByLibrary.simpleMessage("Без ограничений в фоне"),
+    "envCheckBatteryRestricted": MessageLookupByLibrary.simpleMessage("Ограничено оптимизацией батареи. Приложение может быть остановлено в фоне. Нажмите, чтобы разрешить."),
+    "envCheckCoreDisconnected": m103,
+    "envCheckDataSaverOn": MessageLookupByLibrary.simpleMessage("Экономия трафика ограничивает фоновую сеть FlClash. Нажмите, чтобы снять ограничение."),
+    "envCheckDelayTimeoutLow": m104,
+    "envCheckDelayTimeoutOk": m105,
+    "envCheckDnsConfig": MessageLookupByLibrary.simpleMessage("Переопределение DNS"),
+    "envCheckDnsDisabled": MessageLookupByLibrary.simpleMessage("DNS отключён в переопределении, что ломает разрешение доменов в режиме VPN. Нажмите для исправления."),
+    "envCheckDnsNoNameserver": MessageLookupByLibrary.simpleMessage("Список Nameserver в переопределении пуст — DNS-запросы не сработают. Нажмите для настройки."),
+    "envCheckDnsOk": MessageLookupByLibrary.simpleMessage("Конфликтов в настройках DNS не обнаружено"),
+    "envCheckFooter": MessageLookupByLibrary.simpleMessage("Нажмите на пункт с предупреждением или ошибкой, чтобы открыть нужную настройку или исправить проблему. После возврата из системных настроек проверка обновится автоматически."),
+    "envCheckIpv6": MessageLookupByLibrary.simpleMessage("Совместимость IPv6"),
+    "envCheckIpv6Enabled": MessageLookupByLibrary.simpleMessage("IPv6 включён. В мобильной сети или на IPv4-узлах это может вызывать таймауты. Нажмите для настройки."),
+    "envCheckIpv6Ok": MessageLookupByLibrary.simpleMessage("IPv6 выключен (рекомендуется для совместимости)"),
+    "envCheckNetworkDns": MessageLookupByLibrary.simpleMessage("Сеть и системный DNS"),
+    "envCheckNetworkNoDns": MessageLookupByLibrary.simpleMessage("Сеть подключена, но системный DNS не получен. Профили с system DNS не смогут резолвить домены."),
+    "envCheckNetworkOffline": MessageLookupByLibrary.simpleMessage("Активное подключение к интернету не обнаружено. Нажмите, чтобы открыть настройки сети."),
+    "envCheckNetworkOk": m106,
+    "envCheckNotification": MessageLookupByLibrary.simpleMessage("Разрешение на уведомления"),
+    "envCheckNotificationOff": MessageLookupByLibrary.simpleMessage("Отключено. Система может чаще завершать фоновый VPN-сервис. Нажмите, чтобы открыть настройки."),
+    "envCheckNotificationOk": MessageLookupByLibrary.simpleMessage("Включено для стабильной работы фонового сервиса"),
+    "envCheckPowerDataSaver": MessageLookupByLibrary.simpleMessage("Энергосбережение и экономия трафика"),
+    "envCheckPowerDataSaverOk": MessageLookupByLibrary.simpleMessage("Энергосбережение и ограничение фоновых данных выключены"),
+    "envCheckPowerSaverOn": MessageLookupByLibrary.simpleMessage("Включён режим энергосбережения, который может ограничивать сеть. Нажмите для настройки."),
+    "envCheckPrivateDns": MessageLookupByLibrary.simpleMessage("Частный DNS"),
+    "envCheckPrivateDnsOk": MessageLookupByLibrary.simpleMessage("Выключен или Авто (совместимо)"),
+    "envCheckPrivateDnsStrict": m107,
+    "envCheckProfileCore": MessageLookupByLibrary.simpleMessage("Профиль и состояние ядра"),
+    "envCheckProfileCoreOk": m108,
+    "envCheckProfileMissing": MessageLookupByLibrary.simpleMessage("Профиль не выбран. Сначала импортируйте и выберите конфигурацию."),
+    "envCheckRecheck": MessageLookupByLibrary.simpleMessage("Проверить снова"),
+    "envCheckSectionApp": MessageLookupByLibrary.simpleMessage("Прокси и настройки приложения"),
+    "envCheckSectionSystem": MessageLookupByLibrary.simpleMessage("Система и разрешения"),
+    "envCheckStatusOk": MessageLookupByLibrary.simpleMessage("Норма"),
+    "envCheckStatusWarning": MessageLookupByLibrary.simpleMessage("Внимание"),
+    "envCheckSummaryAllGood": MessageLookupByLibrary.simpleMessage("Все проверки пройдены"),
+    "envCheckSummaryErrors": m109,
+    "envCheckSummaryWarnings": m110,
+    "envCheckTransportCellular": MessageLookupByLibrary.simpleMessage("Мобильная сеть"),
+    "envCheckTransportEthernet": MessageLookupByLibrary.simpleMessage("Ethernet"),
+    "envCheckTransportOther": MessageLookupByLibrary.simpleMessage("Сеть"),
+    "envCheckTransportWifi": MessageLookupByLibrary.simpleMessage("Wi-Fi"),
+    "envCheckUnavailable": MessageLookupByLibrary.simpleMessage("Не удалось получить сведения об окружении Android."),
+    "envCheckVpnConflict": MessageLookupByLibrary.simpleMessage("Конфликт с другим VPN"),
+    "envCheckVpnConflictDetected": MessageLookupByLibrary.simpleMessage("Активен другой VPN, который может мешать FlClash. Нажмите, чтобы открыть настройки VPN."),
+    "envCheckVpnConflictOk": MessageLookupByLibrary.simpleMessage("Конфликтующих VPN не обнаружено"),
+    "envCheckVpnMode": MessageLookupByLibrary.simpleMessage("Режим VPN"),
+    "envCheckVpnModeOff": MessageLookupByLibrary.simpleMessage("Выключен. На Android для перехвата трафика нужен режим VPN. Нажмите, чтобы включить."),
+    "envCheckVpnModeOk": MessageLookupByLibrary.simpleMessage("Включён"),
+    "envCheckVpnPermission": MessageLookupByLibrary.simpleMessage("Разрешение VPN"),
+    "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("Не предоставлено. Нажмите, чтобы разрешить VPN."),
+    "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("Предоставлено"),
+    "environmentCheck": MessageLookupByLibrary.simpleMessage("Проверка окружения"),
   };
 }

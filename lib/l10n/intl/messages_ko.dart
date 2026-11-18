@@ -250,6 +250,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m101(count) => "${Intl.plural(count, other: '${count}년 전')}";
 
+
+  static String m102(count) => "사용 중 (${count}개 앱 설정됨)";
+
+  static String m103(profile) => "프로필 \'${profile}\'이(가) 선택되었지만 코어가 아직 연결되지 않았습니다";
+
+  static String m104(ms) => "${ms} ms는 모바일 네트워크에서 너무 짧아 오탐 시간 초과가 발생할 수 있습니다. 5000 ms 이상 권장";
+
+  static String m105(ms) => "${ms} ms";
+
+  static String m106(transport, dns) => "${transport} · DNS: ${dns}";
+
+  static String m107(host) => "지정된 프라이빗 DNS(${host})는 VPN DNS와 충돌하여 시간 초과를 유발할 수 있습니다. 끄기 또는 자동으로 변경하세요";
+
+  static String m108(profile) => "현재 프로필 \'${profile}\' · 코어 연결됨";
+
+  static String m109(count) => "${count}개의 중요한 문제가 발견되었습니다";
+
+  static String m110(count) => "${count}개 항목을 확인해 주세요";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("정보"),
@@ -1823,5 +1842,64 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearsAgoShort": m101,
     "yes": MessageLookupByLibrary.simpleMessage("예"),
     "zhCN": MessageLookupByLibrary.simpleMessage("중국어 간체"),
+    "envCheckAccessControlActive": m102,
+    "envCheckAccessControlEmptyWhitelist": MessageLookupByLibrary.simpleMessage("화이트리스트 모드가 켜져 있지만 선택된 앱이 없어 VPN을 사용하지 않습니다. 탭하여 설정"),
+    "envCheckAccessControlOk": MessageLookupByLibrary.simpleMessage("모든 앱이 VPN을 통해 라우팅됩니다"),
+    "envCheckAutoTime": MessageLookupByLibrary.simpleMessage("날짜 및 시간 자동 설정"),
+    "envCheckAutoTimeOff": MessageLookupByLibrary.simpleMessage("꺼져 있습니다. 시간 오차로 인해 TLS, VMess, Reality 연결이 실패할 수 있습니다. 탭하여 날짜 및 시간 열기"),
+    "envCheckAutoTimeOk": MessageLookupByLibrary.simpleMessage("네트워크 시간 동기화가 켜져 있습니다"),
+    "envCheckBatteryOk": MessageLookupByLibrary.simpleMessage("백그라운드 제한 없음"),
+    "envCheckBatteryRestricted": MessageLookupByLibrary.simpleMessage("배터리 최적화로 제한되어 있습니다. 백그라운드 중지로 연결이 끊기거나 시간 초과가 발생할 수 있습니다"),
+    "envCheckCoreDisconnected": m103,
+    "envCheckDataSaverOn": MessageLookupByLibrary.simpleMessage("데이터 절약 모드가 FlClash의 백그라운드 데이터를 제한하고 있습니다. 탭하여 허용하기"),
+    "envCheckDelayTimeoutLow": m104,
+    "envCheckDelayTimeoutOk": m105,
+    "envCheckDnsConfig": MessageLookupByLibrary.simpleMessage("DNS 재정의 설정"),
+    "envCheckDnsDisabled": MessageLookupByLibrary.simpleMessage("DNS 재정의에서 DNS가 꺼져 있어 VPN 모드에서 도메인 해석이 실패합니다. 탭하여 수정"),
+    "envCheckDnsNoNameserver": MessageLookupByLibrary.simpleMessage("재정의된 Nameserver가 비어 있어 DNS 조회가 실패합니다. 탭하여 DNS 설정"),
+    "envCheckDnsOk": MessageLookupByLibrary.simpleMessage("DNS 설정에 문제가 없습니다"),
+    "envCheckFooter": MessageLookupByLibrary.simpleMessage("경고 또는 오류 항목을 탭하면 해당 설정을 열거나 바로 수정할 수 있습니다. 시스템 설정에서 돌아오면 자동으로 다시 검사합니다."),
+    "envCheckIpv6": MessageLookupByLibrary.simpleMessage("IPv6 호환성"),
+    "envCheckIpv6Enabled": MessageLookupByLibrary.simpleMessage("IPv6가 켜져 있습니다. 모바일 데이터나 미지원 노드에서 지연 테스트 시간 초과가 발생할 수 있습니다"),
+    "envCheckIpv6Ok": MessageLookupByLibrary.simpleMessage("IPv6 꺼짐 (호환성 권장)"),
+    "envCheckNetworkDns": MessageLookupByLibrary.simpleMessage("네트워크 및 시스템 DNS"),
+    "envCheckNetworkNoDns": MessageLookupByLibrary.simpleMessage("연결되었지만 시스템 DNS가 감지되지 않았습니다. system DNS 설정은 실패할 수 있습니다"),
+    "envCheckNetworkOffline": MessageLookupByLibrary.simpleMessage("활성 인터넷 연결이 없습니다. 탭하여 네트워크 설정 열기"),
+    "envCheckNetworkOk": m106,
+    "envCheckNotification": MessageLookupByLibrary.simpleMessage("알림 권한"),
+    "envCheckNotificationOff": MessageLookupByLibrary.simpleMessage("꺼져 있습니다. 백그라운드 VPN 서비스가 시스템에 의해 종료될 수 있습니다. 탭하여 알림 설정 열기"),
+    "envCheckNotificationOk": MessageLookupByLibrary.simpleMessage("허용됨 (포그라운드 서비스 유지)"),
+    "envCheckPowerDataSaver": MessageLookupByLibrary.simpleMessage("절전 및 데이터 절약"),
+    "envCheckPowerDataSaverOk": MessageLookupByLibrary.simpleMessage("절전 모드 및 백그라운드 데이터 제한이 꺼져 있습니다"),
+    "envCheckPowerSaverOn": MessageLookupByLibrary.simpleMessage("절전 모드가 켜져 있어 네트워크 연결이 제한될 수 있습니다. 탭하여 절전 설정 열기"),
+    "envCheckPrivateDns": MessageLookupByLibrary.simpleMessage("프라이빗 DNS"),
+    "envCheckPrivateDnsOk": MessageLookupByLibrary.simpleMessage("꺼짐 또는 자동 (호환됨)"),
+    "envCheckPrivateDnsStrict": m107,
+    "envCheckProfileCore": MessageLookupByLibrary.simpleMessage("프로필 및 코어 상태"),
+    "envCheckProfileCoreOk": m108,
+    "envCheckProfileMissing": MessageLookupByLibrary.simpleMessage("선택된 프로필이 없습니다. 먼저 프로필을 추가하고 선택하세요"),
+    "envCheckRecheck": MessageLookupByLibrary.simpleMessage("다시 검사"),
+    "envCheckSectionApp": MessageLookupByLibrary.simpleMessage("프록시 및 앱 설정"),
+    "envCheckSectionSystem": MessageLookupByLibrary.simpleMessage("시스템 및 권한"),
+    "envCheckStatusOk": MessageLookupByLibrary.simpleMessage("정상"),
+    "envCheckStatusWarning": MessageLookupByLibrary.simpleMessage("주의"),
+    "envCheckSummaryAllGood": MessageLookupByLibrary.simpleMessage("실행 환경이 정상입니다"),
+    "envCheckSummaryErrors": m109,
+    "envCheckSummaryWarnings": m110,
+    "envCheckTransportCellular": MessageLookupByLibrary.simpleMessage("모바일 데이터"),
+    "envCheckTransportEthernet": MessageLookupByLibrary.simpleMessage("이더넷"),
+    "envCheckTransportOther": MessageLookupByLibrary.simpleMessage("네트워크"),
+    "envCheckTransportWifi": MessageLookupByLibrary.simpleMessage("Wi-Fi"),
+    "envCheckUnavailable": MessageLookupByLibrary.simpleMessage("Android 시스템 환경 정보를 읽을 수 없습니다."),
+    "envCheckVpnConflict": MessageLookupByLibrary.simpleMessage("다른 VPN 충돌"),
+    "envCheckVpnConflictDetected": MessageLookupByLibrary.simpleMessage("다른 VPN이 활성화되어 있어 연결이 차단될 수 있습니다. 탭하여 VPN 설정 열기"),
+    "envCheckVpnConflictOk": MessageLookupByLibrary.simpleMessage("충돌하는 다른 VPN이 감지되지 않았습니다"),
+    "envCheckVpnMode": MessageLookupByLibrary.simpleMessage("VPN 모드"),
+    "envCheckVpnModeOff": MessageLookupByLibrary.simpleMessage("꺼져 있습니다. Android에서는 트래픽 라우팅을 위해 VPN 모드가 필요합니다. 탭하여 켜기"),
+    "envCheckVpnModeOk": MessageLookupByLibrary.simpleMessage("켜짐"),
+    "envCheckVpnPermission": MessageLookupByLibrary.simpleMessage("VPN 권한"),
+    "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("권한이 없습니다. 탭하여 VPN 권한을 허용하세요"),
+    "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("허용됨"),
+    "environmentCheck": MessageLookupByLibrary.simpleMessage("환경 검사"),
   };
 }

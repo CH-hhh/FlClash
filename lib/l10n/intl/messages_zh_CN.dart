@@ -242,6 +242,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m101(count) => "${count} 年前";
 
+
+  static String m102(count) => "已启用（已配置 ${count} 个应用）";
+
+  static String m103(profile) => "已选配置「${profile}」，但内核尚未就绪";
+
+  static String m104(ms) => "当前仅 ${ms} ms，手机网络下过短易导致测速误报超时，建议设为 5000 ms 及以上";
+
+  static String m105(ms) => "当前超时阈值 ${ms} ms";
+
+  static String m106(transport, dns) => "${transport} · 系统 DNS: ${dns}";
+
+  static String m107(host) => "已指定固定私人 DNS（${host}），容易与 VPN DNS 冲突导致测速或联网超时，建议改为关闭或自动";
+
+  static String m108(profile) => "当前配置「${profile}」· 内核已连接";
+
+  static String m109(count) => "发现 ${count} 项关键异常";
+
+  static String m110(count) => "${count} 项设置需要注意";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("关于"),
@@ -1673,5 +1692,64 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearsAgoShort": m101,
     "yes": MessageLookupByLibrary.simpleMessage("是"),
     "zhCN": MessageLookupByLibrary.simpleMessage("中文简体"),
+    "envCheckAccessControlActive": m102,
+    "envCheckAccessControlEmptyWhitelist": MessageLookupByLibrary.simpleMessage("已开启白名单模式但未勾选任何应用，导致所有应用都不走代理。点击配置"),
+    "envCheckAccessControlOk": MessageLookupByLibrary.simpleMessage("未开启分应用限制，默认接管所有应用"),
+    "envCheckAutoTime": MessageLookupByLibrary.simpleMessage("系统时间自动同步"),
+    "envCheckAutoTimeOff": MessageLookupByLibrary.simpleMessage("未开启自动同步，时间误差会导致 TLS / VMess / Reality 握手失败或超时。点击前往设置"),
+    "envCheckAutoTimeOk": MessageLookupByLibrary.simpleMessage("已开启网络时间同步"),
+    "envCheckBatteryOk": MessageLookupByLibrary.simpleMessage("已忽略电池优化，允许后台无限制运行"),
+    "envCheckBatteryRestricted": MessageLookupByLibrary.simpleMessage("受系统省电策略限制，后台可能被冻结导致断网或全节点超时。点击去设置无限制"),
+    "envCheckCoreDisconnected": m103,
+    "envCheckDataSaverOn": MessageLookupByLibrary.simpleMessage("系统流量节省程序正在限制 FlClash 后台联网。点击允许无限制流量"),
+    "envCheckDelayTimeoutLow": m104,
+    "envCheckDelayTimeoutOk": m105,
+    "envCheckDnsConfig": MessageLookupByLibrary.simpleMessage("DNS 覆写设置"),
+    "envCheckDnsDisabled": MessageLookupByLibrary.simpleMessage("DNS 覆写中已关闭 DNS 功能，手机 VPN 模式下将导致全部域名解析失败。点击修改"),
+    "envCheckDnsNoNameserver": MessageLookupByLibrary.simpleMessage("DNS 覆写中的 Nameserver 为空，将无法解析域名。点击配置 DNS"),
+    "envCheckDnsOk": MessageLookupByLibrary.simpleMessage("DNS 覆写配置正常"),
+    "envCheckFooter": MessageLookupByLibrary.simpleMessage("点击任意警告或异常项可直接修复或前往对应设置，从系统设置返回后会自动重新检测。"),
+    "envCheckIpv6": MessageLookupByLibrary.simpleMessage("IPv6 兼容性"),
+    "envCheckIpv6Enabled": MessageLookupByLibrary.simpleMessage("已开启 IPv6，在移动网络或不支持 IPv6 的节点下可能导致延迟测试超时。点击前往网络设置"),
+    "envCheckIpv6Ok": MessageLookupByLibrary.simpleMessage("IPv6 已关闭（兼容性最佳）"),
+    "envCheckNetworkDns": MessageLookupByLibrary.simpleMessage("网络连接与系统 DNS"),
+    "envCheckNetworkNoDns": MessageLookupByLibrary.simpleMessage("网络已连接，但未获取到系统 DNS，依赖 system DNS 的配置将解析失败"),
+    "envCheckNetworkOffline": MessageLookupByLibrary.simpleMessage("当前无可用网络连接。点击前往网络设置"),
+    "envCheckNetworkOk": m106,
+    "envCheckNotification": MessageLookupByLibrary.simpleMessage("通知权限"),
+    "envCheckNotificationOff": MessageLookupByLibrary.simpleMessage("未开启，后台 VPN 服务更容易被系统回收。点击前往通知设置"),
+    "envCheckNotificationOk": MessageLookupByLibrary.simpleMessage("已开启，有助于保持前台代理服务常驻"),
+    "envCheckPowerDataSaver": MessageLookupByLibrary.simpleMessage("省电与后台流量限制"),
+    "envCheckPowerDataSaverOk": MessageLookupByLibrary.simpleMessage("未开启省电模式与后台流量限制"),
+    "envCheckPowerSaverOn": MessageLookupByLibrary.simpleMessage("系统省电模式已开启，可能限制后台网络连接。点击前往省电模式设置"),
+    "envCheckPrivateDns": MessageLookupByLibrary.simpleMessage("系统私人 DNS"),
+    "envCheckPrivateDnsOk": MessageLookupByLibrary.simpleMessage("已关闭或自动（与 VPN 兼容）"),
+    "envCheckPrivateDnsStrict": m107,
+    "envCheckProfileCore": MessageLookupByLibrary.simpleMessage("配置文件与内核状态"),
+    "envCheckProfileCoreOk": m108,
+    "envCheckProfileMissing": MessageLookupByLibrary.simpleMessage("尚未选择配置文件，请先导入并选中一个订阅"),
+    "envCheckRecheck": MessageLookupByLibrary.simpleMessage("重新检测"),
+    "envCheckSectionApp": MessageLookupByLibrary.simpleMessage("代理与应用配置"),
+    "envCheckSectionSystem": MessageLookupByLibrary.simpleMessage("系统与权限"),
+    "envCheckStatusOk": MessageLookupByLibrary.simpleMessage("正常"),
+    "envCheckStatusWarning": MessageLookupByLibrary.simpleMessage("注意"),
+    "envCheckSummaryAllGood": MessageLookupByLibrary.simpleMessage("运行环境正常"),
+    "envCheckSummaryErrors": m109,
+    "envCheckSummaryWarnings": m110,
+    "envCheckTransportCellular": MessageLookupByLibrary.simpleMessage("移动网络"),
+    "envCheckTransportEthernet": MessageLookupByLibrary.simpleMessage("以太网"),
+    "envCheckTransportOther": MessageLookupByLibrary.simpleMessage("已联网"),
+    "envCheckTransportWifi": MessageLookupByLibrary.simpleMessage("Wi-Fi"),
+    "envCheckUnavailable": MessageLookupByLibrary.simpleMessage("无法读取手机系统环境信息，请重试。"),
+    "envCheckVpnConflict": MessageLookupByLibrary.simpleMessage("其他 VPN 占用"),
+    "envCheckVpnConflictDetected": MessageLookupByLibrary.simpleMessage("检测到其他 VPN 正在运行，可能抢占通道导致无法连接。点击前往系统 VPN 设置"),
+    "envCheckVpnConflictOk": MessageLookupByLibrary.simpleMessage("未检测到其他 VPN 占用通道"),
+    "envCheckVpnMode": MessageLookupByLibrary.simpleMessage("VPN 接管模式"),
+    "envCheckVpnModeOff": MessageLookupByLibrary.simpleMessage("已关闭，手机端必须开启 VPN 模式才能接管流量。点击一键开启"),
+    "envCheckVpnModeOk": MessageLookupByLibrary.simpleMessage("已开启，可接管手机应用流量"),
+    "envCheckVpnPermission": MessageLookupByLibrary.simpleMessage("VPN 授权状态"),
+    "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("未授权，无法接管流量。点击立即授权"),
+    "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("已授权，可正常建立 VPN 隧道"),
+    "environmentCheck": MessageLookupByLibrary.simpleMessage("环境检测"),
   };
 }

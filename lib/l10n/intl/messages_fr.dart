@@ -288,6 +288,25 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m101(count) =>
       "${Intl.plural(count, other: 'il y a ${count} a')}";
 
+
+  static String m102(count) => "Activé (${count} applications configurées)";
+
+  static String m103(profile) => "Profil « ${profile} » sélectionné, mais le noyau n\'est pas encore connecté.";
+
+  static String m104(ms) => "${ms} ms peut être trop court sur réseau mobile et provoquer de faux délais dépassés. Recommandé : 5000 ms ou plus.";
+
+  static String m105(ms) => "${ms} ms";
+
+  static String m106(transport, dns) => "${transport} · DNS : ${dns}";
+
+  static String m107(host) => "Le DNS privé fixe (${host}) peut entrer en conflit avec le DNS du VPN et provoquer des délais dépassés. Passez-le sur Désactivé ou Automatique.";
+
+  static String m108(profile) => "Profil « ${profile} » · Noyau connecté";
+
+  static String m109(count) => "${count} problèmes critiques détectés";
+
+  static String m110(count) => "${count} éléments nécessitent votre attention";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "about": MessageLookupByLibrary.simpleMessage("À propos"),
@@ -2332,5 +2351,64 @@ class MessageLookup extends MessageLookupByLibrary {
     "yearsAgoShort": m101,
     "yes": MessageLookupByLibrary.simpleMessage("Oui"),
     "zhCN": MessageLookupByLibrary.simpleMessage("Chinois simplifié"),
+    "envCheckAccessControlActive": m102,
+    "envCheckAccessControlEmptyWhitelist": MessageLookupByLibrary.simpleMessage("La liste blanche est active sans aucune application sélectionnée. Touchez pour configurer."),
+    "envCheckAccessControlOk": MessageLookupByLibrary.simpleMessage("Toutes les applications passent par le VPN"),
+    "envCheckAutoTime": MessageLookupByLibrary.simpleMessage("Date et heure automatiques"),
+    "envCheckAutoTimeOff": MessageLookupByLibrary.simpleMessage("Désactivé. Un décalage d\'horloge peut faire échouer TLS, VMess et Reality. Touchez pour ouvrir Date et heure."),
+    "envCheckAutoTimeOk": MessageLookupByLibrary.simpleMessage("Synchronisation automatique de l\'heure activée"),
+    "envCheckBatteryOk": MessageLookupByLibrary.simpleMessage("Sans restriction en arrière-plan"),
+    "envCheckBatteryRestricted": MessageLookupByLibrary.simpleMessage("Limité par l\'optimisation de la batterie. Le VPN peut être suspendu en arrière-plan. Touchez pour autoriser."),
+    "envCheckCoreDisconnected": m103,
+    "envCheckDataSaverOn": MessageLookupByLibrary.simpleMessage("L\'économiseur de données restreint FlClash en arrière-plan. Touchez pour autoriser."),
+    "envCheckDelayTimeoutLow": m104,
+    "envCheckDelayTimeoutOk": m105,
+    "envCheckDnsConfig": MessageLookupByLibrary.simpleMessage("Remplacement DNS"),
+    "envCheckDnsDisabled": MessageLookupByLibrary.simpleMessage("Le DNS est désactivé via le remplacement, ce qui casse la résolution en mode VPN. Touchez pour corriger."),
+    "envCheckDnsNoNameserver": MessageLookupByLibrary.simpleMessage("Le Nameserver remplacé est vide, les requêtes DNS échoueront. Touchez pour configurer."),
+    "envCheckDnsOk": MessageLookupByLibrary.simpleMessage("Aucun conflit dans la configuration DNS"),
+    "envCheckFooter": MessageLookupByLibrary.simpleMessage("Touchez un élément en avertissement ou en erreur pour ouvrir le paramètre correspondant ou le corriger. Les résultats se mettent à jour au retour des paramètres système."),
+    "envCheckIpv6": MessageLookupByLibrary.simpleMessage("Compatibilité IPv6"),
+    "envCheckIpv6Enabled": MessageLookupByLibrary.simpleMessage("IPv6 est activé. Sur données mobiles ou nœuds IPv4, cela peut causer des délais dépassés. Touchez pour ajuster."),
+    "envCheckIpv6Ok": MessageLookupByLibrary.simpleMessage("IPv6 désactivé (recommandé pour la compatibilité)"),
+    "envCheckNetworkDns": MessageLookupByLibrary.simpleMessage("Réseau et DNS système"),
+    "envCheckNetworkNoDns": MessageLookupByLibrary.simpleMessage("Connecté, mais aucun DNS système n\'a été signalé. Les profils utilisant le DNS système échoueront."),
+    "envCheckNetworkOffline": MessageLookupByLibrary.simpleMessage("Aucune connexion Internet active détectée. Touchez pour ouvrir les paramètres réseau."),
+    "envCheckNetworkOk": m106,
+    "envCheckNotification": MessageLookupByLibrary.simpleMessage("Autorisation de notifications"),
+    "envCheckNotificationOff": MessageLookupByLibrary.simpleMessage("Désactivée. Le système risque davantage d\'arrêter le service VPN. Touchez pour ouvrir les paramètres."),
+    "envCheckNotificationOk": MessageLookupByLibrary.simpleMessage("Activée pour maintenir le service au premier plan"),
+    "envCheckPowerDataSaver": MessageLookupByLibrary.simpleMessage("Économie d\'énergie et de données"),
+    "envCheckPowerDataSaverOk": MessageLookupByLibrary.simpleMessage("Aucune restriction d\'énergie ou de données en arrière-plan"),
+    "envCheckPowerSaverOn": MessageLookupByLibrary.simpleMessage("L\'économiseur de batterie est activé et peut limiter le réseau. Touchez pour ouvrir les paramètres."),
+    "envCheckPrivateDns": MessageLookupByLibrary.simpleMessage("DNS privé"),
+    "envCheckPrivateDnsOk": MessageLookupByLibrary.simpleMessage("Désactivé ou automatique (compatible)"),
+    "envCheckPrivateDnsStrict": m107,
+    "envCheckProfileCore": MessageLookupByLibrary.simpleMessage("Profil et état du noyau"),
+    "envCheckProfileCoreOk": m108,
+    "envCheckProfileMissing": MessageLookupByLibrary.simpleMessage("Aucun profil sélectionné. Importez ou sélectionnez un profil."),
+    "envCheckRecheck": MessageLookupByLibrary.simpleMessage("Revérifier"),
+    "envCheckSectionApp": MessageLookupByLibrary.simpleMessage("Proxy et paramètres de l\'app"),
+    "envCheckSectionSystem": MessageLookupByLibrary.simpleMessage("Système et autorisations"),
+    "envCheckStatusOk": MessageLookupByLibrary.simpleMessage("OK"),
+    "envCheckStatusWarning": MessageLookupByLibrary.simpleMessage("Attention"),
+    "envCheckSummaryAllGood": MessageLookupByLibrary.simpleMessage("Toutes les vérifications ont réussi"),
+    "envCheckSummaryErrors": m109,
+    "envCheckSummaryWarnings": m110,
+    "envCheckTransportCellular": MessageLookupByLibrary.simpleMessage("Données mobiles"),
+    "envCheckTransportEthernet": MessageLookupByLibrary.simpleMessage("Ethernet"),
+    "envCheckTransportOther": MessageLookupByLibrary.simpleMessage("Réseau"),
+    "envCheckTransportWifi": MessageLookupByLibrary.simpleMessage("Wi-Fi"),
+    "envCheckUnavailable": MessageLookupByLibrary.simpleMessage("Impossible de lire les informations de l\'environnement Android."),
+    "envCheckVpnConflict": MessageLookupByLibrary.simpleMessage("Conflit avec un autre VPN"),
+    "envCheckVpnConflictDetected": MessageLookupByLibrary.simpleMessage("Un autre VPN est actif et peut bloquer FlClash. Touchez pour ouvrir les paramètres VPN."),
+    "envCheckVpnConflictOk": MessageLookupByLibrary.simpleMessage("Aucun autre VPN en conflit détecté"),
+    "envCheckVpnMode": MessageLookupByLibrary.simpleMessage("Mode VPN"),
+    "envCheckVpnModeOff": MessageLookupByLibrary.simpleMessage("Désactivé. Sur Android, le mode VPN est requis pour router le trafic. Touchez pour activer."),
+    "envCheckVpnModeOk": MessageLookupByLibrary.simpleMessage("Activé"),
+    "envCheckVpnPermission": MessageLookupByLibrary.simpleMessage("Autorisation VPN"),
+    "envCheckVpnPermissionMissing": MessageLookupByLibrary.simpleMessage("Non accordée. Touchez pour autoriser le VPN."),
+    "envCheckVpnPermissionOk": MessageLookupByLibrary.simpleMessage("Accordée"),
+    "environmentCheck": MessageLookupByLibrary.simpleMessage("Vérification de l\'environnement"),
   };
 }

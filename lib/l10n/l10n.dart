@@ -9072,6 +9072,537 @@ class AppLocalizations {
       args: [],
     );
   }
+  /// `Environment check`
+  String get environmentCheck {
+    return Intl.message(
+      'Environment check',
+      name: 'environmentCheck',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Recheck`
+  String get envCheckRecheck {
+    return Intl.message(
+      'Recheck',
+      name: 'envCheckRecheck',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `System & permissions`
+  String get envCheckSectionSystem {
+    return Intl.message(
+      'System & permissions',
+      name: 'envCheckSectionSystem',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Proxy & app settings`
+  String get envCheckSectionApp {
+    return Intl.message(
+      'Proxy & app settings',
+      name: 'envCheckSectionApp',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Tap any warning or error item to open the corresponding setting or fix it directly. Returning from system settings refreshes the results automatically.`
+  String get envCheckFooter {
+    return Intl.message(
+      'Tap any warning or error item to open the corresponding setting or fix it directly. Returning from system settings refreshes the results automatically.',
+      name: 'envCheckFooter',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `OK`
+  String get envCheckStatusOk {
+    return Intl.message(
+      'OK',
+      name: 'envCheckStatusOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Warning`
+  String get envCheckStatusWarning {
+    return Intl.message(
+      'Warning',
+      name: 'envCheckStatusWarning',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `All checks passed`
+  String get envCheckSummaryAllGood {
+    return Intl.message(
+      'All checks passed',
+      name: 'envCheckSummaryAllGood',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `{count} items need attention`
+  String envCheckSummaryWarnings(Object count) {
+    return Intl.message(
+      '${count} items need attention',
+      name: 'envCheckSummaryWarnings',
+      desc: '',
+      args: [count],
+    );
+  }
+  /// `{count} critical issues found`
+  String envCheckSummaryErrors(Object count) {
+    return Intl.message(
+      '${count} critical issues found',
+      name: 'envCheckSummaryErrors',
+      desc: '',
+      args: [count],
+    );
+  }
+  /// `Unable to read Android system environment information.`
+  String get envCheckUnavailable {
+    return Intl.message(
+      'Unable to read Android system environment information.',
+      name: 'envCheckUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `VPN permission`
+  String get envCheckVpnPermission {
+    return Intl.message(
+      'VPN permission',
+      name: 'envCheckVpnPermission',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Granted`
+  String get envCheckVpnPermissionOk {
+    return Intl.message(
+      'Granted',
+      name: 'envCheckVpnPermissionOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Not granted. Tap to authorize VPN access.`
+  String get envCheckVpnPermissionMissing {
+    return Intl.message(
+      'Not granted. Tap to authorize VPN access.',
+      name: 'envCheckVpnPermissionMissing',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Other VPN conflict`
+  String get envCheckVpnConflict {
+    return Intl.message(
+      'Other VPN conflict',
+      name: 'envCheckVpnConflict',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `No conflicting VPN detected`
+  String get envCheckVpnConflictOk {
+    return Intl.message(
+      'No conflicting VPN detected',
+      name: 'envCheckVpnConflictOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Another VPN is active and may block FlClash. Tap to open VPN settings.`
+  String get envCheckVpnConflictDetected {
+    return Intl.message(
+      'Another VPN is active and may block FlClash. Tap to open VPN settings.',
+      name: 'envCheckVpnConflictDetected',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Network & system DNS`
+  String get envCheckNetworkDns {
+    return Intl.message(
+      'Network & system DNS',
+      name: 'envCheckNetworkDns',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `No active internet connection detected. Tap to open network settings.`
+  String get envCheckNetworkOffline {
+    return Intl.message(
+      'No active internet connection detected. Tap to open network settings.',
+      name: 'envCheckNetworkOffline',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Connected, but no system DNS server was reported. Profiles using system DNS will fail.`
+  String get envCheckNetworkNoDns {
+    return Intl.message(
+      'Connected, but no system DNS server was reported. Profiles using system DNS will fail.',
+      name: 'envCheckNetworkNoDns',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `{transport} · DNS: {dns}`
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return Intl.message(
+      '${transport} · DNS: ${dns}',
+      name: 'envCheckNetworkOk',
+      desc: '',
+      args: [transport, dns],
+    );
+  }
+  /// `Wi-Fi`
+  String get envCheckTransportWifi {
+    return Intl.message(
+      'Wi-Fi',
+      name: 'envCheckTransportWifi',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Mobile data`
+  String get envCheckTransportCellular {
+    return Intl.message(
+      'Mobile data',
+      name: 'envCheckTransportCellular',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Ethernet`
+  String get envCheckTransportEthernet {
+    return Intl.message(
+      'Ethernet',
+      name: 'envCheckTransportEthernet',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Network`
+  String get envCheckTransportOther {
+    return Intl.message(
+      'Network',
+      name: 'envCheckTransportOther',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Private DNS`
+  String get envCheckPrivateDns {
+    return Intl.message(
+      'Private DNS',
+      name: 'envCheckPrivateDns',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Off or Automatic (compatible)`
+  String get envCheckPrivateDnsOk {
+    return Intl.message(
+      'Off or Automatic (compatible)',
+      name: 'envCheckPrivateDnsOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Fixed Private DNS ({host}) may conflict with VPN DNS and cause timeouts. Set it to Off or Auto.`
+  String envCheckPrivateDnsStrict(Object host) {
+    return Intl.message(
+      'Fixed Private DNS (${host}) may conflict with VPN DNS and cause timeouts. Set it to Off or Auto.',
+      name: 'envCheckPrivateDnsStrict',
+      desc: '',
+      args: [host],
+    );
+  }
+  /// `Automatic date & time`
+  String get envCheckAutoTime {
+    return Intl.message(
+      'Automatic date & time',
+      name: 'envCheckAutoTime',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Network time sync is enabled`
+  String get envCheckAutoTimeOk {
+    return Intl.message(
+      'Network time sync is enabled',
+      name: 'envCheckAutoTimeOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Disabled. Clock skew can cause TLS, VMess, and Reality handshakes to fail. Tap to open Date & time.`
+  String get envCheckAutoTimeOff {
+    return Intl.message(
+      'Disabled. Clock skew can cause TLS, VMess, and Reality handshakes to fail. Tap to open Date & time.',
+      name: 'envCheckAutoTimeOff',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Unrestricted in background`
+  String get envCheckBatteryOk {
+    return Intl.message(
+      'Unrestricted in background',
+      name: 'envCheckBatteryOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Restricted by battery optimization. Background freezing may disconnect VPN or cause timeouts. Tap to allow.`
+  String get envCheckBatteryRestricted {
+    return Intl.message(
+      'Restricted by battery optimization. Background freezing may disconnect VPN or cause timeouts. Tap to allow.',
+      name: 'envCheckBatteryRestricted',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Notification permission`
+  String get envCheckNotification {
+    return Intl.message(
+      'Notification permission',
+      name: 'envCheckNotification',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Enabled for foreground service persistence`
+  String get envCheckNotificationOk {
+    return Intl.message(
+      'Enabled for foreground service persistence',
+      name: 'envCheckNotificationOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Disabled. The system is more likely to kill the background VPN service. Tap to open notification settings.`
+  String get envCheckNotificationOff {
+    return Intl.message(
+      'Disabled. The system is more likely to kill the background VPN service. Tap to open notification settings.',
+      name: 'envCheckNotificationOff',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Power & data saver`
+  String get envCheckPowerDataSaver {
+    return Intl.message(
+      'Power & data saver',
+      name: 'envCheckPowerDataSaver',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `No power saver or background data restriction active`
+  String get envCheckPowerDataSaverOk {
+    return Intl.message(
+      'No power saver or background data restriction active',
+      name: 'envCheckPowerDataSaverOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Battery Saver is enabled and may restrict network sockets. Tap to open battery saver settings.`
+  String get envCheckPowerSaverOn {
+    return Intl.message(
+      'Battery Saver is enabled and may restrict network sockets. Tap to open battery saver settings.',
+      name: 'envCheckPowerSaverOn',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Data Saver is restricting background data for FlClash. Tap to allow unrestricted data.`
+  String get envCheckDataSaverOn {
+    return Intl.message(
+      'Data Saver is restricting background data for FlClash. Tap to allow unrestricted data.',
+      name: 'envCheckDataSaverOn',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `VPN takeover mode`
+  String get envCheckVpnMode {
+    return Intl.message(
+      'VPN takeover mode',
+      name: 'envCheckVpnMode',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Enabled`
+  String get envCheckVpnModeOk {
+    return Intl.message(
+      'Enabled',
+      name: 'envCheckVpnModeOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Disabled. On Android, FlClash needs VPN mode to route app traffic. Tap to turn on.`
+  String get envCheckVpnModeOff {
+    return Intl.message(
+      'Disabled. On Android, FlClash needs VPN mode to route app traffic. Tap to turn on.',
+      name: 'envCheckVpnModeOff',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Profile & core status`
+  String get envCheckProfileCore {
+    return Intl.message(
+      'Profile & core status',
+      name: 'envCheckProfileCore',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `No profile selected. Import or select a subscription first.`
+  String get envCheckProfileMissing {
+    return Intl.message(
+      'No profile selected. Import or select a subscription first.',
+      name: 'envCheckProfileMissing',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Profile “{profile}” is selected, but the core is not connected yet.`
+  String envCheckCoreDisconnected(Object profile) {
+    return Intl.message(
+      'Profile “${profile}” is selected, but the core is not connected yet.',
+      name: 'envCheckCoreDisconnected',
+      desc: '',
+      args: [profile],
+    );
+  }
+  /// `Profile “{profile}” · Core connected`
+  String envCheckProfileCoreOk(Object profile) {
+    return Intl.message(
+      'Profile “${profile}” · Core connected',
+      name: 'envCheckProfileCoreOk',
+      desc: '',
+      args: [profile],
+    );
+  }
+  /// `DNS override settings`
+  String get envCheckDnsConfig {
+    return Intl.message(
+      'DNS override settings',
+      name: 'envCheckDnsConfig',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `DNS is disabled via override, which breaks domain resolution in Android VPN mode. Tap to fix.`
+  String get envCheckDnsDisabled {
+    return Intl.message(
+      'DNS is disabled via override, which breaks domain resolution in Android VPN mode. Tap to fix.',
+      name: 'envCheckDnsDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Nameserver override is empty, so DNS lookups will fail. Tap to configure DNS.`
+  String get envCheckDnsNoNameserver {
+    return Intl.message(
+      'Nameserver override is empty, so DNS lookups will fail. Tap to configure DNS.',
+      name: 'envCheckDnsNoNameserver',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `No conflicting DNS override detected`
+  String get envCheckDnsOk {
+    return Intl.message(
+      'No conflicting DNS override detected',
+      name: 'envCheckDnsOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `IPv6 compatibility`
+  String get envCheckIpv6 {
+    return Intl.message(
+      'IPv6 compatibility',
+      name: 'envCheckIpv6',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `IPv6 is disabled (recommended for compatibility)`
+  String get envCheckIpv6Ok {
+    return Intl.message(
+      'IPv6 is disabled (recommended for compatibility)',
+      name: 'envCheckIpv6Ok',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `IPv6 is enabled. On mobile data or IPv4-only nodes this can cause ping timeouts. Tap to open network settings.`
+  String get envCheckIpv6Enabled {
+    return Intl.message(
+      'IPv6 is enabled. On mobile data or IPv4-only nodes this can cause ping timeouts. Tap to open network settings.',
+      name: 'envCheckIpv6Enabled',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `All apps are routed through VPN`
+  String get envCheckAccessControlOk {
+    return Intl.message(
+      'All apps are routed through VPN',
+      name: 'envCheckAccessControlOk',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Whitelist mode is enabled with no apps selected, so no app traffic uses VPN. Tap to configure.`
+  String get envCheckAccessControlEmptyWhitelist {
+    return Intl.message(
+      'Whitelist mode is enabled with no apps selected, so no app traffic uses VPN. Tap to configure.',
+      name: 'envCheckAccessControlEmptyWhitelist',
+      desc: '',
+      args: [],
+    );
+  }
+  /// `Enabled ({count} apps configured)`
+  String envCheckAccessControlActive(Object count) {
+    return Intl.message(
+      'Enabled (${count} apps configured)',
+      name: 'envCheckAccessControlActive',
+      desc: '',
+      args: [count],
+    );
+  }
+  /// `{ms} ms`
+  String envCheckDelayTimeoutOk(Object ms) {
+    return Intl.message(
+      '${ms} ms',
+      name: 'envCheckDelayTimeoutOk',
+      desc: '',
+      args: [ms],
+    );
+  }
+  /// `{ms} ms may be too short on mobile networks and cause false timeouts. Recommended: 5000 ms or higher.`
+  String envCheckDelayTimeoutLow(Object ms) {
+    return Intl.message(
+      '${ms} ms may be too short on mobile networks and cause false timeouts. Recommended: 5000 ms or higher.',
+      name: 'envCheckDelayTimeoutLow',
+      desc: '',
+      args: [ms],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -7,6 +7,7 @@ import android.app.DownloadManager
 import android.app.PendingIntent
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -14,16 +15,22 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.net.VpnService
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.provider.MediaStore
 import android.provider.Settings
 import android.security.KeyChain
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.IntentCompat
@@ -317,6 +324,19 @@ class AppPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware 
                 }
             }
 
+            "getEnvironmentInfo" -> reply(result) {
+                collectEnvironmentInfo()
+            }
+
+            "prepareVpn" -> {
+                prepareVpn(true) { granted -> result.success(granted) }
+            }
+
+            "openSystemSettings" -> {
+                val target = call.argument<String>("target").orEmpty()
+                onMainThread { result.success(openSystemSettings(target)) }
+            }
+
             else -> {
                 result.notImplemented()
             }
@@ -584,6 +604,197 @@ class AppPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware 
         } catch (_: Exception) {
             false
         }
+    }
+
+    private fun openSystemSettings(target: String): Boolean {
+        val pkg = GlobalState.application.packageName
+        val appDetails = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = "package:$pkg".toUri()
+        }
+        val intents = buildList {
+            when (target) {
+                "vpn" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        add(Intent(Settings.ACTION_VPN_SETTINGS))
+                    }
+                    add(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+                }
+
+                "network" -> {
+                    add(Intent(Settings.ACTION_WIRELESS_SETTINGS))
+                    add(Intent(Settings.ACTION_WIFI_SETTINGS))
+                }
+
+                "dateTime" -> {
+                    add(Intent(Settings.ACTION_DATE_SETTINGS))
+                }
+
+                "notification" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        add(
+                            Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                                .putExtra(Settings.EXTRA_APP_PACKAGE, pkg),
+                        )
+                    }
+                    add(appDetails)
+                }
+
+                "batterySaver" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        add(Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS))
+                    }
+                }
+
+                "dataSaver" -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        add(
+                            Intent(
+                                Settings.ACTION_IGNORE_BACKGROUND_DATA_RESTRICTIONS_SETTINGS,
+                                "package:$pkg".toUri(),
+                            ),
+                        )
+                    }
+                    add(appDetails)
+                }
+
+                else -> add(appDetails)
+            }
+            add(Intent(Settings.ACTION_SETTINGS))
+        }
+        return intents.any(::startSettings)
+    }
+
+    @Suppress("DEPRECATION")
+    private fun collectEnvironmentInfo(): Map<String, Any?> {
+        val context = GlobalState.application
+        val resolver = context.contentResolver
+        val connectivity = getSystemService(context, ConnectivityManager::class.java)
+        val powerManager = getSystemService(context, PowerManager::class.java)
+
+        val vpnPermissionGranted = runCatching { VpnService.prepare(context) == null }
+            .getOrDefault(false)
+
+        val activeNetwork = connectivity?.activeNetwork
+        val allNetworks = runCatching { connectivity?.allNetworks?.toList().orEmpty() }
+            .getOrDefault(emptyList())
+        val vpnActive = activeNetwork?.let { network ->
+            connectivity?.getNetworkCapabilities(network)
+                ?.hasTransport(NetworkCapabilities.TRANSPORT_VPN) == true
+        } == true || allNetworks.any { network ->
+            connectivity?.getNetworkCapabilities(network)
+                ?.hasTransport(NetworkCapabilities.TRANSPORT_VPN) == true
+        }
+
+        val physicalNetwork = pickPhysicalNetwork(connectivity, activeNetwork, allNetworks)
+        val physicalCaps = physicalNetwork?.let { connectivity?.getNetworkCapabilities(it) }
+        val physicalLinks = physicalNetwork?.let { connectivity?.getLinkProperties(it) }
+        val hasNetwork = physicalCaps?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+        val networkTransport = if (hasNetwork && physicalCaps != null) {
+            transportName(physicalCaps)
+        } else {
+            "none"
+        }
+        val systemDnsServers = physicalLinks?.dnsServers
+            ?.mapNotNull { it.hostAddress }
+            ?.distinct()
+            .orEmpty()
+
+        val (privateDnsMode, privateDnsSpecifier) = readPrivateDns(resolver, physicalLinks)
+
+        val autoTimeEnabled = runCatching {
+            Settings.Global.getInt(resolver, Settings.Global.AUTO_TIME, 1) == 1
+        }.getOrDefault(true)
+
+        val notificationEnabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
+        val notificationPermissionGranted = notificationEnabled && (
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            )
+
+        val powerSaveMode = powerManager?.isPowerSaveMode == true
+        val backgroundDataRestricted = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+            connectivity?.restrictBackgroundStatus == ConnectivityManager.RESTRICT_BACKGROUND_STATUS_ENABLED
+
+        return mapOf(
+            "vpnPermissionGranted" to vpnPermissionGranted,
+            "vpnActive" to vpnActive,
+            "hasNetwork" to hasNetwork,
+            "networkTransport" to networkTransport,
+            "systemDnsServers" to systemDnsServers,
+            "privateDnsMode" to privateDnsMode,
+            "privateDnsSpecifier" to privateDnsSpecifier,
+            "autoTimeEnabled" to autoTimeEnabled,
+            "notificationPermissionGranted" to notificationPermissionGranted,
+            "powerSaveMode" to powerSaveMode,
+            "backgroundDataRestricted" to backgroundDataRestricted,
+            "androidVersion" to Build.VERSION.RELEASE.orEmpty(),
+            "sdkInt" to Build.VERSION.SDK_INT,
+            "manufacturer" to Build.MANUFACTURER.orEmpty(),
+        )
+    }
+
+    private fun pickPhysicalNetwork(
+        connectivity: ConnectivityManager?,
+        activeNetwork: Network?,
+        allNetworks: List<Network>,
+    ): Network? {
+        if (connectivity == null) return null
+        val candidates = buildList {
+            if (activeNetwork != null) add(activeNetwork)
+            addAll(allNetworks)
+        }.distinct().filter { network ->
+            val caps = connectivity.getNetworkCapabilities(network) ?: return@filter false
+            caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                !caps.hasTransport(NetworkCapabilities.TRANSPORT_VPN)
+        }
+        return candidates.minByOrNull { network ->
+            val caps = connectivity.getNetworkCapabilities(network)
+            when {
+                caps == null -> 100
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> 0
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> 1
+                caps.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> 2
+                else -> 10
+            }
+        }
+    }
+
+    private fun transportName(capabilities: NetworkCapabilities): String = when {
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> "wifi"
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> "cellular"
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> "ethernet"
+        else -> "other"
+    }
+
+    private fun readPrivateDns(
+        resolver: ContentResolver,
+        linkProperties: LinkProperties?,
+    ): Pair<String, String?> {
+        val globalMode = runCatching {
+            Settings.Global.getString(resolver, "private_dns_mode")
+        }.getOrNull()
+        val globalSpecifier = runCatching {
+            Settings.Global.getString(resolver, "private_dns_specifier")
+        }.getOrNull()?.takeIf { it.isNotBlank() }
+
+        var linkHost: String? = null
+        var linkPrivateDnsActive = false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && linkProperties != null) {
+            linkPrivateDnsActive = linkProperties.isPrivateDnsActive
+            linkHost = linkProperties.privateDnsServerName?.takeIf { it.isNotBlank() }
+        }
+
+        val specifier = linkHost ?: globalSpecifier
+        val mode = when {
+            globalMode == "hostname" || !linkHost.isNullOrBlank() -> "hostname"
+            globalMode == "off" -> "off"
+            globalMode == "opportunistic" || linkPrivateDnsActive -> "opportunistic"
+            else -> "unknown"
+        }
+        return mode to specifier
     }
 
     @Suppress("DEPRECATION")
