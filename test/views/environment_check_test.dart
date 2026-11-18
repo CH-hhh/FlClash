@@ -191,6 +191,14 @@ void main() {
       await tester.pumpAndSettle();
 
       Future<void> tapCentered(Finder finder) async {
+        if (finder.evaluate().isEmpty) {
+          await tester.scrollUntilVisible(
+            finder,
+            200,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.pumpAndSettle();
+        }
         await Scrollable.ensureVisible(
           tester.element(finder),
           alignment: 0.5,
