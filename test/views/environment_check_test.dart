@@ -159,6 +159,7 @@ void main() {
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
 
+      container.listen(vpnSettingProvider, (_, _) {});
       container.read(vpnSettingProvider.notifier).value = const VpnProps(
         enable: false,
       );
@@ -189,25 +190,26 @@ void main() {
       );
       await tester.pumpAndSettle();
 
+      Future<void> tapCentered(Finder finder) async {
+        await Scrollable.ensureVisible(
+          tester.element(finder),
+          alignment: 0.5,
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
+      }
+
       expect(find.text(l10n.envCheckVpnPermission), findsOneWidget);
       expect(find.text(l10n.envCheckPrivateDns), findsOneWidget);
 
-      await tester.ensureVisible(find.text(l10n.envCheckVpnPermission));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(l10n.envCheckVpnPermission));
-      await tester.pumpAndSettle();
+      await tapCentered(find.text(l10n.envCheckVpnPermission));
       expect(prepared, isTrue);
 
-      await tester.ensureVisible(find.text(l10n.envCheckPrivateDns));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(l10n.envCheckPrivateDns));
-      await tester.pumpAndSettle();
+      await tapCentered(find.text(l10n.envCheckPrivateDns));
       expect(openedTarget, AndroidSettingsTarget.network);
 
-      await tester.ensureVisible(find.text(l10n.envCheckVpnMode));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(l10n.envCheckVpnMode));
-      await tester.pumpAndSettle();
+      await tapCentered(find.text(l10n.envCheckVpnMode));
       expect(container.read(vpnSettingProvider).enable, isTrue);
     });
   });
