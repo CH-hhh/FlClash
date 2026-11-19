@@ -4036,7 +4036,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get envCheckUnavailable =>
-      'No se pudo leer la información del entorno de Android.';
+      'No se pudo leer la información del entorno del sistema, vuelve a intentarlo.';
 
   @override
   String get envCheckVpnPermission => 'Permiso de VPN';
@@ -4270,7 +4270,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get envCheckStepRecheckEnv =>
-      'Volviendo a comprobar el entorno del dispositivo';
+      'Volver a verificar el entorno del sistema';
 
   @override
   String envCheckRecoveryStepProgress(Object done, Object total) {
@@ -4283,4 +4283,61 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get delayTestConcurrencyDesc =>
       'Controla las conexiones paralelas y el ritmo de los lotes para reducir la carga en enrutadores y CPE débiles';
+
+  @override
+  String get envCheckHelperService => 'Servicio auxiliar privilegiado (Helper)';
+
+  @override
+  String get envCheckHelperReady =>
+      'El servicio Helper se está ejecutando; listo para el modo TUN';
+
+  @override
+  String get envCheckHelperNotReady =>
+      'El servicio Helper no está listo (necesario para el modo TUN). Haz clic para instalar';
+
+  @override
+  String get envCheckHelperNotReadyTun =>
+      'El modo TUN está activado, pero el servicio Helper no está listo. Haz clic para instalar y activar';
+
+  @override
+  String get envCheckHelperManifestMissing =>
+      'El manifiesto del núcleo no es válido; Helper no disponible. Reinstala FlClash';
+
+  @override
+  String envCheckSystemProxyOk(Object port) {
+    return 'Activado · Escuchando en 127.0.0.1:$port';
+  }
+
+  @override
+  String get envCheckSystemProxyOff => 'El proxy del sistema está desactivado';
+
+  @override
+  String get envCheckTakeoverMode => 'Modo de captura de tráfico';
+
+  @override
+  String envCheckTakeoverModeOk(Object modes) {
+    return 'Captura de tráfico activa: $modes';
+  }
+
+  @override
+  String get envCheckTakeoverModeNone =>
+      'Ni el proxy del sistema ni el modo TUN están activados; el tráfico no se enrutará. Haz clic para activar';
+
+  @override
+  String get envCheckLoopbackDesc =>
+      'Inicia la herramienta de exención de loopback para aplicaciones de Microsoft Store';
+
+  @override
+  String get envCheckLoopbackNotAvailable =>
+      'Herramienta EnableLoopback.exe no encontrada';
+
+  @override
+  String envCheckNetworkDesktopOk(Object interfaces) {
+    return 'Conectado · Interfaces: $interfaces';
+  }
+
+  @override
+  String envCheckDelayTimeoutAndConcurrency(int ms, int concurrency) {
+    return 'Tiempo límite $ms ms · Concurrencia de prueba: $concurrency hilos';
+  }
 }

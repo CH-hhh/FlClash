@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:fl_clash/common/common.dart';
+import 'package:fl_clash/core/desktop/helper_client.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
@@ -14,6 +15,26 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/test_app.dart';
 import '../helpers/test_profiles.dart';
+
+DesktopEnvironmentInfo _healthyDesktopInfo({
+  String osName = 'windows',
+  String osVersion = '10.0.22631',
+  bool hasNetwork = true,
+  List<String> networkInterfaces = const ['Ethernet', 'Wi-Fi'],
+  bool dnsResolvable = true,
+  HelperReadiness? helperReadiness = HelperReadiness.ready,
+  bool isLoopbackToolAvailable = true,
+}) {
+  return DesktopEnvironmentInfo(
+    osName: osName,
+    osVersion: osVersion,
+    hasNetwork: hasNetwork,
+    networkInterfaces: networkInterfaces,
+    dnsResolvable: dnsResolvable,
+    helperReadiness: helperReadiness,
+    isLoopbackToolAvailable: isLoopbackToolAvailable,
+  );
+}
 
 AndroidEnvironmentInfo _healthyInfo({
   bool vpnPermissionGranted = true,
@@ -135,6 +156,98 @@ void main() {
 
       expect(report.errorCount, 0);
       expect(report.warningCount, 0);
+    });
+  });
+
+  group('evaluateDesktopEnvironment', () {
+    test('reports all OK for a healthy Desktop environment', () {
+      final report = evaluateDesktopEnvironment(
+        localizations: l10n,
+        info: _healthyDesktopInfo(),
+        vpnProps: const VpnProps(enable: false),
+        networkSetting: const NetworkProps(systemProxy: true),
+        clashConfig: const PatchClashConfig(),
+        delayTestTimeout: 5000,
+        delayTestConcurrency: 16,
+        currentProfile: sampleProfile,
+        coreStatus: CoreStatus.connected,
+        isFlClashRunning: false,
+      );
+
+      expect(report.errorCount, 0);
+      expect(report.warningCount, 0);
+      expect(report.systemItems, hasLength(3));
+      expect(report.appItems, hasLength(6));
+    });
+
+    test('flags critical desktop network, helper, and proxy issues', () {
+      final report = evaluateDesktopEnvironment(
+        localizations: l10n,
+        info: _healthyDesktopInfo(
+          hasNetwork: false,
+          dnsResolvable: false,
+          helperReadiness: HelperReadiness.notReady,
+          isLoopbackToolAvailable: false,
+        ),
+        vpnProps: const VpnProps(enable: true),
+        networkSetting: const NetworkProps(systemProxy: false),
+        clashConfig: const PatchClashConfig(
+          dns: Dns(enable: false),
+          dnsOverrideKeys: {DnsOverrideKey.enable},
+        ),
+        delayTestTimeout: 1000,
+        delayTestConcurrency: 5,
+        currentProfile: null,
+        coreStatus: CoreStatus.disconnected,
+        isFlClashRunning: true,
+      );
+
+      expect(report.errorCount, 4);
+      expect(report.warningCount, 1);
+    });
+
+    test('reports error when Helper manifest is missing', () {
+      final report = evaluateDesktopEnvironment(
+        localizations: l10n,
+        info: _healthyDesktopInfo(
+          helperReadiness: HelperReadiness.manifestMissing,
+        ),
+        vpnProps: const VpnProps(enable: false),
+        networkSetting: const NetworkProps(systemProxy: true),
+        clashConfig: const PatchClashConfig(),
+        delayTestTimeout: 5000,
+        delayTestConcurrency: 16,
+        currentProfile: sampleProfile,
+        coreStatus: CoreStatus.connected,
+        isFlClashRunning: false,
+      );
+
+      expect(report.errorCount, 1);
+      final helperItem = report.systemItems.firstWhere(
+        (item) => item.title == l10n.envCheckHelperService,
+      );
+      expect(helperItem.severity, EnvironmentCheckSeverity.error);
+    });
+
+    test('flags warning when neither system proxy nor TUN is enabled', () {
+      final report = evaluateDesktopEnvironment(
+        localizations: l10n,
+        info: _healthyDesktopInfo(),
+        vpnProps: const VpnProps(enable: false),
+        networkSetting: const NetworkProps(systemProxy: false),
+        clashConfig: const PatchClashConfig(),
+        delayTestTimeout: 5000,
+        delayTestConcurrency: 16,
+        currentProfile: sampleProfile,
+        coreStatus: CoreStatus.connected,
+        isFlClashRunning: false,
+      );
+
+      expect(report.warningCount, 2);
+      final takeoverItem = report.appItems.firstWhere(
+        (item) => item.title == l10n.envCheckTakeoverMode,
+      );
+      expect(takeoverItem.severity, EnvironmentCheckSeverity.warning);
     });
   });
 
@@ -317,6 +430,75 @@ void main() {
         RecoveryStepId.initGeo,
         RecoveryStepId.restartCore,
       ]);
+    });
+
+    testWidgets('renders desktop checks and handles helper and loopback fixes', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(420, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      container.listen(vpnSettingProvider, (_, _) {});
+      container.read(vpnSettingProvider.notifier).value = const VpnProps(
+        enable: false,
+      );
+      container.listen(networkSettingProvider, (_, _) {});
+      container.read(networkSettingProvider.notifier).value =
+          const NetworkProps(systemProxy: false);
+
+      var helperInstalled = false;
+      var loopbackLaunched = false;
+
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: TestApp(
+            child: EnvironmentCheckView(
+              desktopEnvironmentLoader: () async => _healthyDesktopInfo(
+                helperReadiness: HelperReadiness.notReady,
+                isLoopbackToolAvailable: true,
+              ),
+              onInstallHelper: () async {
+                helperInstalled = true;
+                return true;
+              },
+              onLaunchLoopback: () async {
+                loopbackLaunched = true;
+              },
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      Future<void> tapCentered(Finder finder) async {
+        if (finder.evaluate().isEmpty) {
+          await tester.scrollUntilVisible(
+            finder,
+            200,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.pumpAndSettle();
+        }
+        await Scrollable.ensureVisible(tester.element(finder), alignment: 0.5);
+        await tester.pumpAndSettle();
+        await tester.tap(finder);
+        await tester.pumpAndSettle();
+      }
+
+      expect(find.text(l10n.envCheckHelperService), findsOneWidget);
+      expect(find.text(l10n.loopback), findsOneWidget);
+
+      await tapCentered(find.text(l10n.envCheckHelperService));
+      expect(helperInstalled, isTrue);
+
+      await tapCentered(find.text(l10n.loopback));
+      expect(loopbackLaunched, isTrue);
+
+      await tapCentered(find.text(l10n.envCheckTakeoverMode));
+      expect(container.read(networkSettingProvider).systemProxy, isTrue);
     });
   });
 }

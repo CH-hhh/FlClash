@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/core/controller.dart';
+import 'package:fl_clash/core/desktop/helper_client.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
@@ -15,6 +17,7 @@ import 'package:fl_clash/views/config/network.dart';
 import 'package:fl_clash/widgets/widgets.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
 
 const _minRecommendedDelayTimeout = 3000;
 
@@ -77,6 +80,9 @@ enum EnvironmentCheckAction {
   openBatterySaverSettings,
   openDataSaverSettings,
   enableVpnMode,
+  enableSystemProxy,
+  installHelperService,
+  launchLoopbackTool,
   openNetworkConfig,
   openProfiles,
   openDnsConfig,
@@ -407,19 +413,348 @@ EnvironmentCheckReport evaluateAndroidEnvironment({
   return EnvironmentCheckReport(systemItems: systemItems, appItems: appItems);
 }
 
+@immutable
+class DesktopEnvironmentInfo {
+  const DesktopEnvironmentInfo({
+    required this.osName,
+    required this.osVersion,
+    required this.hasNetwork,
+    required this.networkInterfaces,
+    this.dnsResolvable = true,
+    this.helperReadiness,
+    this.isLoopbackToolAvailable = false,
+  });
+
+  final String osName;
+  final String osVersion;
+  final bool hasNetwork;
+  final List<String> networkInterfaces;
+  final bool dnsResolvable;
+  final HelperReadiness? helperReadiness;
+  final bool isLoopbackToolAvailable;
+}
+
+Future<DesktopEnvironmentInfo?> defaultDesktopEnvironmentLoader() async {
+  try {
+    List<String> interfaces = const [];
+    var hasNetwork = false;
+    try {
+      final ifaces = await NetworkInterface.list(includeLoopback: false);
+      hasNetwork = ifaces.isNotEmpty;
+      interfaces = ifaces.map((i) => i.name).toSet().toList();
+    } catch (_) {}
+
+    var dnsResolvable = false;
+    if (hasNetwork) {
+      try {
+        final lookup = await InternetAddress.lookup('dns.alidns.com')
+            .timeout(const Duration(milliseconds: 1500));
+        dnsResolvable = lookup.isNotEmpty;
+      } catch (_) {
+        try {
+          final lookup = await InternetAddress.lookup('one.one.one.one')
+              .timeout(const Duration(milliseconds: 1500));
+          dnsResolvable = lookup.isNotEmpty;
+        } catch (_) {
+          dnsResolvable = false;
+        }
+      }
+    }
+
+    HelperReadiness? readiness;
+    if (system.hasHelperService) {
+      try {
+        readiness = await helperClient.readiness(
+          timeout: const Duration(milliseconds: 1500),
+          logFailure: false,
+        );
+      } catch (_) {
+        readiness = HelperReadiness.notReady;
+      }
+    }
+
+    var isLoopbackAvailable = false;
+    if (system.isWindows) {
+      try {
+        final toolFile = File(
+          p.join(p.dirname(Platform.resolvedExecutable), 'EnableLoopback.exe'),
+        );
+        isLoopbackAvailable = toolFile.existsSync();
+      } catch (_) {}
+    }
+
+    return DesktopEnvironmentInfo(
+      osName: Platform.operatingSystem,
+      osVersion: Platform.operatingSystemVersion,
+      hasNetwork: hasNetwork,
+      networkInterfaces: interfaces,
+      dnsResolvable: dnsResolvable,
+      helperReadiness: readiness,
+      isLoopbackToolAvailable: isLoopbackAvailable,
+    );
+  } catch (error) {
+    commonPrint.log(
+      'Failed to probe desktop environment: $error',
+      logLevel: LogLevel.warning,
+    );
+    return null;
+  }
+}
+
+EnvironmentCheckReport evaluateDesktopEnvironment({
+  required AppLocalizations localizations,
+  required DesktopEnvironmentInfo? info,
+  required VpnProps vpnProps,
+  required NetworkProps networkSetting,
+  required PatchClashConfig clashConfig,
+  required int delayTestTimeout,
+  required int delayTestConcurrency,
+  required Profile? currentProfile,
+  required CoreStatus coreStatus,
+  required bool isFlClashRunning,
+}) {
+  final systemItems = <EnvironmentCheckItem>[];
+  if (info != null) {
+    if (!info.hasNetwork) {
+      systemItems.add(
+        EnvironmentCheckItem(
+          title: localizations.envCheckNetworkDns,
+          description: localizations.envCheckNetworkOffline,
+          severity: EnvironmentCheckSeverity.error,
+          action: EnvironmentCheckAction.openNetworkSettings,
+        ),
+      );
+    } else if (!info.dnsResolvable) {
+      systemItems.add(
+        EnvironmentCheckItem(
+          title: localizations.envCheckNetworkDns,
+          description: localizations.envCheckNetworkNoDns,
+          severity: EnvironmentCheckSeverity.warning,
+          action: EnvironmentCheckAction.openNetworkSettings,
+        ),
+      );
+    } else {
+      final ifacePreview = info.networkInterfaces.isEmpty
+          ? localizations.envCheckTransportOther
+          : info.networkInterfaces.take(2).join(', ');
+      systemItems.add(
+        EnvironmentCheckItem(
+          title: localizations.envCheckNetworkDns,
+          description: localizations.envCheckNetworkDesktopOk(ifacePreview),
+          severity: EnvironmentCheckSeverity.ok,
+        ),
+      );
+    }
+
+    if (system.hasHelperService || info.helperReadiness != null) {
+      final readiness = info.helperReadiness ?? HelperReadiness.notReady;
+      switch (readiness) {
+        case HelperReadiness.ready:
+          systemItems.add(
+            EnvironmentCheckItem(
+              title: localizations.envCheckHelperService,
+              description: localizations.envCheckHelperReady,
+              severity: EnvironmentCheckSeverity.ok,
+            ),
+          );
+        case HelperReadiness.manifestMissing:
+          systemItems.add(
+            EnvironmentCheckItem(
+              title: localizations.envCheckHelperService,
+              description: localizations.envCheckHelperManifestMissing,
+              severity: EnvironmentCheckSeverity.error,
+            ),
+          );
+        case HelperReadiness.notReady:
+          final tunEnabled = vpnProps.enable;
+          systemItems.add(
+            EnvironmentCheckItem(
+              title: localizations.envCheckHelperService,
+              description: tunEnabled
+                  ? localizations.envCheckHelperNotReadyTun
+                  : localizations.envCheckHelperNotReady,
+              severity: tunEnabled
+                  ? EnvironmentCheckSeverity.error
+                  : EnvironmentCheckSeverity.warning,
+              action: EnvironmentCheckAction.installHelperService,
+            ),
+          );
+      }
+    }
+
+    if (system.isWindows || info.isLoopbackToolAvailable) {
+      systemItems.add(
+        EnvironmentCheckItem(
+          title: localizations.loopback,
+          description: info.isLoopbackToolAvailable
+              ? localizations.envCheckLoopbackDesc
+              : localizations.envCheckLoopbackNotAvailable,
+          severity: EnvironmentCheckSeverity.ok,
+          action: info.isLoopbackToolAvailable
+              ? EnvironmentCheckAction.launchLoopbackTool
+              : EnvironmentCheckAction.none,
+        ),
+      );
+    }
+  }
+
+  final appItems = <EnvironmentCheckItem>[];
+
+  final hasTakeover = networkSetting.systemProxy || vpnProps.enable;
+  if (!hasTakeover) {
+    appItems.add(
+      EnvironmentCheckItem(
+        title: localizations.envCheckTakeoverMode,
+        description: localizations.envCheckTakeoverModeNone,
+        severity: isFlClashRunning
+            ? EnvironmentCheckSeverity.error
+            : EnvironmentCheckSeverity.warning,
+        action: EnvironmentCheckAction.enableSystemProxy,
+      ),
+    );
+  } else {
+    final activeModes = [
+      if (networkSetting.systemProxy) localizations.systemProxy,
+      if (vpnProps.enable) 'TUN',
+    ].join(' + ');
+    appItems.add(
+      EnvironmentCheckItem(
+        title: localizations.envCheckTakeoverMode,
+        description: localizations.envCheckTakeoverModeOk(activeModes),
+        severity: EnvironmentCheckSeverity.ok,
+        action: EnvironmentCheckAction.openNetworkConfig,
+      ),
+    );
+  }
+
+  final proxyPort = clashConfig.mixedPort;
+  appItems.add(
+    EnvironmentCheckItem(
+      title: localizations.systemProxy,
+      description: networkSetting.systemProxy
+          ? localizations.envCheckSystemProxyOk(proxyPort)
+          : localizations.envCheckSystemProxyOff,
+      severity: networkSetting.systemProxy
+          ? EnvironmentCheckSeverity.ok
+          : (vpnProps.enable
+              ? EnvironmentCheckSeverity.ok
+              : EnvironmentCheckSeverity.warning),
+      action: networkSetting.systemProxy
+          ? EnvironmentCheckAction.openNetworkConfig
+          : EnvironmentCheckAction.enableSystemProxy,
+    ),
+  );
+
+  if (currentProfile == null) {
+    appItems.add(
+      EnvironmentCheckItem(
+        title: localizations.envCheckProfileCore,
+        description: localizations.envCheckProfileMissing,
+        severity: EnvironmentCheckSeverity.error,
+        action: EnvironmentCheckAction.openProfiles,
+      ),
+    );
+  } else if (coreStatus != CoreStatus.connected) {
+    appItems.add(
+      EnvironmentCheckItem(
+        title: localizations.envCheckProfileCore,
+        description: localizations.envCheckCoreDisconnected(
+          currentProfile.realLabel,
+        ),
+        severity: EnvironmentCheckSeverity.warning,
+      ),
+    );
+  } else {
+    appItems.add(
+      EnvironmentCheckItem(
+        title: localizations.envCheckProfileCore,
+        description: localizations.envCheckProfileCoreOk(
+          currentProfile.realLabel,
+        ),
+        severity: EnvironmentCheckSeverity.ok,
+      ),
+    );
+  }
+
+  final dnsOverrideDisabled =
+      clashConfig.dnsOverrideKeys.contains(DnsOverrideKey.enable) &&
+      !clashConfig.dns.enable;
+  final dnsOverrideEmptyNameserver =
+      clashConfig.dnsOverrideKeys.contains(DnsOverrideKey.nameserver) &&
+      clashConfig.dns.nameserver.isEmpty;
+  appItems.add(
+    EnvironmentCheckItem(
+      title: localizations.envCheckDnsConfig,
+      description: dnsOverrideDisabled
+          ? localizations.envCheckDnsDisabled
+          : dnsOverrideEmptyNameserver
+          ? localizations.envCheckDnsNoNameserver
+          : localizations.envCheckDnsOk,
+      severity: dnsOverrideDisabled || dnsOverrideEmptyNameserver
+          ? EnvironmentCheckSeverity.error
+          : EnvironmentCheckSeverity.ok,
+      action: EnvironmentCheckAction.openDnsConfig,
+    ),
+  );
+
+  final ipv6Enabled =
+      vpnProps.ipv6 ||
+      (clashConfig.generalOverrideKeys.contains(GeneralOverrideKey.ipv6) &&
+          clashConfig.ipv6) ||
+      (clashConfig.dnsOverrideKeys.contains(DnsOverrideKey.ipv6) &&
+          clashConfig.dns.ipv6);
+  appItems.add(
+    EnvironmentCheckItem(
+      title: localizations.envCheckIpv6,
+      description: ipv6Enabled
+          ? localizations.envCheckIpv6Enabled
+          : localizations.envCheckIpv6Ok,
+      severity: ipv6Enabled
+          ? EnvironmentCheckSeverity.warning
+          : EnvironmentCheckSeverity.ok,
+      action: EnvironmentCheckAction.openNetworkConfig,
+    ),
+  );
+
+  final lowTimeout = delayTestTimeout < _minRecommendedDelayTimeout;
+  appItems.add(
+    EnvironmentCheckItem(
+      title: localizations.delayTestTimeout,
+      description: lowTimeout
+          ? localizations.envCheckDelayTimeoutLow(delayTestTimeout)
+          : localizations.envCheckDelayTimeoutAndConcurrency(
+              delayTestTimeout,
+              delayTestConcurrency,
+            ),
+      severity: lowTimeout
+          ? EnvironmentCheckSeverity.warning
+          : EnvironmentCheckSeverity.ok,
+      action: EnvironmentCheckAction.openGeneralConfig,
+    ),
+  );
+
+  return EnvironmentCheckReport(systemItems: systemItems, appItems: appItems);
+}
+
 class EnvironmentCheckView extends ConsumerStatefulWidget {
   const EnvironmentCheckView({
     super.key,
     this.environmentLoader,
+    this.desktopEnvironmentLoader,
     this.onPrepareVpn,
     this.onOpenSettings,
     this.onRunRecoveryStep,
+    this.onInstallHelper,
+    this.onLaunchLoopback,
   });
 
   final Future<AndroidEnvironmentInfo?> Function()? environmentLoader;
+  final Future<DesktopEnvironmentInfo?> Function()? desktopEnvironmentLoader;
   final Future<bool> Function()? onPrepareVpn;
   final Future<bool> Function(AndroidSettingsTarget target)? onOpenSettings;
   final Future<void> Function(RecoveryStepId step)? onRunRecoveryStep;
+  final Future<bool> Function()? onInstallHelper;
+  final Future<void> Function()? onLaunchLoopback;
 
   @override
   ConsumerState<EnvironmentCheckView> createState() =>
@@ -428,7 +763,8 @@ class EnvironmentCheckView extends ConsumerStatefulWidget {
 
 class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
   late final AppLifecycleListener _lifecycle;
-  AndroidEnvironmentInfo? _info;
+  AndroidEnvironmentInfo? _androidInfo;
+  DesktopEnvironmentInfo? _desktopInfo;
   var _loading = true;
   var _refreshing = false;
   var _recovering = false;
@@ -457,15 +793,36 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
       setState(() {});
     }
     try {
-      final loader = widget.environmentLoader ?? app?.getEnvironmentInfo;
-      final result = loader == null ? null : await loader();
-      if (!mounted) {
-        return;
+      if (widget.environmentLoader != null) {
+        final result = await widget.environmentLoader!();
+        if (!mounted) return;
+        setState(() {
+          _androidInfo = result;
+          _loading = false;
+        });
+      } else if (widget.desktopEnvironmentLoader != null) {
+        final result = await widget.desktopEnvironmentLoader!();
+        if (!mounted) return;
+        setState(() {
+          _desktopInfo = result;
+          _loading = false;
+        });
+      } else if (system.isAndroid) {
+        final loader = app?.getEnvironmentInfo;
+        final result = loader == null ? null : await loader();
+        if (!mounted) return;
+        setState(() {
+          _androidInfo = result;
+          _loading = false;
+        });
+      } else {
+        final result = await defaultDesktopEnvironmentLoader();
+        if (!mounted) return;
+        setState(() {
+          _desktopInfo = result;
+          _loading = false;
+        });
       }
-      setState(() {
-        _info = result;
-        _loading = false;
-      });
     } finally {
       _refreshing = false;
       if (mounted) {
@@ -512,6 +869,9 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
         await _bestEffort(core.clearDnsCache);
         await _bestEffort(core.reportNetworkChange);
         await _bestEffort(core.forceGc);
+        if (system.isWindows) {
+          await _bestEffort(() => Process.run('ipconfig', ['/flushdns']));
+        }
       case RecoveryStepId.restartService:
         if (ref.read(isStartProvider)) {
           await setupAction.restartVpn();
@@ -644,6 +1004,24 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
         ref
             .read(vpnSettingProvider.notifier)
             .update((state) => state.copyWith(enable: true));
+      case EnvironmentCheckAction.enableSystemProxy:
+        ref
+            .read(networkSettingProvider.notifier)
+            .update((state) => state.copyWith(systemProxy: true));
+        await _refresh();
+      case EnvironmentCheckAction.installHelperService:
+        final installer = widget.onInstallHelper ?? system.authorizeCore;
+        await installer();
+        await _refresh();
+      case EnvironmentCheckAction.launchLoopbackTool:
+        if (widget.onLaunchLoopback != null) {
+          await widget.onLaunchLoopback!();
+        } else if (system.isWindows) {
+          windows?.runas(
+            '"${p.join(p.dirname(Platform.resolvedExecutable), "EnableLoopback.exe")}"',
+            '',
+          );
+        }
       case EnvironmentCheckAction.openProfiles:
         ref.read(currentPageLabelProvider.notifier).toProfiles();
         if (mounted) {
@@ -747,10 +1125,12 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
   Widget build(BuildContext context) {
     final appLocalizations = context.appLocalizations;
     final vpnProps = ref.watch(vpnSettingProvider);
+    final networkSetting = ref.watch(networkSettingProvider);
     final clashConfig = ref.watch(patchClashConfigProvider);
     final delayTestTimeout = ref.watch(
       appSettingProvider.select((state) => state.delayTestTimeout),
     );
+    final delayTestConcurrency = ref.watch(delayTestConcurrencyProvider);
     final currentProfile = ref.watch(currentProfileProvider);
     final coreStatus = ref.watch(coreStatusProvider);
     final isFlClashRunning = ref.watch(
@@ -758,17 +1138,33 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
     );
     final batteryIgnored = ref.watch(batteryOptimizationIgnoredProvider).value;
 
-    final report = evaluateAndroidEnvironment(
-      localizations: appLocalizations,
-      info: _info,
-      batteryOptimizationIgnored: batteryIgnored,
-      vpnProps: vpnProps,
-      clashConfig: clashConfig,
-      delayTestTimeout: delayTestTimeout,
-      currentProfile: currentProfile,
-      coreStatus: coreStatus,
-      isFlClashRunning: isFlClashRunning,
-    );
+    final isAndroidTarget =
+        system.isAndroid || (_androidInfo != null && _desktopInfo == null);
+
+    final report = isAndroidTarget
+        ? evaluateAndroidEnvironment(
+            localizations: appLocalizations,
+            info: _androidInfo,
+            batteryOptimizationIgnored: batteryIgnored,
+            vpnProps: vpnProps,
+            clashConfig: clashConfig,
+            delayTestTimeout: delayTestTimeout,
+            currentProfile: currentProfile,
+            coreStatus: coreStatus,
+            isFlClashRunning: isFlClashRunning,
+          )
+        : evaluateDesktopEnvironment(
+            localizations: appLocalizations,
+            info: _desktopInfo,
+            vpnProps: vpnProps,
+            networkSetting: networkSetting,
+            clashConfig: clashConfig,
+            delayTestTimeout: delayTestTimeout,
+            delayTestConcurrency: delayTestConcurrency,
+            currentProfile: currentProfile,
+            coreStatus: coreStatus,
+            isFlClashRunning: isFlClashRunning,
+          );
 
     return Scaffold(
       title: appLocalizations.environmentCheck,
@@ -791,7 +1187,8 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
           children: [
             _EnvironmentSummaryCard(
               report: report,
-              info: _info,
+              androidInfo: _androidInfo,
+              desktopInfo: _desktopInfo,
               refreshing: _refreshing || _recovering,
               onRefresh: _refresh,
             ),
@@ -892,13 +1289,15 @@ class _EnvironmentCheckViewState extends ConsumerState<EnvironmentCheckView> {
 class _EnvironmentSummaryCard extends StatelessWidget {
   const _EnvironmentSummaryCard({
     required this.report,
-    required this.info,
+    required this.androidInfo,
+    required this.desktopInfo,
     required this.refreshing,
     required this.onRefresh,
   });
 
   final EnvironmentCheckReport report;
-  final AndroidEnvironmentInfo? info;
+  final AndroidEnvironmentInfo? androidInfo;
+  final DesktopEnvironmentInfo? desktopInfo;
   final bool refreshing;
   final VoidCallback onRefresh;
 
@@ -927,10 +1326,14 @@ class _EnvironmentSummaryCard extends StatelessWidget {
           );
 
     final deviceParts = [
-      if (info case final env? when env.androidVersion.isNotEmpty)
+      if (androidInfo case final env? when env.androidVersion.isNotEmpty) ...[
         'Android ${env.androidVersion} (API ${env.sdkInt})',
-      if (info case final env? when env.manufacturer.isNotEmpty)
-        env.manufacturer,
+        if (env.manufacturer.isNotEmpty) env.manufacturer,
+      ] else if (desktopInfo case final env?) ...[
+        '${env.osName} (${env.osVersion})',
+        if (env.networkInterfaces.isNotEmpty)
+          env.networkInterfaces.take(2).join(', '),
+      ],
     ];
 
     final cardLevel = context.raisedSurfaceLevel;

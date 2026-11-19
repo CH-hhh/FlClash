@@ -3814,7 +3814,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get envCheckUnavailable => 'Android のシステム環境情報を取得できませんでした。';
+  String get envCheckUnavailable => 'システム環境情報を取得できませんでした。再試行してください。';
 
   @override
   String get envCheckVpnPermission => 'VPN 権限';
@@ -4033,7 +4033,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get envCheckStepRestartCore => 'コアを再起動して再初期化';
 
   @override
-  String get envCheckStepRecheckEnv => '端末の動作環境を再チェック';
+  String get envCheckStepRecheckEnv => 'システム環境を再確認';
 
   @override
   String envCheckRecoveryStepProgress(Object done, Object total) {
@@ -4046,4 +4046,59 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get delayTestConcurrencyDesc =>
       '遅延テストの並行接続数とバッチ間隔を制御し、低性能ルーターやCPEの負荷を軽減します';
+
+  @override
+  String get envCheckHelperService => '特権 Helper サービス';
+
+  @override
+  String get envCheckHelperReady => 'Helper サービスは実行中です。TUN モードに対応可能';
+
+  @override
+  String get envCheckHelperNotReady =>
+      'Helper サービスが準備できていません（TUN モードに必要）。クリックしてインストール';
+
+  @override
+  String get envCheckHelperNotReadyTun =>
+      'TUN モードは有効ですが、Helper サービスが準備できていません。クリックしてインストール・起動';
+
+  @override
+  String get envCheckHelperManifestMissing =>
+      'コアのマニフェストが見つからないか破損しています。FlClash を再インストールしてください';
+
+  @override
+  String envCheckSystemProxyOk(Object port) {
+    return '有効 · 127.0.0.1:$port でリッスン中';
+  }
+
+  @override
+  String get envCheckSystemProxyOff => 'システムプロキシは無効です';
+
+  @override
+  String get envCheckTakeoverMode => 'トラフィック乗っ取りモード';
+
+  @override
+  String envCheckTakeoverModeOk(Object modes) {
+    return 'トラフィック乗っ取り有効: $modes';
+  }
+
+  @override
+  String get envCheckTakeoverModeNone =>
+      'システムプロキシも TUN モードも有効になっていません。クリックしてシステムプロキシを有効化';
+
+  @override
+  String get envCheckLoopbackDesc =>
+      'Microsoft Store アプリのプロキシ利用を許可する UWP ループバック解除ツールを起動';
+
+  @override
+  String get envCheckLoopbackNotAvailable => 'EnableLoopback.exe ツールが見つかりません';
+
+  @override
+  String envCheckNetworkDesktopOk(Object interfaces) {
+    return 'ネットワーク接続済み · インターフェース: $interfaces';
+  }
+
+  @override
+  String envCheckDelayTimeoutAndConcurrency(int ms, int concurrency) {
+    return 'タイムアウト $ms ms · 測定並行数: $concurrency スレッド';
+  }
 }

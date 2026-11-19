@@ -3988,7 +3988,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get envCheckUnavailable =>
-      'Не удалось получить сведения об окружении Android.';
+      'Не удалось получить информацию о системе, попробуйте снова.';
 
   @override
   String get envCheckVpnPermission => 'Разрешение VPN';
@@ -4216,8 +4216,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get envCheckStepRestartCore => 'Перезапуск и переинициализация ядра';
 
   @override
-  String get envCheckStepRecheckEnv =>
-      'Повторная проверка окружения устройства';
+  String get envCheckStepRecheckEnv => 'Повторная проверка окружения системы';
 
   @override
   String envCheckRecoveryStepProgress(Object done, Object total) {
@@ -4230,4 +4229,61 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get delayTestConcurrencyDesc =>
       'Управляет параллельными соединениями и паузами между пакетами для снижения нагрузки на слабые роутеры и CPE';
+
+  @override
+  String get envCheckHelperService => 'Привилегированная служба Helper';
+
+  @override
+  String get envCheckHelperReady =>
+      'Служба Helper запущена; готова к режиму TUN';
+
+  @override
+  String get envCheckHelperNotReady =>
+      'Служба Helper не готова (требуется для TUN-режима). Нажмите для установки';
+
+  @override
+  String get envCheckHelperNotReadyTun =>
+      'Режим TUN включен, но служба Helper не готова. Нажмите для установки и запуска';
+
+  @override
+  String get envCheckHelperManifestMissing =>
+      'Манифест ядра поврежден или отсутствует. Переустановите FlClash';
+
+  @override
+  String envCheckSystemProxyOk(Object port) {
+    return 'Включен · Прослушивание 127.0.0.1:$port';
+  }
+
+  @override
+  String get envCheckSystemProxyOff => 'Системный прокси отключен';
+
+  @override
+  String get envCheckTakeoverMode => 'Режим перехвата трафика';
+
+  @override
+  String envCheckTakeoverModeOk(Object modes) {
+    return 'Перехват трафика активен: $modes';
+  }
+
+  @override
+  String get envCheckTakeoverModeNone =>
+      'Ни системный прокси, ни режим TUN не включены; трафик не проксируется. Нажмите для включения';
+
+  @override
+  String get envCheckLoopbackDesc =>
+      'Запустить утилиту разблокировки loopback UWP для доступа приложений Microsoft Store';
+
+  @override
+  String get envCheckLoopbackNotAvailable =>
+      'Утилита EnableLoopback.exe не найдена';
+
+  @override
+  String envCheckNetworkDesktopOk(Object interfaces) {
+    return 'Сеть подключена · Интерфейсы: $interfaces';
+  }
+
+  @override
+  String envCheckDelayTimeoutAndConcurrency(int ms, int concurrency) {
+    return 'Таймаут $ms мс · Потоков теста: $concurrency';
+  }
 }

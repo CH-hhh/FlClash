@@ -1263,7 +1263,7 @@
   "envCheckSummaryAllGood": "All checks passed",
   "envCheckSummaryWarnings": "{count} items need attention",
   "envCheckSummaryErrors": "{count} critical issues found",
-  "envCheckUnavailable": "Unable to read Android system environment information.",
+  "envCheckUnavailable": "Unable to read system environment info, please retry.",
   "envCheckVpnPermission": "VPN permission",
   "envCheckVpnPermissionOk": "Granted",
   "envCheckVpnPermissionMissing": "Not granted. Tap to authorize VPN access.",
@@ -1333,7 +1333,7 @@
   "envCheckStepClearState": "Clearing runtime cache & connection records",
   "envCheckStepInitGeo": "Verifying & preparing Geo databases",
   "envCheckStepRestartCore": "Restarting & reinitializing core",
-  "envCheckStepRecheckEnv": "Rechecking device environment",
+  "envCheckStepRecheckEnv": "Re-check system environment",
   "envCheckRecoveryStepProgress": "{done} / {total}",
   "@envCheckRecoveryStepProgress": {
     "placeholders": {
@@ -1342,5 +1342,29 @@
     }
   },
   "delayTestConcurrency": "Delay test concurrency",
-  "delayTestConcurrencyDesc": "Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs"
+  "delayTestConcurrencyDesc": "Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs",
+  "envCheckHelperService": "Privileged Helper Service",
+  "envCheckHelperReady": "Helper service is running; ready for TUN mode",
+  "envCheckHelperNotReady": "Helper service is not ready (required for TUN mode virtual adapter). Click to install",
+  "envCheckHelperNotReadyTun": "TUN mode is enabled, but Helper service is not ready to route adapter traffic. Click to install and start",
+  "envCheckHelperManifestMissing": "Core manifest is missing or invalid; Helper service unavailable. Please reinstall FlClash",
+  "envCheckSystemProxyOk": "Enabled · Listening on 127.0.0.1:{port}",
+  "envCheckSystemProxyOff": "System proxy is off",
+  "envCheckTakeoverMode": "Traffic Takeover",
+  "envCheckTakeoverModeOk": "Active takeover: {modes}",
+  "envCheckTakeoverModeNone": "Neither System Proxy nor TUN mode is enabled; desktop traffic will not be proxied. Click to enable system proxy",
+  "envCheckLoopbackDesc": "Launch the Windows UWP Loopback Exemption tool to let Microsoft Store apps access proxy",
+  "envCheckLoopbackNotAvailable": "EnableLoopback.exe tool not found",
+  "envCheckNetworkDesktopOk": "Connected · Interfaces: {interfaces}",
+  "envCheckDelayTimeoutAndConcurrency": "Timeout {ms} ms · Delay test concurrency: {concurrency} threads (batch paced)",
+  "@envCheckDelayTimeoutAndConcurrency": {
+    "placeholders": {
+      "ms": {
+        "type": "int"
+      },
+      "concurrency": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -3889,7 +3889,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get envCheckUnavailable => 'Android 시스템 환경 정보를 읽을 수 없습니다.';
+  String get envCheckUnavailable => '시스템 환경 정보를 읽을 수 없습니다. 다시 시도해 주세요.';
 
   @override
   String get envCheckVpnPermission => 'VPN 권한';
@@ -4109,7 +4109,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get envCheckStepRestartCore => '코어 재시작 및 다시 초기화';
 
   @override
-  String get envCheckStepRecheckEnv => '기기 환경 다시 검사';
+  String get envCheckStepRecheckEnv => '시스템 환경 재검사';
 
   @override
   String envCheckRecoveryStepProgress(Object done, Object total) {
@@ -4122,4 +4122,59 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get delayTestConcurrencyDesc =>
       '지연 테스트의 병렬 연결 수와 배치 간격을 제어하여 저사양 라우터 및 CPE의 부하를 줄입니다';
+
+  @override
+  String get envCheckHelperService => '권한 승격 도우미 서비스 (Helper)';
+
+  @override
+  String get envCheckHelperReady => 'Helper 서비스가 실행 중입니다. TUN 모드 준비 완료';
+
+  @override
+  String get envCheckHelperNotReady =>
+      'Helper 서비스가 준비되지 않았습니다 (TUN 모드 필요). 클릭하여 설치';
+
+  @override
+  String get envCheckHelperNotReadyTun =>
+      'TUN 모드가 켜져 있으나 Helper 서비스가 준비되지 않았습니다. 클릭하여 설치 및 시작';
+
+  @override
+  String get envCheckHelperManifestMissing =>
+      '코어 매니페스트가 없거나 손상되었습니다. FlClash를 다시 설치하세요';
+
+  @override
+  String envCheckSystemProxyOk(Object port) {
+    return '활성화됨 · 127.0.0.1:$port 수신 대기 중';
+  }
+
+  @override
+  String get envCheckSystemProxyOff => '시스템 프록시가 꺼져 있습니다';
+
+  @override
+  String get envCheckTakeoverMode => '트래픽 인수 모드';
+
+  @override
+  String envCheckTakeoverModeOk(Object modes) {
+    return '트래픽 인수 활성화: $modes';
+  }
+
+  @override
+  String get envCheckTakeoverModeNone =>
+      '시스템 프록시나 TUN 모드가 켜져 있지 않아 트래픽이 프록시를 거치지 않습니다. 클릭하여 켜기';
+
+  @override
+  String get envCheckLoopbackDesc =>
+      'Microsoft Store 앱의 프록시 사용을 허용하기 위해 UWP 루프백 예외 도구 실행';
+
+  @override
+  String get envCheckLoopbackNotAvailable => 'EnableLoopback.exe 도구를 찾을 수 없습니다';
+
+  @override
+  String envCheckNetworkDesktopOk(Object interfaces) {
+    return '네트워크 연결됨 · 인터페이스: $interfaces';
+  }
+
+  @override
+  String envCheckDelayTimeoutAndConcurrency(int ms, int concurrency) {
+    return '타임아웃 $ms ms · 지연 테스트 동시성: $concurrency 스레드';
+  }
 }

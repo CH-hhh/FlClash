@@ -3764,7 +3764,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get envCheckUnavailable => '无法读取手机系统环境信息，请重试。';
+  String get envCheckUnavailable => '无法读取系统环境信息，请重试。';
 
   @override
   String get envCheckVpnPermission => 'VPN 授权状态';
@@ -3977,7 +3977,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get envCheckStepRestartCore => '重启并重新初始化内核';
 
   @override
-  String get envCheckStepRecheckEnv => '重新检测手机运行环境';
+  String get envCheckStepRecheckEnv => '重新检测系统运行环境';
 
   @override
   String envCheckRecoveryStepProgress(Object done, Object total) {
@@ -3989,4 +3989,58 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get delayTestConcurrencyDesc => '控制全部测速时的并行连接数与批次休眠，降低弱路由器与 CPE 设备负载';
+
+  @override
+  String get envCheckHelperService => '提权辅助服务 (Helper)';
+
+  @override
+  String get envCheckHelperReady => 'Helper 服务正常运行，TUN 模式已就绪';
+
+  @override
+  String get envCheckHelperNotReady => 'Helper 服务未就绪（TUN 模式接管虚拟网卡需该服务）。点击安装服务';
+
+  @override
+  String get envCheckHelperNotReadyTun =>
+      'TUN 模式已开启，但 Helper 服务未就绪，无法接管网卡流量。点击安装并启动服务';
+
+  @override
+  String get envCheckHelperManifestMissing =>
+      'Helper 核心清单缺失或损坏，Helper 服务不可用。请重新安装 FlClash';
+
+  @override
+  String envCheckSystemProxyOk(Object port) {
+    return '已开启 · 监听 127.0.0.1:$port';
+  }
+
+  @override
+  String get envCheckSystemProxyOff => '未开启系统代理';
+
+  @override
+  String get envCheckTakeoverMode => '流量接管模式';
+
+  @override
+  String envCheckTakeoverModeOk(Object modes) {
+    return '已开启流量接管（$modes）';
+  }
+
+  @override
+  String get envCheckTakeoverModeNone =>
+      '未开启系统代理或 TUN 模式，电脑应用流量不会经过代理。点击开启系统代理';
+
+  @override
+  String get envCheckLoopbackDesc =>
+      '点击启动 Windows UWP 回环解锁工具，允许应用商店及 Windows 应用使用代理';
+
+  @override
+  String get envCheckLoopbackNotAvailable => '未找到 EnableLoopback.exe 工具';
+
+  @override
+  String envCheckNetworkDesktopOk(Object interfaces) {
+    return '网络已连接 · 网卡: $interfaces';
+  }
+
+  @override
+  String envCheckDelayTimeoutAndConcurrency(int ms, int concurrency) {
+    return '超时阈值 $ms ms · 测速并发 $concurrency 线程（批次安全间隔）';
+  }
 }

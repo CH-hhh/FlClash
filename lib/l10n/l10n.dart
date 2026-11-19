@@ -7005,7 +7005,7 @@ abstract class AppLocalizations {
   /// No description provided for @envCheckUnavailable.
   ///
   /// In en, this message translates to:
-  /// **'Unable to read Android system environment information.'**
+  /// **'Unable to read system environment info, please retry.'**
   String get envCheckUnavailable;
 
   /// No description provided for @envCheckVpnPermission.
@@ -7389,7 +7389,7 @@ abstract class AppLocalizations {
   /// No description provided for @envCheckStepRecheckEnv.
   ///
   /// In en, this message translates to:
-  /// **'Rechecking device environment'**
+  /// **'Re-check system environment'**
   String get envCheckStepRecheckEnv;
 
   /// No description provided for @envCheckRecoveryStepProgress.
@@ -7409,6 +7409,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs'**
   String get delayTestConcurrencyDesc;
+
+  /// No description provided for @envCheckHelperService.
+  ///
+  /// In en, this message translates to:
+  /// **'Privileged Helper Service'**
+  String get envCheckHelperService;
+
+  /// No description provided for @envCheckHelperReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Helper service is running; ready for TUN mode'**
+  String get envCheckHelperReady;
+
+  /// No description provided for @envCheckHelperNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Helper service is not ready (required for TUN mode virtual adapter). Click to install'**
+  String get envCheckHelperNotReady;
+
+  /// No description provided for @envCheckHelperNotReadyTun.
+  ///
+  /// In en, this message translates to:
+  /// **'TUN mode is enabled, but Helper service is not ready to route adapter traffic. Click to install and start'**
+  String get envCheckHelperNotReadyTun;
+
+  /// No description provided for @envCheckHelperManifestMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Core manifest is missing or invalid; Helper service unavailable. Please reinstall FlClash'**
+  String get envCheckHelperManifestMissing;
+
+  /// No description provided for @envCheckSystemProxyOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled · Listening on 127.0.0.1:{port}'**
+  String envCheckSystemProxyOk(Object port);
+
+  /// No description provided for @envCheckSystemProxyOff.
+  ///
+  /// In en, this message translates to:
+  /// **'System proxy is off'**
+  String get envCheckSystemProxyOff;
+
+  /// No description provided for @envCheckTakeoverMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Traffic Takeover'**
+  String get envCheckTakeoverMode;
+
+  /// No description provided for @envCheckTakeoverModeOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Active takeover: {modes}'**
+  String envCheckTakeoverModeOk(Object modes);
+
+  /// No description provided for @envCheckTakeoverModeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Neither System Proxy nor TUN mode is enabled; desktop traffic will not be proxied. Click to enable system proxy'**
+  String get envCheckTakeoverModeNone;
+
+  /// No description provided for @envCheckLoopbackDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Launch the Windows UWP Loopback Exemption tool to let Microsoft Store apps access proxy'**
+  String get envCheckLoopbackDesc;
+
+  /// No description provided for @envCheckLoopbackNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'EnableLoopback.exe tool not found'**
+  String get envCheckLoopbackNotAvailable;
+
+  /// No description provided for @envCheckNetworkDesktopOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected · Interfaces: {interfaces}'**
+  String envCheckNetworkDesktopOk(Object interfaces);
+
+  /// No description provided for @envCheckDelayTimeoutAndConcurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeout {ms} ms · Delay test concurrency: {concurrency} threads (batch paced)'**
+  String envCheckDelayTimeoutAndConcurrency(int ms, int concurrency);
 }
 
 class _AppLocalizationsDelegate
