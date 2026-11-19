@@ -3950,4 +3950,284 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get vpnServiceStartFailed => 'Не удалось запустить службу VPN.';
+
+  @override
+  String get environmentCheck => 'Проверка окружения';
+
+  @override
+  String get envCheckRecheck => 'Проверить снова';
+
+  @override
+  String get envCheckSectionSystem => 'Система и разрешения';
+
+  @override
+  String get envCheckSectionApp => 'Прокси и настройки приложения';
+
+  @override
+  String get envCheckFooter =>
+      'Нажмите на пункт с предупреждением или ошибкой, чтобы открыть нужную настройку или исправить проблему. После возврата из системных настроек проверка обновится автоматически.';
+
+  @override
+  String get envCheckStatusOk => 'Норма';
+
+  @override
+  String get envCheckStatusWarning => 'Внимание';
+
+  @override
+  String get envCheckSummaryAllGood => 'Все проверки пройдены';
+
+  @override
+  String envCheckSummaryWarnings(Object count) {
+    return 'Требуют внимания: $count';
+  }
+
+  @override
+  String envCheckSummaryErrors(Object count) {
+    return 'Найдено критических ошибок: $count';
+  }
+
+  @override
+  String get envCheckUnavailable =>
+      'Не удалось получить сведения об окружении Android.';
+
+  @override
+  String get envCheckVpnPermission => 'Разрешение VPN';
+
+  @override
+  String get envCheckVpnPermissionOk => 'Предоставлено';
+
+  @override
+  String get envCheckVpnPermissionMissing =>
+      'Не предоставлено. Нажмите, чтобы разрешить VPN.';
+
+  @override
+  String get envCheckVpnConflict => 'Конфликт с другим VPN';
+
+  @override
+  String get envCheckVpnConflictOk => 'Конфликтующих VPN не обнаружено';
+
+  @override
+  String get envCheckVpnConflictDetected =>
+      'Активен другой VPN, который может мешать FlClash. Нажмите, чтобы открыть настройки VPN.';
+
+  @override
+  String get envCheckNetworkDns => 'Сеть и системный DNS';
+
+  @override
+  String get envCheckNetworkOffline =>
+      'Активное подключение к интернету не обнаружено. Нажмите, чтобы открыть настройки сети.';
+
+  @override
+  String get envCheckNetworkNoDns =>
+      'Сеть подключена, но системный DNS не получен. Профили с system DNS не смогут резолвить домены.';
+
+  @override
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return '$transport · DNS: $dns';
+  }
+
+  @override
+  String get envCheckTransportWifi => 'Wi-Fi';
+
+  @override
+  String get envCheckTransportCellular => 'Мобильная сеть';
+
+  @override
+  String get envCheckTransportEthernet => 'Ethernet';
+
+  @override
+  String get envCheckTransportOther => 'Сеть';
+
+  @override
+  String get envCheckPrivateDns => 'Частный DNS';
+
+  @override
+  String get envCheckPrivateDnsOk => 'Выключен или Авто (совместимо)';
+
+  @override
+  String envCheckPrivateDnsStrict(Object host) {
+    return 'Заданный частный DNS ($host) может конфликтовать с DNS VPN и вызывать таймауты. Переключите на Выкл или Авто.';
+  }
+
+  @override
+  String get envCheckAutoTime => 'Автоматические дата и время';
+
+  @override
+  String get envCheckAutoTimeOk => 'Синхронизация времени по сети включена';
+
+  @override
+  String get envCheckAutoTimeOff =>
+      'Отключено. Расхождение времени нарушает работу TLS, VMess и Reality. Нажмите, чтобы открыть настройки времени.';
+
+  @override
+  String get envCheckBatteryOk => 'Без ограничений в фоне';
+
+  @override
+  String get envCheckBatteryRestricted =>
+      'Ограничено оптимизацией батареи. Приложение может быть остановлено в фоне. Нажмите, чтобы разрешить.';
+
+  @override
+  String get envCheckNotification => 'Разрешение на уведомления';
+
+  @override
+  String get envCheckNotificationOk =>
+      'Включено для стабильной работы фонового сервиса';
+
+  @override
+  String get envCheckNotificationOff =>
+      'Отключено. Система может чаще завершать фоновый VPN-сервис. Нажмите, чтобы открыть настройки.';
+
+  @override
+  String get envCheckPowerDataSaver => 'Энергосбережение и экономия трафика';
+
+  @override
+  String get envCheckPowerDataSaverOk =>
+      'Энергосбережение и ограничение фоновых данных выключены';
+
+  @override
+  String get envCheckPowerSaverOn =>
+      'Включён режим энергосбережения, который может ограничивать сеть. Нажмите для настройки.';
+
+  @override
+  String get envCheckDataSaverOn =>
+      'Экономия трафика ограничивает фоновую сеть FlClash. Нажмите, чтобы снять ограничение.';
+
+  @override
+  String get envCheckVpnMode => 'Режим VPN';
+
+  @override
+  String get envCheckVpnModeOk => 'Включён';
+
+  @override
+  String get envCheckVpnModeOff =>
+      'Выключен. На Android для перехвата трафика нужен режим VPN. Нажмите, чтобы включить.';
+
+  @override
+  String get envCheckProfileCore => 'Профиль и состояние ядра';
+
+  @override
+  String get envCheckProfileMissing =>
+      'Профиль не выбран. Сначала импортируйте и выберите конфигурацию.';
+
+  @override
+  String envCheckCoreDisconnected(Object profile) {
+    return 'Выбран профиль «$profile», но ядро ещё не подключено.';
+  }
+
+  @override
+  String envCheckProfileCoreOk(Object profile) {
+    return 'Профиль «$profile» · Ядро подключено';
+  }
+
+  @override
+  String get envCheckDnsConfig => 'Переопределение DNS';
+
+  @override
+  String get envCheckDnsDisabled =>
+      'DNS отключён в переопределении, что ломает разрешение доменов в режиме VPN. Нажмите для исправления.';
+
+  @override
+  String get envCheckDnsNoNameserver =>
+      'Список Nameserver в переопределении пуст — DNS-запросы не сработают. Нажмите для настройки.';
+
+  @override
+  String get envCheckDnsOk => 'Конфликтов в настройках DNS не обнаружено';
+
+  @override
+  String get envCheckIpv6 => 'Совместимость IPv6';
+
+  @override
+  String get envCheckIpv6Ok =>
+      'IPv6 выключен (рекомендуется для совместимости)';
+
+  @override
+  String get envCheckIpv6Enabled =>
+      'IPv6 включён. В мобильной сети или на IPv4-узлах это может вызывать таймауты. Нажмите для настройки.';
+
+  @override
+  String get envCheckAccessControlOk => 'Все приложения работают через VPN';
+
+  @override
+  String get envCheckAccessControlEmptyWhitelist =>
+      'Включён белый список без выбранных приложений — трафик не идёт через VPN. Нажмите для настройки.';
+
+  @override
+  String envCheckAccessControlActive(Object count) {
+    return 'Включено (настроено приложений: $count)';
+  }
+
+  @override
+  String envCheckDelayTimeoutOk(Object ms) {
+    return '$ms мс';
+  }
+
+  @override
+  String envCheckDelayTimeoutLow(Object ms) {
+    return '$ms мс может быть слишком мало для мобильной сети и вызывать ложные таймауты. Рекомендуется от 5000 мс.';
+  }
+
+  @override
+  String get envCheckSectionRecovery => 'Восстановление и обслуживание';
+
+  @override
+  String get envCheckCleanRestartTitle => 'Очистить и перезапустить сервис';
+
+  @override
+  String get envCheckCleanRestartDesc =>
+      'Закрыть зависшие соединения, очистить кэш DNS, сбросить сеть и перезапустить VPN';
+
+  @override
+  String get envCheckReinitCoreTitle => 'Переинициализировать ядро';
+
+  @override
+  String get envCheckReinitCoreDesc =>
+      'Проверить базы Geo, перезапустить ядро и заново применить текущий профиль';
+
+  @override
+  String get envCheckRecoveryRunning => 'Выполняется…';
+
+  @override
+  String get envCheckRecoveryDone => 'Завершено';
+
+  @override
+  String get envCheckRecoveryFailed => 'Ошибка';
+
+  @override
+  String get envCheckStepCloseConnections =>
+      'Закрытие активных соединений и тестов';
+
+  @override
+  String get envCheckStepFlushDns => 'Очистка кэша DNS и сброс сетевых сокетов';
+
+  @override
+  String get envCheckStepRestartService => 'Перезапуск прокси и VPN-сервиса';
+
+  @override
+  String get envCheckStepSyncGroups =>
+      'Синхронизация групп и повторная проверка';
+
+  @override
+  String get envCheckStepClearState => 'Очистка кэша и записей соединений';
+
+  @override
+  String get envCheckStepInitGeo => 'Проверка и подготовка баз Geo';
+
+  @override
+  String get envCheckStepRestartCore => 'Перезапуск и переинициализация ядра';
+
+  @override
+  String get envCheckStepRecheckEnv =>
+      'Повторная проверка окружения устройства';
+
+  @override
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get delayTestConcurrency => 'Параллельность теста задержки';
+
+  @override
+  String get delayTestConcurrencyDesc =>
+      'Управляет параллельными соединениями и паузами между пакетами для снижения нагрузки на слабые роутеры и CPE';
 }

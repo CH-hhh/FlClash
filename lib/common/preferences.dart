@@ -17,6 +17,11 @@ class Preferences {
 
   Preferences._internal();
 
+  int? _delayTestConcurrencyCache;
+
+  int get delayTestConcurrencySync =>
+      _delayTestConcurrencyCache ?? defaultDelayTestConcurrency;
+
   static Future<SharedPreferences?> _open() async {
     try {
       return await SharedPreferences.getInstance();
@@ -155,6 +160,31 @@ class Preferences {
   Future<void> clearSystemDnsRecord() async {
     final sharedPreferencesIns = await _store.value;
     await sharedPreferencesIns?.remove(systemDnsRecordKey);
+  }
+
+  Future<int> getDelayTestConcurrency() async {
+    try {
+      final sharedPreferencesIns = await _store.value;
+      final raw = sharedPreferencesIns?.getInt(delayTestConcurrencyKey);
+      final val = (raw != null && delayTestConcurrencyOptions.contains(raw))
+          ? raw
+          : defaultDelayTestConcurrency;
+      _delayTestConcurrencyCache = val;
+      return val;
+    } catch (e) {
+      commonPrint.log(
+        'getDelayTestConcurrency error ${e.toString()}',
+        logLevel: LogLevel.warning,
+      );
+      _delayTestConcurrencyCache = defaultDelayTestConcurrency;
+      return defaultDelayTestConcurrency;
+    }
+  }
+
+  Future<void> setDelayTestConcurrency(int value) async {
+    _delayTestConcurrencyCache = value;
+    final sharedPreferencesIns = await _store.value;
+    await sharedPreferencesIns?.setInt(delayTestConcurrencyKey, value);
   }
 
   Future<BootRecord?> getBootRecord() async {

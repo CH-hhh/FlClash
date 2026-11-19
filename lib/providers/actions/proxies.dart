@@ -27,8 +27,6 @@ class _DelayTestJob {
 class ProxiesAction extends _$ProxiesAction {
   CoreController get _core => ref.read(coreHandlerProvider);
 
-  final TaskPool _delayTestPool = TaskPool(maxConcurrentDelayTests);
-
   final List<_DelayTestJob> _delayTestJobs = [];
 
   final List<Delay> _bufferedDelays = [];
@@ -396,23 +394,42 @@ class ProxiesAction extends _$ProxiesAction {
     if (targets.isEmpty) {
       return;
     }
+    final concurrency = ref.read(delayTestConcurrencyProvider);
+    final pool = TaskPool(concurrency);
     final pending = ref.read(pendingDelayTestsProvider.notifier);
     final job = _DelayTestJob(
       targets.map((target) => target.key),
       Duration(milliseconds: ref.read(appSettingProvider).delayTestTimeout),
     );
     _delayTestJobs.add(job);
-    // TaskPool.run starts a task synchronously while it has an idle slot.
     job.startedOnDispatch.addAll(
-      targets.take(_delayTestPool.idleSlots).map((target) => target.key),
+      targets.take(concurrency).map((target) => target.key),
     );
     pending.apply(acquired: job.held, started: job.startedOnDispatch);
     try {
-      await Future.wait(
-        targets.map(
-          (target) => _delayTestPool.run(() => _runDelayTest(job, target)),
-        ),
-      );
+      for (var i = 0; i < targets.length; i += concurrency) {
+        if (job.cancelled) break;
+        final end = (i + concurrency < targets.length)
+            ? i + concurrency
+            : targets.length;
+        final batch = targets.sublist(i, end);
+        if (i > 0) {
+          final batchKeys = batch.map((target) => target.key);
+          job.startedOnDispatch.addAll(batchKeys);
+          _bufferedStarts.addAll(batchKeys);
+          _scheduleDelayFlush();
+        }
+
+        await Future.wait(
+          batch.map((target) => pool.run(() => _runDelayTest(job, target))),
+        );
+
+        if (end < targets.length &&
+            !job.cancelled &&
+            delayTestBatchRestDuration.inMilliseconds > 0) {
+          await Future<void>.delayed(delayTestBatchRestDuration);
+        }
+      }
     } finally {
       _delayTestJobs.remove(job);
       _flushDelayResults();

@@ -3777,4 +3777,273 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get vpnServiceStartFailed => 'VPN サービスを起動できませんでした。';
+
+  @override
+  String get environmentCheck => '環境チェック';
+
+  @override
+  String get envCheckRecheck => '再チェック';
+
+  @override
+  String get envCheckSectionSystem => 'システムと権限';
+
+  @override
+  String get envCheckSectionApp => 'プロキシとアプリ設定';
+
+  @override
+  String get envCheckFooter =>
+      '警告または異常の項目をタップすると、対応する設定を開くか直接修復できます。システム設定から戻ると自動的に再チェックされます。';
+
+  @override
+  String get envCheckStatusOk => '正常';
+
+  @override
+  String get envCheckStatusWarning => '注意';
+
+  @override
+  String get envCheckSummaryAllGood => '動作環境は正常です';
+
+  @override
+  String envCheckSummaryWarnings(Object count) {
+    return '$count 件の注意項目があります';
+  }
+
+  @override
+  String envCheckSummaryErrors(Object count) {
+    return '$count 件の重大な異常が見つかりました';
+  }
+
+  @override
+  String get envCheckUnavailable => 'Android のシステム環境情報を取得できませんでした。';
+
+  @override
+  String get envCheckVpnPermission => 'VPN 権限';
+
+  @override
+  String get envCheckVpnPermissionOk => '許可済み';
+
+  @override
+  String get envCheckVpnPermissionMissing => '未許可のためトンネルを作成できません。タップして許可してください';
+
+  @override
+  String get envCheckVpnConflict => '他の VPN との競合';
+
+  @override
+  String get envCheckVpnConflictOk => '競合する他の VPN は検出されませんでした';
+
+  @override
+  String get envCheckVpnConflictDetected =>
+      '他の VPN が有効なため FlClash が動作しない可能性があります。タップして VPN 設定を開く';
+
+  @override
+  String get envCheckNetworkDns => 'ネットワークとシステム DNS';
+
+  @override
+  String get envCheckNetworkOffline => '有効なインターネット接続がありません。タップしてネットワーク設定を開く';
+
+  @override
+  String get envCheckNetworkNoDns =>
+      '接続済みですがシステム DNS を取得できません。system DNS を使う設定は失敗します';
+
+  @override
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return '$transport · DNS: $dns';
+  }
+
+  @override
+  String get envCheckTransportWifi => 'Wi-Fi';
+
+  @override
+  String get envCheckTransportCellular => 'モバイルデータ';
+
+  @override
+  String get envCheckTransportEthernet => 'イーサネット';
+
+  @override
+  String get envCheckTransportOther => 'ネットワーク';
+
+  @override
+  String get envCheckPrivateDns => 'プライベート DNS';
+
+  @override
+  String get envCheckPrivateDnsOk => 'オフまたは自動（互換性あり）';
+
+  @override
+  String envCheckPrivateDnsStrict(Object host) {
+    return '固定のプライベート DNS（$host）は VPN の DNS と競合しタイムアウトの原因になります。オフまたは自動に変更してください';
+  }
+
+  @override
+  String get envCheckAutoTime => '日時の自動設定';
+
+  @override
+  String get envCheckAutoTimeOk => 'ネットワーク時刻同期が有効です';
+
+  @override
+  String get envCheckAutoTimeOff =>
+      '無効です。時刻ずれにより TLS・VMess・Reality 接続が失敗する恐れがあります。タップして日時設定を開く';
+
+  @override
+  String get envCheckBatteryOk => 'バックグラウンド制限なし';
+
+  @override
+  String get envCheckBatteryRestricted =>
+      'バッテリー最適化により制限されています。バックグラウンド停止で切断やタイムアウトが起きる恐れがあります';
+
+  @override
+  String get envCheckNotification => '通知権限';
+
+  @override
+  String get envCheckNotificationOk => '有効（フォアグラウンドサービスの維持に有効）';
+
+  @override
+  String get envCheckNotificationOff =>
+      '無効です。バックグラウンドの VPN サービスが終了されやすくなります。タップして通知設定を開く';
+
+  @override
+  String get envCheckPowerDataSaver => '省電力とデータセーバー';
+
+  @override
+  String get envCheckPowerDataSaverOk => '省電力モードおよびバックグラウンドデータ制限は無効です';
+
+  @override
+  String get envCheckPowerSaverOn =>
+      'バッテリーセーバーが有効なため通信が制限される場合があります。タップして設定を開く';
+
+  @override
+  String get envCheckDataSaverOn =>
+      'データセーバーが FlClash のバックグラウンド通信を制限しています。タップして許可する';
+
+  @override
+  String get envCheckVpnMode => 'VPN モード';
+
+  @override
+  String get envCheckVpnModeOk => '有効';
+
+  @override
+  String get envCheckVpnModeOff =>
+      '無効です。Android ではアプリ通信を転送するため VPN モードが必要です。タップして有効化';
+
+  @override
+  String get envCheckProfileCore => 'プロファイルとコア状態';
+
+  @override
+  String get envCheckProfileMissing => 'プロファイルが未選択です。先に設定を追加・選択してください';
+
+  @override
+  String envCheckCoreDisconnected(Object profile) {
+    return 'プロファイル「$profile」を選択中ですが、コアが未接続です';
+  }
+
+  @override
+  String envCheckProfileCoreOk(Object profile) {
+    return 'プロファイル「$profile」· コア接続済み';
+  }
+
+  @override
+  String get envCheckDnsConfig => 'DNS 上書き設定';
+
+  @override
+  String get envCheckDnsDisabled =>
+      'DNS 上書きで DNS が無効になっています。VPN モードでは名前解決に失敗します。タップして修正';
+
+  @override
+  String get envCheckDnsNoNameserver =>
+      '上書きされた Nameserver が空のため名前解決に失敗します。タップして DNS を設定';
+
+  @override
+  String get envCheckDnsOk => 'DNS 設定に問題はありません';
+
+  @override
+  String get envCheckIpv6 => 'IPv6 互換性';
+
+  @override
+  String get envCheckIpv6Ok => 'IPv6 は無効です（互換性のため推奨）';
+
+  @override
+  String get envCheckIpv6Enabled =>
+      'IPv6 が有効です。モバイル回線や非対応ノードでは遅延テストがタイムアウトする場合があります';
+
+  @override
+  String get envCheckAccessControlOk => 'すべてのアプリが VPN を経由します';
+
+  @override
+  String get envCheckAccessControlEmptyWhitelist =>
+      'ホワイトリストが有効ですがアプリが未選択のため、通信が VPN を通りません。タップして設定';
+
+  @override
+  String envCheckAccessControlActive(Object count) {
+    return '有効（$count 件のアプリを設定済み）';
+  }
+
+  @override
+  String envCheckDelayTimeoutOk(Object ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String envCheckDelayTimeoutLow(Object ms) {
+    return '$ms ms はモバイル回線では短すぎてタイムアウト誤判定になりやすいです。5000 ms 以上を推奨します';
+  }
+
+  @override
+  String get envCheckSectionRecovery => '復旧とメンテナンス';
+
+  @override
+  String get envCheckCleanRestartTitle => 'キャッシュ消去とサービス再起動';
+
+  @override
+  String get envCheckCleanRestartDesc =>
+      '残留接続の終了、DNS キャッシュ消去、ソケットリセット後に VPN サービスを再起動します';
+
+  @override
+  String get envCheckReinitCoreTitle => 'コアを再初期化';
+
+  @override
+  String get envCheckReinitCoreDesc => 'Geo データを検証し、コアを再起動して現在のプロファイルを再読み込みします';
+
+  @override
+  String get envCheckRecoveryRunning => '実行中…';
+
+  @override
+  String get envCheckRecoveryDone => '完了';
+
+  @override
+  String get envCheckRecoveryFailed => '失敗';
+
+  @override
+  String get envCheckStepCloseConnections => 'アクティブ接続と実行中のテストを終了中';
+
+  @override
+  String get envCheckStepFlushDns => 'DNS キャッシュを消去してネットワークをリセット';
+
+  @override
+  String get envCheckStepRestartService => 'プロキシと VPN サービスを再起動';
+
+  @override
+  String get envCheckStepSyncGroups => 'プロキシグループを同期して環境を再チェック';
+
+  @override
+  String get envCheckStepClearState => '実行時キャッシュと接続履歴を消去';
+
+  @override
+  String get envCheckStepInitGeo => 'Geo データベースを確認・準備';
+
+  @override
+  String get envCheckStepRestartCore => 'コアを再起動して再初期化';
+
+  @override
+  String get envCheckStepRecheckEnv => '端末の動作環境を再チェック';
+
+  @override
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get delayTestConcurrency => '遅延テストの並行数';
+
+  @override
+  String get delayTestConcurrencyDesc =>
+      '遅延テストの並行接続数とバッチ間隔を制御し、低性能ルーターやCPEの負荷を軽減します';
 }

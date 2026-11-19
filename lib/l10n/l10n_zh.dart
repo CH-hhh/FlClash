@@ -3728,4 +3728,265 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get vpnServiceStartFailed => 'VPN 服务无法启动。';
+
+  @override
+  String get environmentCheck => '环境检测';
+
+  @override
+  String get envCheckRecheck => '重新检测';
+
+  @override
+  String get envCheckSectionSystem => '系统与权限';
+
+  @override
+  String get envCheckSectionApp => '代理与应用配置';
+
+  @override
+  String get envCheckFooter => '点击任意警告或异常项可直接修复或前往对应设置，从系统设置返回后会自动重新检测。';
+
+  @override
+  String get envCheckStatusOk => '正常';
+
+  @override
+  String get envCheckStatusWarning => '注意';
+
+  @override
+  String get envCheckSummaryAllGood => '运行环境正常';
+
+  @override
+  String envCheckSummaryWarnings(Object count) {
+    return '$count 项设置需要注意';
+  }
+
+  @override
+  String envCheckSummaryErrors(Object count) {
+    return '发现 $count 项关键异常';
+  }
+
+  @override
+  String get envCheckUnavailable => '无法读取手机系统环境信息，请重试。';
+
+  @override
+  String get envCheckVpnPermission => 'VPN 授权状态';
+
+  @override
+  String get envCheckVpnPermissionOk => '已授权，可正常建立 VPN 隧道';
+
+  @override
+  String get envCheckVpnPermissionMissing => '未授权，无法接管流量。点击立即授权';
+
+  @override
+  String get envCheckVpnConflict => '其他 VPN 占用';
+
+  @override
+  String get envCheckVpnConflictOk => '未检测到其他 VPN 占用通道';
+
+  @override
+  String get envCheckVpnConflictDetected =>
+      '检测到其他 VPN 正在运行，可能抢占通道导致无法连接。点击前往系统 VPN 设置';
+
+  @override
+  String get envCheckNetworkDns => '网络连接与系统 DNS';
+
+  @override
+  String get envCheckNetworkOffline => '当前无可用网络连接。点击前往网络设置';
+
+  @override
+  String get envCheckNetworkNoDns => '网络已连接，但未获取到系统 DNS，依赖 system DNS 的配置将解析失败';
+
+  @override
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return '$transport · 系统 DNS: $dns';
+  }
+
+  @override
+  String get envCheckTransportWifi => 'Wi-Fi';
+
+  @override
+  String get envCheckTransportCellular => '移动网络';
+
+  @override
+  String get envCheckTransportEthernet => '以太网';
+
+  @override
+  String get envCheckTransportOther => '已联网';
+
+  @override
+  String get envCheckPrivateDns => '系统私人 DNS';
+
+  @override
+  String get envCheckPrivateDnsOk => '已关闭或自动（与 VPN 兼容）';
+
+  @override
+  String envCheckPrivateDnsStrict(Object host) {
+    return '已指定固定私人 DNS（$host），容易与 VPN DNS 冲突导致测速或联网超时，建议改为关闭或自动';
+  }
+
+  @override
+  String get envCheckAutoTime => '系统时间自动同步';
+
+  @override
+  String get envCheckAutoTimeOk => '已开启网络时间同步';
+
+  @override
+  String get envCheckAutoTimeOff =>
+      '未开启自动同步，时间误差会导致 TLS / VMess / Reality 握手失败或超时。点击前往设置';
+
+  @override
+  String get envCheckBatteryOk => '已忽略电池优化，允许后台无限制运行';
+
+  @override
+  String get envCheckBatteryRestricted =>
+      '受系统省电策略限制，后台可能被冻结导致断网或全节点超时。点击去设置无限制';
+
+  @override
+  String get envCheckNotification => '通知权限';
+
+  @override
+  String get envCheckNotificationOk => '已开启，有助于保持前台代理服务常驻';
+
+  @override
+  String get envCheckNotificationOff => '未开启，后台 VPN 服务更容易被系统回收。点击前往通知设置';
+
+  @override
+  String get envCheckPowerDataSaver => '省电与后台流量限制';
+
+  @override
+  String get envCheckPowerDataSaverOk => '未开启省电模式与后台流量限制';
+
+  @override
+  String get envCheckPowerSaverOn => '系统省电模式已开启，可能限制后台网络连接。点击前往省电模式设置';
+
+  @override
+  String get envCheckDataSaverOn => '系统流量节省程序正在限制 FlClash 后台联网。点击允许无限制流量';
+
+  @override
+  String get envCheckVpnMode => 'VPN 接管模式';
+
+  @override
+  String get envCheckVpnModeOk => '已开启，可接管手机应用流量';
+
+  @override
+  String get envCheckVpnModeOff => '已关闭，手机端必须开启 VPN 模式才能接管流量。点击一键开启';
+
+  @override
+  String get envCheckProfileCore => '配置文件与内核状态';
+
+  @override
+  String get envCheckProfileMissing => '尚未选择配置文件，请先导入并选中一个订阅';
+
+  @override
+  String envCheckCoreDisconnected(Object profile) {
+    return '已选配置「$profile」，但内核尚未就绪';
+  }
+
+  @override
+  String envCheckProfileCoreOk(Object profile) {
+    return '当前配置「$profile」· 内核已连接';
+  }
+
+  @override
+  String get envCheckDnsConfig => 'DNS 覆写设置';
+
+  @override
+  String get envCheckDnsDisabled =>
+      'DNS 覆写中已关闭 DNS 功能，手机 VPN 模式下将导致全部域名解析失败。点击修改';
+
+  @override
+  String get envCheckDnsNoNameserver =>
+      'DNS 覆写中的 Nameserver 为空，将无法解析域名。点击配置 DNS';
+
+  @override
+  String get envCheckDnsOk => 'DNS 覆写配置正常';
+
+  @override
+  String get envCheckIpv6 => 'IPv6 兼容性';
+
+  @override
+  String get envCheckIpv6Ok => 'IPv6 已关闭（兼容性最佳）';
+
+  @override
+  String get envCheckIpv6Enabled =>
+      '已开启 IPv6，在移动网络或不支持 IPv6 的节点下可能导致延迟测试超时。点击前往网络设置';
+
+  @override
+  String get envCheckAccessControlOk => '未开启分应用限制，默认接管所有应用';
+
+  @override
+  String get envCheckAccessControlEmptyWhitelist =>
+      '已开启白名单模式但未勾选任何应用，导致所有应用都不走代理。点击配置';
+
+  @override
+  String envCheckAccessControlActive(Object count) {
+    return '已启用（已配置 $count 个应用）';
+  }
+
+  @override
+  String envCheckDelayTimeoutOk(Object ms) {
+    return '当前超时阈值 $ms ms';
+  }
+
+  @override
+  String envCheckDelayTimeoutLow(Object ms) {
+    return '当前仅 $ms ms，手机网络下过短易导致测速误报超时，建议设为 5000 ms 及以上';
+  }
+
+  @override
+  String get envCheckSectionRecovery => '恢复与维护';
+
+  @override
+  String get envCheckCleanRestartTitle => '清理并重启服务';
+
+  @override
+  String get envCheckCleanRestartDesc => '关闭残留连接、清空 DNS 缓存、重置网络并重启代理服务';
+
+  @override
+  String get envCheckReinitCoreTitle => '重新初始化内核';
+
+  @override
+  String get envCheckReinitCoreDesc => '校验补齐 Geo 数据、重启内核并重新加载当前配置';
+
+  @override
+  String get envCheckRecoveryRunning => '正在执行…';
+
+  @override
+  String get envCheckRecoveryDone => '恢复完成';
+
+  @override
+  String get envCheckRecoveryFailed => '执行失败';
+
+  @override
+  String get envCheckStepCloseConnections => '关闭残留连接并取消进行中的测速';
+
+  @override
+  String get envCheckStepFlushDns => '清空 DNS 缓存并重置网络套接字';
+
+  @override
+  String get envCheckStepRestartService => '重启代理与 VPN 服务';
+
+  @override
+  String get envCheckStepSyncGroups => '同步节点组并重新检测环境';
+
+  @override
+  String get envCheckStepClearState => '清理运行态缓存与连接记录';
+
+  @override
+  String get envCheckStepInitGeo => '检查并补齐 Geo 数据库文件';
+
+  @override
+  String get envCheckStepRestartCore => '重启并重新初始化内核';
+
+  @override
+  String get envCheckStepRecheckEnv => '重新检测手机运行环境';
+
+  @override
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get delayTestConcurrency => '延迟测试并发数';
+
+  @override
+  String get delayTestConcurrencyDesc => '控制全部测速时的并行连接数与批次休眠，降低弱路由器与 CPE 设备负载';
 }

@@ -6941,6 +6941,474 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The VPN service could not start.'**
   String get vpnServiceStartFailed;
+
+  /// No description provided for @environmentCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment check'**
+  String get environmentCheck;
+
+  /// No description provided for @envCheckRecheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Recheck'**
+  String get envCheckRecheck;
+
+  /// No description provided for @envCheckSectionSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System & permissions'**
+  String get envCheckSectionSystem;
+
+  /// No description provided for @envCheckSectionApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy & app settings'**
+  String get envCheckSectionApp;
+
+  /// No description provided for @envCheckFooter.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap any warning or error item to open the corresponding setting or fix it directly. Returning from system settings refreshes the results automatically.'**
+  String get envCheckFooter;
+
+  /// No description provided for @envCheckStatusOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get envCheckStatusOk;
+
+  /// No description provided for @envCheckStatusWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning'**
+  String get envCheckStatusWarning;
+
+  /// No description provided for @envCheckSummaryAllGood.
+  ///
+  /// In en, this message translates to:
+  /// **'All checks passed'**
+  String get envCheckSummaryAllGood;
+
+  /// No description provided for @envCheckSummaryWarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items need attention'**
+  String envCheckSummaryWarnings(Object count);
+
+  /// No description provided for @envCheckSummaryErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} critical issues found'**
+  String envCheckSummaryErrors(Object count);
+
+  /// No description provided for @envCheckUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to read Android system environment information.'**
+  String get envCheckUnavailable;
+
+  /// No description provided for @envCheckVpnPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'VPN permission'**
+  String get envCheckVpnPermission;
+
+  /// No description provided for @envCheckVpnPermissionOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Granted'**
+  String get envCheckVpnPermissionOk;
+
+  /// No description provided for @envCheckVpnPermissionMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Not granted. Tap to authorize VPN access.'**
+  String get envCheckVpnPermissionMissing;
+
+  /// No description provided for @envCheckVpnConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'Other VPN conflict'**
+  String get envCheckVpnConflict;
+
+  /// No description provided for @envCheckVpnConflictOk.
+  ///
+  /// In en, this message translates to:
+  /// **'No conflicting VPN detected'**
+  String get envCheckVpnConflictOk;
+
+  /// No description provided for @envCheckVpnConflictDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Another VPN is active and may block FlClash. Tap to open VPN settings.'**
+  String get envCheckVpnConflictDetected;
+
+  /// No description provided for @envCheckNetworkDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Network & system DNS'**
+  String get envCheckNetworkDns;
+
+  /// No description provided for @envCheckNetworkOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No active internet connection detected. Tap to open network settings.'**
+  String get envCheckNetworkOffline;
+
+  /// No description provided for @envCheckNetworkNoDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected, but no system DNS server was reported. Profiles using system DNS will fail.'**
+  String get envCheckNetworkNoDns;
+
+  /// No description provided for @envCheckNetworkOk.
+  ///
+  /// In en, this message translates to:
+  /// **'{transport} · DNS: {dns}'**
+  String envCheckNetworkOk(Object transport, Object dns);
+
+  /// No description provided for @envCheckTransportWifi.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi'**
+  String get envCheckTransportWifi;
+
+  /// No description provided for @envCheckTransportCellular.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile data'**
+  String get envCheckTransportCellular;
+
+  /// No description provided for @envCheckTransportEthernet.
+  ///
+  /// In en, this message translates to:
+  /// **'Ethernet'**
+  String get envCheckTransportEthernet;
+
+  /// No description provided for @envCheckTransportOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Network'**
+  String get envCheckTransportOther;
+
+  /// No description provided for @envCheckPrivateDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Private DNS'**
+  String get envCheckPrivateDns;
+
+  /// No description provided for @envCheckPrivateDnsOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Off or Automatic (compatible)'**
+  String get envCheckPrivateDnsOk;
+
+  /// No description provided for @envCheckPrivateDnsStrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed Private DNS ({host}) may conflict with VPN DNS and cause timeouts. Set it to Off or Auto.'**
+  String envCheckPrivateDnsStrict(Object host);
+
+  /// No description provided for @envCheckAutoTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic date & time'**
+  String get envCheckAutoTime;
+
+  /// No description provided for @envCheckAutoTimeOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Network time sync is enabled'**
+  String get envCheckAutoTimeOk;
+
+  /// No description provided for @envCheckAutoTimeOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled. Clock skew can cause TLS, VMess, and Reality handshakes to fail. Tap to open Date & time.'**
+  String get envCheckAutoTimeOff;
+
+  /// No description provided for @envCheckBatteryOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Unrestricted in background'**
+  String get envCheckBatteryOk;
+
+  /// No description provided for @envCheckBatteryRestricted.
+  ///
+  /// In en, this message translates to:
+  /// **'Restricted by battery optimization. Background freezing may disconnect VPN or cause timeouts. Tap to allow.'**
+  String get envCheckBatteryRestricted;
+
+  /// No description provided for @envCheckNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission'**
+  String get envCheckNotification;
+
+  /// No description provided for @envCheckNotificationOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled for foreground service persistence'**
+  String get envCheckNotificationOk;
+
+  /// No description provided for @envCheckNotificationOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled. The system is more likely to kill the background VPN service. Tap to open notification settings.'**
+  String get envCheckNotificationOff;
+
+  /// No description provided for @envCheckPowerDataSaver.
+  ///
+  /// In en, this message translates to:
+  /// **'Power & data saver'**
+  String get envCheckPowerDataSaver;
+
+  /// No description provided for @envCheckPowerDataSaverOk.
+  ///
+  /// In en, this message translates to:
+  /// **'No power saver or background data restriction active'**
+  String get envCheckPowerDataSaverOk;
+
+  /// No description provided for @envCheckPowerSaverOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Battery Saver is enabled and may restrict network sockets. Tap to open battery saver settings.'**
+  String get envCheckPowerSaverOn;
+
+  /// No description provided for @envCheckDataSaverOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Saver is restricting background data for FlClash. Tap to allow unrestricted data.'**
+  String get envCheckDataSaverOn;
+
+  /// No description provided for @envCheckVpnMode.
+  ///
+  /// In en, this message translates to:
+  /// **'VPN takeover mode'**
+  String get envCheckVpnMode;
+
+  /// No description provided for @envCheckVpnModeOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get envCheckVpnModeOk;
+
+  /// No description provided for @envCheckVpnModeOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled. On Android, FlClash needs VPN mode to route app traffic. Tap to turn on.'**
+  String get envCheckVpnModeOff;
+
+  /// No description provided for @envCheckProfileCore.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile & core status'**
+  String get envCheckProfileCore;
+
+  /// No description provided for @envCheckProfileMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'No profile selected. Import or select a subscription first.'**
+  String get envCheckProfileMissing;
+
+  /// No description provided for @envCheckCoreDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile “{profile}” is selected, but the core is not connected yet.'**
+  String envCheckCoreDisconnected(Object profile);
+
+  /// No description provided for @envCheckProfileCoreOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile “{profile}” · Core connected'**
+  String envCheckProfileCoreOk(Object profile);
+
+  /// No description provided for @envCheckDnsConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS override settings'**
+  String get envCheckDnsConfig;
+
+  /// No description provided for @envCheckDnsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS is disabled via override, which breaks domain resolution in Android VPN mode. Tap to fix.'**
+  String get envCheckDnsDisabled;
+
+  /// No description provided for @envCheckDnsNoNameserver.
+  ///
+  /// In en, this message translates to:
+  /// **'Nameserver override is empty, so DNS lookups will fail. Tap to configure DNS.'**
+  String get envCheckDnsNoNameserver;
+
+  /// No description provided for @envCheckDnsOk.
+  ///
+  /// In en, this message translates to:
+  /// **'No conflicting DNS override detected'**
+  String get envCheckDnsOk;
+
+  /// No description provided for @envCheckIpv6.
+  ///
+  /// In en, this message translates to:
+  /// **'IPv6 compatibility'**
+  String get envCheckIpv6;
+
+  /// No description provided for @envCheckIpv6Ok.
+  ///
+  /// In en, this message translates to:
+  /// **'IPv6 is disabled (recommended for compatibility)'**
+  String get envCheckIpv6Ok;
+
+  /// No description provided for @envCheckIpv6Enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'IPv6 is enabled. On mobile data or IPv4-only nodes this can cause ping timeouts. Tap to open network settings.'**
+  String get envCheckIpv6Enabled;
+
+  /// No description provided for @envCheckAccessControlOk.
+  ///
+  /// In en, this message translates to:
+  /// **'All apps are routed through VPN'**
+  String get envCheckAccessControlOk;
+
+  /// No description provided for @envCheckAccessControlEmptyWhitelist.
+  ///
+  /// In en, this message translates to:
+  /// **'Whitelist mode is enabled with no apps selected, so no app traffic uses VPN. Tap to configure.'**
+  String get envCheckAccessControlEmptyWhitelist;
+
+  /// No description provided for @envCheckAccessControlActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled ({count} apps configured)'**
+  String envCheckAccessControlActive(Object count);
+
+  /// No description provided for @envCheckDelayTimeoutOk.
+  ///
+  /// In en, this message translates to:
+  /// **'{ms} ms'**
+  String envCheckDelayTimeoutOk(Object ms);
+
+  /// No description provided for @envCheckDelayTimeoutLow.
+  ///
+  /// In en, this message translates to:
+  /// **'{ms} ms may be too short on mobile networks and cause false timeouts. Recommended: 5000 ms or higher.'**
+  String envCheckDelayTimeoutLow(Object ms);
+
+  /// No description provided for @envCheckSectionRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery & maintenance'**
+  String get envCheckSectionRecovery;
+
+  /// No description provided for @envCheckCleanRestartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean & restart service'**
+  String get envCheckCleanRestartTitle;
+
+  /// No description provided for @envCheckCleanRestartDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Close stale connections, flush DNS cache, reset sockets, and restart VPN service'**
+  String get envCheckCleanRestartDesc;
+
+  /// No description provided for @envCheckReinitCoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reinitialize core'**
+  String get envCheckReinitCoreTitle;
+
+  /// No description provided for @envCheckReinitCoreDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Geo databases, restart core lifecycle, and reload active profile'**
+  String get envCheckReinitCoreDesc;
+
+  /// No description provided for @envCheckRecoveryRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Running…'**
+  String get envCheckRecoveryRunning;
+
+  /// No description provided for @envCheckRecoveryDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get envCheckRecoveryDone;
+
+  /// No description provided for @envCheckRecoveryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get envCheckRecoveryFailed;
+
+  /// No description provided for @envCheckStepCloseConnections.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing active connections & pending tests'**
+  String get envCheckStepCloseConnections;
+
+  /// No description provided for @envCheckStepFlushDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Flushing DNS cache & resetting network sockets'**
+  String get envCheckStepFlushDns;
+
+  /// No description provided for @envCheckStepRestartService.
+  ///
+  /// In en, this message translates to:
+  /// **'Restarting proxy & VPN service'**
+  String get envCheckStepRestartService;
+
+  /// No description provided for @envCheckStepSyncGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing proxy groups & rechecking environment'**
+  String get envCheckStepSyncGroups;
+
+  /// No description provided for @envCheckStepClearState.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing runtime cache & connection records'**
+  String get envCheckStepClearState;
+
+  /// No description provided for @envCheckStepInitGeo.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying & preparing Geo databases'**
+  String get envCheckStepInitGeo;
+
+  /// No description provided for @envCheckStepRestartCore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restarting & reinitializing core'**
+  String get envCheckStepRestartCore;
+
+  /// No description provided for @envCheckStepRecheckEnv.
+  ///
+  /// In en, this message translates to:
+  /// **'Rechecking device environment'**
+  String get envCheckStepRecheckEnv;
+
+  /// No description provided for @envCheckRecoveryStepProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total}'**
+  String envCheckRecoveryStepProgress(Object done, Object total);
+
+  /// No description provided for @delayTestConcurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Delay test concurrency'**
+  String get delayTestConcurrency;
+
+  /// No description provided for @delayTestConcurrencyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs'**
+  String get delayTestConcurrencyDesc;
 }
 
 class _AppLocalizationsDelegate

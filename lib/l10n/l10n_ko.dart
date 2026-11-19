@@ -3852,4 +3852,274 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get vpnServiceStartFailed => 'VPN 서비스를 시작하지 못했습니다.';
+
+  @override
+  String get environmentCheck => '환경 검사';
+
+  @override
+  String get envCheckRecheck => '다시 검사';
+
+  @override
+  String get envCheckSectionSystem => '시스템 및 권한';
+
+  @override
+  String get envCheckSectionApp => '프록시 및 앱 설정';
+
+  @override
+  String get envCheckFooter =>
+      '경고 또는 오류 항목을 탭하면 해당 설정을 열거나 바로 수정할 수 있습니다. 시스템 설정에서 돌아오면 자동으로 다시 검사합니다.';
+
+  @override
+  String get envCheckStatusOk => '정상';
+
+  @override
+  String get envCheckStatusWarning => '주의';
+
+  @override
+  String get envCheckSummaryAllGood => '실행 환경이 정상입니다';
+
+  @override
+  String envCheckSummaryWarnings(Object count) {
+    return '$count개 항목을 확인해 주세요';
+  }
+
+  @override
+  String envCheckSummaryErrors(Object count) {
+    return '$count개의 중요한 문제가 발견되었습니다';
+  }
+
+  @override
+  String get envCheckUnavailable => 'Android 시스템 환경 정보를 읽을 수 없습니다.';
+
+  @override
+  String get envCheckVpnPermission => 'VPN 권한';
+
+  @override
+  String get envCheckVpnPermissionOk => '허용됨';
+
+  @override
+  String get envCheckVpnPermissionMissing => '권한이 없습니다. 탭하여 VPN 권한을 허용하세요';
+
+  @override
+  String get envCheckVpnConflict => '다른 VPN 충돌';
+
+  @override
+  String get envCheckVpnConflictOk => '충돌하는 다른 VPN이 감지되지 않았습니다';
+
+  @override
+  String get envCheckVpnConflictDetected =>
+      '다른 VPN이 활성화되어 있어 연결이 차단될 수 있습니다. 탭하여 VPN 설정 열기';
+
+  @override
+  String get envCheckNetworkDns => '네트워크 및 시스템 DNS';
+
+  @override
+  String get envCheckNetworkOffline => '활성 인터넷 연결이 없습니다. 탭하여 네트워크 설정 열기';
+
+  @override
+  String get envCheckNetworkNoDns =>
+      '연결되었지만 시스템 DNS가 감지되지 않았습니다. system DNS 설정은 실패할 수 있습니다';
+
+  @override
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return '$transport · DNS: $dns';
+  }
+
+  @override
+  String get envCheckTransportWifi => 'Wi-Fi';
+
+  @override
+  String get envCheckTransportCellular => '모바일 데이터';
+
+  @override
+  String get envCheckTransportEthernet => '이더넷';
+
+  @override
+  String get envCheckTransportOther => '네트워크';
+
+  @override
+  String get envCheckPrivateDns => '프라이빗 DNS';
+
+  @override
+  String get envCheckPrivateDnsOk => '꺼짐 또는 자동 (호환됨)';
+
+  @override
+  String envCheckPrivateDnsStrict(Object host) {
+    return '지정된 프라이빗 DNS($host)는 VPN DNS와 충돌하여 시간 초과를 유발할 수 있습니다. 끄기 또는 자동으로 변경하세요';
+  }
+
+  @override
+  String get envCheckAutoTime => '날짜 및 시간 자동 설정';
+
+  @override
+  String get envCheckAutoTimeOk => '네트워크 시간 동기화가 켜져 있습니다';
+
+  @override
+  String get envCheckAutoTimeOff =>
+      '꺼져 있습니다. 시간 오차로 인해 TLS, VMess, Reality 연결이 실패할 수 있습니다. 탭하여 날짜 및 시간 열기';
+
+  @override
+  String get envCheckBatteryOk => '백그라운드 제한 없음';
+
+  @override
+  String get envCheckBatteryRestricted =>
+      '배터리 최적화로 제한되어 있습니다. 백그라운드 중지로 연결이 끊기거나 시간 초과가 발생할 수 있습니다';
+
+  @override
+  String get envCheckNotification => '알림 권한';
+
+  @override
+  String get envCheckNotificationOk => '허용됨 (포그라운드 서비스 유지)';
+
+  @override
+  String get envCheckNotificationOff =>
+      '꺼져 있습니다. 백그라운드 VPN 서비스가 시스템에 의해 종료될 수 있습니다. 탭하여 알림 설정 열기';
+
+  @override
+  String get envCheckPowerDataSaver => '절전 및 데이터 절약';
+
+  @override
+  String get envCheckPowerDataSaverOk => '절전 모드 및 백그라운드 데이터 제한이 꺼져 있습니다';
+
+  @override
+  String get envCheckPowerSaverOn =>
+      '절전 모드가 켜져 있어 네트워크 연결이 제한될 수 있습니다. 탭하여 절전 설정 열기';
+
+  @override
+  String get envCheckDataSaverOn =>
+      '데이터 절약 모드가 FlClash의 백그라운드 데이터를 제한하고 있습니다. 탭하여 허용하기';
+
+  @override
+  String get envCheckVpnMode => 'VPN 모드';
+
+  @override
+  String get envCheckVpnModeOk => '켜짐';
+
+  @override
+  String get envCheckVpnModeOff =>
+      '꺼져 있습니다. Android에서는 트래픽 라우팅을 위해 VPN 모드가 필요합니다. 탭하여 켜기';
+
+  @override
+  String get envCheckProfileCore => '프로필 및 코어 상태';
+
+  @override
+  String get envCheckProfileMissing => '선택된 프로필이 없습니다. 먼저 프로필을 추가하고 선택하세요';
+
+  @override
+  String envCheckCoreDisconnected(Object profile) {
+    return '프로필 \'$profile\'이(가) 선택되었지만 코어가 아직 연결되지 않았습니다';
+  }
+
+  @override
+  String envCheckProfileCoreOk(Object profile) {
+    return '현재 프로필 \'$profile\' · 코어 연결됨';
+  }
+
+  @override
+  String get envCheckDnsConfig => 'DNS 재정의 설정';
+
+  @override
+  String get envCheckDnsDisabled =>
+      'DNS 재정의에서 DNS가 꺼져 있어 VPN 모드에서 도메인 해석이 실패합니다. 탭하여 수정';
+
+  @override
+  String get envCheckDnsNoNameserver =>
+      '재정의된 Nameserver가 비어 있어 DNS 조회가 실패합니다. 탭하여 DNS 설정';
+
+  @override
+  String get envCheckDnsOk => 'DNS 설정에 문제가 없습니다';
+
+  @override
+  String get envCheckIpv6 => 'IPv6 호환성';
+
+  @override
+  String get envCheckIpv6Ok => 'IPv6 꺼짐 (호환성 권장)';
+
+  @override
+  String get envCheckIpv6Enabled =>
+      'IPv6가 켜져 있습니다. 모바일 데이터나 미지원 노드에서 지연 테스트 시간 초과가 발생할 수 있습니다';
+
+  @override
+  String get envCheckAccessControlOk => '모든 앱이 VPN을 통해 라우팅됩니다';
+
+  @override
+  String get envCheckAccessControlEmptyWhitelist =>
+      '화이트리스트 모드가 켜져 있지만 선택된 앱이 없어 VPN을 사용하지 않습니다. 탭하여 설정';
+
+  @override
+  String envCheckAccessControlActive(Object count) {
+    return '사용 중 ($count개 앱 설정됨)';
+  }
+
+  @override
+  String envCheckDelayTimeoutOk(Object ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String envCheckDelayTimeoutLow(Object ms) {
+    return '$ms ms는 모바일 네트워크에서 너무 짧아 오탐 시간 초과가 발생할 수 있습니다. 5000 ms 이상 권장';
+  }
+
+  @override
+  String get envCheckSectionRecovery => '복구 및 유지 관리';
+
+  @override
+  String get envCheckCleanRestartTitle => '정리 및 서비스 재시작';
+
+  @override
+  String get envCheckCleanRestartDesc =>
+      '잔여 연결 종료, DNS 캐시 삭제, 네트워크 재설정 후 VPN 서비스를 다시 시작합니다';
+
+  @override
+  String get envCheckReinitCoreTitle => '코어 다시 초기화';
+
+  @override
+  String get envCheckReinitCoreDesc =>
+      'Geo 데이터를 확인하고 코어를 재시작한 뒤 현재 프로필을 다시 불러옵니다';
+
+  @override
+  String get envCheckRecoveryRunning => '실행 중…';
+
+  @override
+  String get envCheckRecoveryDone => '완료됨';
+
+  @override
+  String get envCheckRecoveryFailed => '실패';
+
+  @override
+  String get envCheckStepCloseConnections => '활성 연결 및 진행 중인 테스트 종료';
+
+  @override
+  String get envCheckStepFlushDns => 'DNS 캐시 삭제 및 네트워크 소켓 재설정';
+
+  @override
+  String get envCheckStepRestartService => '프록시 및 VPN 서비스 재시작';
+
+  @override
+  String get envCheckStepSyncGroups => '프록시 그룹 동기화 및 환경 다시 검사';
+
+  @override
+  String get envCheckStepClearState => '런타임 캐시 및 연결 기록 정리';
+
+  @override
+  String get envCheckStepInitGeo => 'Geo 데이터베이스 확인 및 준비';
+
+  @override
+  String get envCheckStepRestartCore => '코어 재시작 및 다시 초기화';
+
+  @override
+  String get envCheckStepRecheckEnv => '기기 환경 다시 검사';
+
+  @override
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get delayTestConcurrency => '지연 테스트 동시성';
+
+  @override
+  String get delayTestConcurrencyDesc =>
+      '지연 테스트의 병렬 연결 수와 배치 간격을 제어하여 저사양 라우터 및 CPE의 부하를 줄입니다';
 }

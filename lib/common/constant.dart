@@ -104,6 +104,9 @@ const coreConnectionWaitDuration = Duration(seconds: 10);
 /// Keep at or below the Core's delay-test concurrency (`delayTestConcurrency`
 /// in core/delay.go).
 const maxConcurrentDelayTests = 32;
+const defaultDelayTestConcurrency = 16;
+const delayTestConcurrencyOptions = [5, 8, 10, 16, 32];
+Duration delayTestBatchRestDuration = const Duration(milliseconds: 150);
 const maxConcurrentImports = 4;
 const maxConcurrentIconLoads = 8;
 
@@ -134,6 +137,7 @@ const configKey = 'config';
 const systemDnsRecordKey = 'system_dns_record';
 const bootRecordKey = 'boot_record';
 const appliedConfigMd5Key = 'applied_config_md5';
+const delayTestConcurrencyKey = 'delay_test_concurrency';
 const repository = 'chen08209/FlClash';
 const maxMobileWidth = 600;
 const maxLaptopWidth = 840;

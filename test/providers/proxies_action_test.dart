@@ -13,6 +13,7 @@ import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/config.dart';
 import 'package:fl_clash/providers/core.dart';
 import 'package:fl_clash/providers/database.dart';
+import 'package:fl_clash/providers/delay_test_concurrency.dart';
 import 'package:fl_clash/providers/route_state.dart';
 import 'package:fl_clash/providers/state.dart';
 import 'package:flutter/widgets.dart';
@@ -59,6 +60,9 @@ ProviderContainer _delayContainer(ProviderContainer Function() build) {
   final container = build();
   container.read(patchClashConfigProvider.notifier).value =
       const PatchClashConfig(testUrl: _testUrl);
+  container
+      .read(delayTestConcurrencyProvider.notifier)
+      .update(maxConcurrentDelayTests);
   return container;
 }
 
@@ -86,7 +90,14 @@ void main() {
     loadAppLocalizations(const Locale('en'));
   });
 
-  setUp(() => reset(core));
+  setUp(() {
+    reset(core);
+    delayTestBatchRestDuration = Duration.zero;
+  });
+
+  tearDownAll(() {
+    delayTestBatchRestDuration = const Duration(milliseconds: 150);
+  });
 
   ProviderContainer buildContainer({Profile? profile}) {
     final container = ProviderContainer(
@@ -511,7 +522,9 @@ void main() {
         expect(phaseOf(maxConcurrentDelayTests - 1), DelayTestPhase.running);
         expect(phaseOf(maxConcurrentDelayTests), DelayTestPhase.queued);
 
-        answers['HK-0']!.completeError(TimeoutException('no answer'));
+        for (var i = 0; i < maxConcurrentDelayTests; i++) {
+          answers['HK-$i']!.completeError(TimeoutException('no answer'));
+        }
         await Future<void>.delayed(renderThrottleDuration * 2);
 
         expect(phaseOf(0), isNull);

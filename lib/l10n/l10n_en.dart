@@ -3956,4 +3956,285 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get vpnServiceStartFailed => 'The VPN service could not start.';
+
+  @override
+  String get environmentCheck => 'Environment check';
+
+  @override
+  String get envCheckRecheck => 'Recheck';
+
+  @override
+  String get envCheckSectionSystem => 'System & permissions';
+
+  @override
+  String get envCheckSectionApp => 'Proxy & app settings';
+
+  @override
+  String get envCheckFooter =>
+      'Tap any warning or error item to open the corresponding setting or fix it directly. Returning from system settings refreshes the results automatically.';
+
+  @override
+  String get envCheckStatusOk => 'OK';
+
+  @override
+  String get envCheckStatusWarning => 'Warning';
+
+  @override
+  String get envCheckSummaryAllGood => 'All checks passed';
+
+  @override
+  String envCheckSummaryWarnings(Object count) {
+    return '$count items need attention';
+  }
+
+  @override
+  String envCheckSummaryErrors(Object count) {
+    return '$count critical issues found';
+  }
+
+  @override
+  String get envCheckUnavailable =>
+      'Unable to read Android system environment information.';
+
+  @override
+  String get envCheckVpnPermission => 'VPN permission';
+
+  @override
+  String get envCheckVpnPermissionOk => 'Granted';
+
+  @override
+  String get envCheckVpnPermissionMissing =>
+      'Not granted. Tap to authorize VPN access.';
+
+  @override
+  String get envCheckVpnConflict => 'Other VPN conflict';
+
+  @override
+  String get envCheckVpnConflictOk => 'No conflicting VPN detected';
+
+  @override
+  String get envCheckVpnConflictDetected =>
+      'Another VPN is active and may block FlClash. Tap to open VPN settings.';
+
+  @override
+  String get envCheckNetworkDns => 'Network & system DNS';
+
+  @override
+  String get envCheckNetworkOffline =>
+      'No active internet connection detected. Tap to open network settings.';
+
+  @override
+  String get envCheckNetworkNoDns =>
+      'Connected, but no system DNS server was reported. Profiles using system DNS will fail.';
+
+  @override
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return '$transport · DNS: $dns';
+  }
+
+  @override
+  String get envCheckTransportWifi => 'Wi-Fi';
+
+  @override
+  String get envCheckTransportCellular => 'Mobile data';
+
+  @override
+  String get envCheckTransportEthernet => 'Ethernet';
+
+  @override
+  String get envCheckTransportOther => 'Network';
+
+  @override
+  String get envCheckPrivateDns => 'Private DNS';
+
+  @override
+  String get envCheckPrivateDnsOk => 'Off or Automatic (compatible)';
+
+  @override
+  String envCheckPrivateDnsStrict(Object host) {
+    return 'Fixed Private DNS ($host) may conflict with VPN DNS and cause timeouts. Set it to Off or Auto.';
+  }
+
+  @override
+  String get envCheckAutoTime => 'Automatic date & time';
+
+  @override
+  String get envCheckAutoTimeOk => 'Network time sync is enabled';
+
+  @override
+  String get envCheckAutoTimeOff =>
+      'Disabled. Clock skew can cause TLS, VMess, and Reality handshakes to fail. Tap to open Date & time.';
+
+  @override
+  String get envCheckBatteryOk => 'Unrestricted in background';
+
+  @override
+  String get envCheckBatteryRestricted =>
+      'Restricted by battery optimization. Background freezing may disconnect VPN or cause timeouts. Tap to allow.';
+
+  @override
+  String get envCheckNotification => 'Notification permission';
+
+  @override
+  String get envCheckNotificationOk =>
+      'Enabled for foreground service persistence';
+
+  @override
+  String get envCheckNotificationOff =>
+      'Disabled. The system is more likely to kill the background VPN service. Tap to open notification settings.';
+
+  @override
+  String get envCheckPowerDataSaver => 'Power & data saver';
+
+  @override
+  String get envCheckPowerDataSaverOk =>
+      'No power saver or background data restriction active';
+
+  @override
+  String get envCheckPowerSaverOn =>
+      'Battery Saver is enabled and may restrict network sockets. Tap to open battery saver settings.';
+
+  @override
+  String get envCheckDataSaverOn =>
+      'Data Saver is restricting background data for FlClash. Tap to allow unrestricted data.';
+
+  @override
+  String get envCheckVpnMode => 'VPN takeover mode';
+
+  @override
+  String get envCheckVpnModeOk => 'Enabled';
+
+  @override
+  String get envCheckVpnModeOff =>
+      'Disabled. On Android, FlClash needs VPN mode to route app traffic. Tap to turn on.';
+
+  @override
+  String get envCheckProfileCore => 'Profile & core status';
+
+  @override
+  String get envCheckProfileMissing =>
+      'No profile selected. Import or select a subscription first.';
+
+  @override
+  String envCheckCoreDisconnected(Object profile) {
+    return 'Profile “$profile” is selected, but the core is not connected yet.';
+  }
+
+  @override
+  String envCheckProfileCoreOk(Object profile) {
+    return 'Profile “$profile” · Core connected';
+  }
+
+  @override
+  String get envCheckDnsConfig => 'DNS override settings';
+
+  @override
+  String get envCheckDnsDisabled =>
+      'DNS is disabled via override, which breaks domain resolution in Android VPN mode. Tap to fix.';
+
+  @override
+  String get envCheckDnsNoNameserver =>
+      'Nameserver override is empty, so DNS lookups will fail. Tap to configure DNS.';
+
+  @override
+  String get envCheckDnsOk => 'No conflicting DNS override detected';
+
+  @override
+  String get envCheckIpv6 => 'IPv6 compatibility';
+
+  @override
+  String get envCheckIpv6Ok =>
+      'IPv6 is disabled (recommended for compatibility)';
+
+  @override
+  String get envCheckIpv6Enabled =>
+      'IPv6 is enabled. On mobile data or IPv4-only nodes this can cause ping timeouts. Tap to open network settings.';
+
+  @override
+  String get envCheckAccessControlOk => 'All apps are routed through VPN';
+
+  @override
+  String get envCheckAccessControlEmptyWhitelist =>
+      'Whitelist mode is enabled with no apps selected, so no app traffic uses VPN. Tap to configure.';
+
+  @override
+  String envCheckAccessControlActive(Object count) {
+    return 'Enabled ($count apps configured)';
+  }
+
+  @override
+  String envCheckDelayTimeoutOk(Object ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String envCheckDelayTimeoutLow(Object ms) {
+    return '$ms ms may be too short on mobile networks and cause false timeouts. Recommended: 5000 ms or higher.';
+  }
+
+  @override
+  String get envCheckSectionRecovery => 'Recovery & maintenance';
+
+  @override
+  String get envCheckCleanRestartTitle => 'Clean & restart service';
+
+  @override
+  String get envCheckCleanRestartDesc =>
+      'Close stale connections, flush DNS cache, reset sockets, and restart VPN service';
+
+  @override
+  String get envCheckReinitCoreTitle => 'Reinitialize core';
+
+  @override
+  String get envCheckReinitCoreDesc =>
+      'Verify Geo databases, restart core lifecycle, and reload active profile';
+
+  @override
+  String get envCheckRecoveryRunning => 'Running…';
+
+  @override
+  String get envCheckRecoveryDone => 'Completed';
+
+  @override
+  String get envCheckRecoveryFailed => 'Failed';
+
+  @override
+  String get envCheckStepCloseConnections =>
+      'Closing active connections & pending tests';
+
+  @override
+  String get envCheckStepFlushDns =>
+      'Flushing DNS cache & resetting network sockets';
+
+  @override
+  String get envCheckStepRestartService => 'Restarting proxy & VPN service';
+
+  @override
+  String get envCheckStepSyncGroups =>
+      'Syncing proxy groups & rechecking environment';
+
+  @override
+  String get envCheckStepClearState =>
+      'Clearing runtime cache & connection records';
+
+  @override
+  String get envCheckStepInitGeo => 'Verifying & preparing Geo databases';
+
+  @override
+  String get envCheckStepRestartCore => 'Restarting & reinitializing core';
+
+  @override
+  String get envCheckStepRecheckEnv => 'Rechecking device environment';
+
+  @override
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get delayTestConcurrency => 'Delay test concurrency';
+
+  @override
+  String get delayTestConcurrencyDesc =>
+      'Control parallel connections and batch pacing for delay tests to reduce load on weak routers and CPEs';
 }

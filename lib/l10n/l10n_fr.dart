@@ -4003,4 +4003,290 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get vpnServiceStartFailed => 'Le service VPN n\'a pas pu démarrer.';
+
+  @override
+  String get environmentCheck => 'Vérification de l\'environnement';
+
+  @override
+  String get envCheckRecheck => 'Revérifier';
+
+  @override
+  String get envCheckSectionSystem => 'Système et autorisations';
+
+  @override
+  String get envCheckSectionApp => 'Proxy et paramètres de l\'app';
+
+  @override
+  String get envCheckFooter =>
+      'Touchez un élément en avertissement ou en erreur pour ouvrir le paramètre correspondant ou le corriger. Les résultats se mettent à jour au retour des paramètres système.';
+
+  @override
+  String get envCheckStatusOk => 'OK';
+
+  @override
+  String get envCheckStatusWarning => 'Attention';
+
+  @override
+  String get envCheckSummaryAllGood => 'Toutes les vérifications ont réussi';
+
+  @override
+  String envCheckSummaryWarnings(Object count) {
+    return '$count éléments nécessitent votre attention';
+  }
+
+  @override
+  String envCheckSummaryErrors(Object count) {
+    return '$count problèmes critiques détectés';
+  }
+
+  @override
+  String get envCheckUnavailable =>
+      'Impossible de lire les informations de l\'environnement Android.';
+
+  @override
+  String get envCheckVpnPermission => 'Autorisation VPN';
+
+  @override
+  String get envCheckVpnPermissionOk => 'Accordée';
+
+  @override
+  String get envCheckVpnPermissionMissing =>
+      'Non accordée. Touchez pour autoriser le VPN.';
+
+  @override
+  String get envCheckVpnConflict => 'Conflit avec un autre VPN';
+
+  @override
+  String get envCheckVpnConflictOk => 'Aucun autre VPN en conflit détecté';
+
+  @override
+  String get envCheckVpnConflictDetected =>
+      'Un autre VPN est actif et peut bloquer FlClash. Touchez pour ouvrir les paramètres VPN.';
+
+  @override
+  String get envCheckNetworkDns => 'Réseau et DNS système';
+
+  @override
+  String get envCheckNetworkOffline =>
+      'Aucune connexion Internet active détectée. Touchez pour ouvrir les paramètres réseau.';
+
+  @override
+  String get envCheckNetworkNoDns =>
+      'Connecté, mais aucun DNS système n\'a été signalé. Les profils utilisant le DNS système échoueront.';
+
+  @override
+  String envCheckNetworkOk(Object transport, Object dns) {
+    return '$transport · DNS : $dns';
+  }
+
+  @override
+  String get envCheckTransportWifi => 'Wi-Fi';
+
+  @override
+  String get envCheckTransportCellular => 'Données mobiles';
+
+  @override
+  String get envCheckTransportEthernet => 'Ethernet';
+
+  @override
+  String get envCheckTransportOther => 'Réseau';
+
+  @override
+  String get envCheckPrivateDns => 'DNS privé';
+
+  @override
+  String get envCheckPrivateDnsOk => 'Désactivé ou automatique (compatible)';
+
+  @override
+  String envCheckPrivateDnsStrict(Object host) {
+    return 'Le DNS privé fixe ($host) peut entrer en conflit avec le DNS du VPN et provoquer des délais dépassés. Passez-le sur Désactivé ou Automatique.';
+  }
+
+  @override
+  String get envCheckAutoTime => 'Date et heure automatiques';
+
+  @override
+  String get envCheckAutoTimeOk =>
+      'Synchronisation automatique de l\'heure activée';
+
+  @override
+  String get envCheckAutoTimeOff =>
+      'Désactivé. Un décalage d\'horloge peut faire échouer TLS, VMess et Reality. Touchez pour ouvrir Date et heure.';
+
+  @override
+  String get envCheckBatteryOk => 'Sans restriction en arrière-plan';
+
+  @override
+  String get envCheckBatteryRestricted =>
+      'Limité par l\'optimisation de la batterie. Le VPN peut être suspendu en arrière-plan. Touchez pour autoriser.';
+
+  @override
+  String get envCheckNotification => 'Autorisation de notifications';
+
+  @override
+  String get envCheckNotificationOk =>
+      'Activée pour maintenir le service au premier plan';
+
+  @override
+  String get envCheckNotificationOff =>
+      'Désactivée. Le système risque davantage d\'arrêter le service VPN. Touchez pour ouvrir les paramètres.';
+
+  @override
+  String get envCheckPowerDataSaver => 'Économie d\'énergie et de données';
+
+  @override
+  String get envCheckPowerDataSaverOk =>
+      'Aucune restriction d\'énergie ou de données en arrière-plan';
+
+  @override
+  String get envCheckPowerSaverOn =>
+      'L\'économiseur de batterie est activé et peut limiter le réseau. Touchez pour ouvrir les paramètres.';
+
+  @override
+  String get envCheckDataSaverOn =>
+      'L\'économiseur de données restreint FlClash en arrière-plan. Touchez pour autoriser.';
+
+  @override
+  String get envCheckVpnMode => 'Mode VPN';
+
+  @override
+  String get envCheckVpnModeOk => 'Activé';
+
+  @override
+  String get envCheckVpnModeOff =>
+      'Désactivé. Sur Android, le mode VPN est requis pour router le trafic. Touchez pour activer.';
+
+  @override
+  String get envCheckProfileCore => 'Profil et état du noyau';
+
+  @override
+  String get envCheckProfileMissing =>
+      'Aucun profil sélectionné. Importez ou sélectionnez un profil.';
+
+  @override
+  String envCheckCoreDisconnected(Object profile) {
+    return 'Profil « $profile » sélectionné, mais le noyau n\'est pas encore connecté.';
+  }
+
+  @override
+  String envCheckProfileCoreOk(Object profile) {
+    return 'Profil « $profile » · Noyau connecté';
+  }
+
+  @override
+  String get envCheckDnsConfig => 'Remplacement DNS';
+
+  @override
+  String get envCheckDnsDisabled =>
+      'Le DNS est désactivé via le remplacement, ce qui casse la résolution en mode VPN. Touchez pour corriger.';
+
+  @override
+  String get envCheckDnsNoNameserver =>
+      'Le Nameserver remplacé est vide, les requêtes DNS échoueront. Touchez pour configurer.';
+
+  @override
+  String get envCheckDnsOk => 'Aucun conflit dans la configuration DNS';
+
+  @override
+  String get envCheckIpv6 => 'Compatibilité IPv6';
+
+  @override
+  String get envCheckIpv6Ok =>
+      'IPv6 désactivé (recommandé pour la compatibilité)';
+
+  @override
+  String get envCheckIpv6Enabled =>
+      'IPv6 est activé. Sur données mobiles ou nœuds IPv4, cela peut causer des délais dépassés. Touchez pour ajuster.';
+
+  @override
+  String get envCheckAccessControlOk =>
+      'Toutes les applications passent par le VPN';
+
+  @override
+  String get envCheckAccessControlEmptyWhitelist =>
+      'La liste blanche est active sans aucune application sélectionnée. Touchez pour configurer.';
+
+  @override
+  String envCheckAccessControlActive(Object count) {
+    return 'Activé ($count applications configurées)';
+  }
+
+  @override
+  String envCheckDelayTimeoutOk(Object ms) {
+    return '$ms ms';
+  }
+
+  @override
+  String envCheckDelayTimeoutLow(Object ms) {
+    return '$ms ms peut être trop court sur réseau mobile et provoquer de faux délais dépassés. Recommandé : 5000 ms ou plus.';
+  }
+
+  @override
+  String get envCheckSectionRecovery => 'Récupération et maintenance';
+
+  @override
+  String get envCheckCleanRestartTitle => 'Nettoyer et redémarrer le service';
+
+  @override
+  String get envCheckCleanRestartDesc =>
+      'Ferme les connexions actives, vide le cache DNS, réinitialise le réseau et redémarre le VPN';
+
+  @override
+  String get envCheckReinitCoreTitle => 'Réinitialiser le noyau';
+
+  @override
+  String get envCheckReinitCoreDesc =>
+      'Vérifie les bases Geo, redémarre le noyau et recharge le profil actif';
+
+  @override
+  String get envCheckRecoveryRunning => 'En cours…';
+
+  @override
+  String get envCheckRecoveryDone => 'Terminé';
+
+  @override
+  String get envCheckRecoveryFailed => 'Échec';
+
+  @override
+  String get envCheckStepCloseConnections =>
+      'Fermeture des connexions actives et tests en cours';
+
+  @override
+  String get envCheckStepFlushDns =>
+      'Vidage du cache DNS et réinitialisation réseau';
+
+  @override
+  String get envCheckStepRestartService =>
+      'Redémarrage du service proxy et VPN';
+
+  @override
+  String get envCheckStepSyncGroups =>
+      'Synchronisation des groupes et revérification';
+
+  @override
+  String get envCheckStepClearState =>
+      'Nettoyage du cache d\'exécution et des journaux';
+
+  @override
+  String get envCheckStepInitGeo => 'Vérification et préparation des bases Geo';
+
+  @override
+  String get envCheckStepRestartCore =>
+      'Redémarrage et réinitialisation du noyau';
+
+  @override
+  String get envCheckStepRecheckEnv =>
+      'Revérification de l\'environnement de l\'appareil';
+
+  @override
+  String envCheckRecoveryStepProgress(Object done, Object total) {
+    return '$done / $total';
+  }
+
+  @override
+  String get delayTestConcurrency => 'Simultanéité du test de délai';
+
+  @override
+  String get delayTestConcurrencyDesc =>
+      'Contrôle les connexions parallèles et le rythme des lots pour réduire la charge sur les routeurs et CPE faibles';
 }

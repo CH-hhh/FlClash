@@ -87,6 +87,7 @@ class Bootstrap {
     DynamicColorSeeds dynamicColor,
   ) async {
     await _claimDataDirectory();
+    await preferences.getDelayTestConcurrency();
     globalState.packageInfo = await PackageInfo.fromPlatform();
     final storedConfig = await preferences.getConfigMap();
     _resetMixedPort = unusableMixedPort(storedConfig?['patchClashConfig']);
