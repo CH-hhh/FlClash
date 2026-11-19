@@ -54,7 +54,7 @@ _AppSettingProps _$AppSettingPropsFromJson(
       RestoreStrategy.compatible,
   showTrayTitle: json['showTrayTitle'] as bool? ?? true,
   monochromeTrayIcon: json['monochromeTrayIcon'] as bool? ?? true,
-  checkCertificate: json['checkCertificate'] as bool? ?? true,
+  checkCertificate: json['checkCertificate'] as bool? ?? false,
   userAgents:
       (_readUserAgents(json, 'userAgents') as List<dynamic>?)
           ?.map((e) => e as String)

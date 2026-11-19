@@ -217,6 +217,10 @@ class _DesktopDashboard extends StatelessWidget {
                   middleHeight,
                   row(const [(1, ServiceStatusCard()), (1, MemoryInfo())]),
                 ),
+                sized(
+                  middleHeight,
+                  const SpeedTestCard(),
+                ),
                 sized(summaryHeight, summaries),
               ],
             ),
@@ -238,7 +242,6 @@ class _DesktopDashboard extends StatelessWidget {
           sized(
             middleHeight,
             row([
-              (1, const IntranetIpCard()),
               (1, const ProfilesCard()),
               (
                 1,
@@ -246,7 +249,7 @@ class _DesktopDashboard extends StatelessWidget {
                   columns: column >= _servicePairColumnMin * scale ? 2 : 1,
                 ),
               ),
-              (1, const MemoryInfo()),
+              (2, const SpeedTestCard()),
             ]),
           ),
         ];

@@ -34,6 +34,16 @@ class Request {
     _clashDio.httpClientAdapter = IOHttpClientAdapter(
       createHttpClient: () {
         final client = HttpClient();
+        client.badCertificateCallback = (certificate, host, port) {
+          final read = _read;
+          if (read == null) return true;
+          return FlClashHttpOverrides.allowBadCertificateForReader(
+            read,
+            certificate,
+            host,
+            port,
+          );
+        };
         client.findProxy = (Uri uri) {
           client.userAgent = globalState.ua;
           return _findProxy(uri);
@@ -65,7 +75,13 @@ class Request {
     return _clashDio
         .getUri<T>(
           target.uri,
-          options: Options(responseType: responseType, headers: target.headers),
+          options: Options(
+            responseType: responseType,
+            headers: {
+              'User-Agent': globalState.ua,
+              ...target.headers,
+            },
+          ),
           cancelToken: cancelToken,
         )
         .timeout(

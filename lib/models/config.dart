@@ -136,6 +136,7 @@ const List<DashboardWidget> defaultDashboardWidgets = [
   DashboardWidget.intranetIp,
   DashboardWidget.serviceStatus,
   DashboardWidget.profiles,
+  DashboardWidget.speedTest,
   DashboardWidget.proxyGroups,
   DashboardWidget.connectionStats,
 ];
@@ -148,6 +149,7 @@ final List<DashboardWidget> platformDefaultDashboardWidgets = system.isAndroid
         DashboardWidget.networkSpeed,
         DashboardWidget.outboundMode,
         DashboardWidget.profiles,
+        DashboardWidget.speedTest,
         DashboardWidget.proxyGroups,
       ]
     : defaultDashboardWidgets;
@@ -283,7 +285,7 @@ abstract class AppSettingProps with _$AppSettingProps {
     @Default(RestoreStrategy.compatible) RestoreStrategy restoreStrategy,
     @Default(true) bool showTrayTitle,
     @Default(true) bool monochromeTrayIcon,
-    @Default(true) bool checkCertificate,
+    @Default(false) bool checkCertificate,
     @Default(defaultUserAgents)
     @JsonKey(readValue: _readUserAgents)
     List<String> userAgents,

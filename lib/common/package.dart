@@ -6,6 +6,7 @@ import 'common.dart';
 
 extension PackageInfoExtension on PackageInfo {
   String get ua => [
+    'ClashforWindows/0.20.39',
     '$appName/v$version',
     'clash-verge',
     'Platform/${Platform.operatingSystem}',

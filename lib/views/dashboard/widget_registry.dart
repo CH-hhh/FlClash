@@ -17,6 +17,7 @@ extension DashboardWidgetView on DashboardWidget {
     DashboardWidget.connectionStats => const ConnectionStatsCard(),
     DashboardWidget.intranetIp => const IntranetIpCard(),
     DashboardWidget.memoryInfo => const MemoryInfo(),
+    DashboardWidget.speedTest => const SpeedTestCard(),
   };
 
   Glyph get glyph => switch (this) {
@@ -31,6 +32,7 @@ extension DashboardWidgetView on DashboardWidget {
     DashboardWidget.connectionStats => AppGlyphs.connections,
     DashboardWidget.intranetIp => AppGlyphs.devices,
     DashboardWidget.memoryInfo => AppGlyphs.memory,
+    DashboardWidget.speedTest => AppGlyphs.speed,
   };
 
   String label(BuildContext context) {
@@ -47,6 +49,7 @@ extension DashboardWidgetView on DashboardWidget {
       DashboardWidget.connectionStats => appLocalizations.connectionStats,
       DashboardWidget.intranetIp => appLocalizations.intranetIP,
       DashboardWidget.memoryInfo => appLocalizations.memoryInfo,
+      DashboardWidget.speedTest => '代理测速',
     };
   }
 
@@ -56,6 +59,7 @@ extension DashboardWidgetView on DashboardWidget {
       DashboardWidget.currentOutbound => appLocalizations.currentOutboundDesc,
       DashboardWidget.connectionStats => appLocalizations.connectionStatsDesc,
       DashboardWidget.memoryInfo => appLocalizations.memoryInfoDesc,
+      DashboardWidget.speedTest => '测试当前代理节点的真实下行带宽与延迟',
       _ => null,
     };
   }

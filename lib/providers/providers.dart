@@ -6,4 +6,5 @@ export 'database.dart';
 export 'delay_test_concurrency.dart';
 export 'on_demand.dart';
 export 'route_state.dart';
+export 'speed_test.dart';
 export 'state.dart';
