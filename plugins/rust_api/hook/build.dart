@@ -31,19 +31,26 @@ Map<String, String> _trimmedPathEnvironment(BuildInput input) {
   );
 }
 
-// rquickjs runs bindgen on Android, which must load the NDK's libclang; Linux
-// NDKs before r26 keep it under lib64, later ones and every macOS NDK under lib.
+// rquickjs runs bindgen on Android, which must load libclang; Linux NDKs
+// before r26 keep it under lib64, later ones and every macOS NDK under lib,
+// and Windows LLVM keeps it under bin or lib.
 Map<String, String> _bindgenEnvironment(BuildInput input) {
   if (!input.config.buildCodeAssets ||
       input.config.code.targetOS != OS.android) {
     return const {};
+  }
+  if (Platform.environment.containsKey('LIBCLANG_PATH')) {
+    final customPath = Platform.environment['LIBCLANG_PATH']!;
+    if (Directory(customPath).existsSync()) {
+      return {'LIBCLANG_PATH': customPath};
+    }
   }
   final compiler = input.config.code.cCompiler?.compiler;
   if (compiler == null) {
     return const {};
   }
   final llvmRoot = File.fromUri(compiler).parent.parent;
-  for (final name in const ['lib', 'lib64']) {
+  for (final name in const ['lib', 'lib64', 'bin']) {
     final directory = Directory(
       '${llvmRoot.path}${Platform.pathSeparator}$name',
     );
@@ -51,8 +58,12 @@ Map<String, String> _bindgenEnvironment(BuildInput input) {
       return {'LIBCLANG_PATH': directory.path};
     }
   }
+  final fallbackLlvm = Directory('C:\\Program Files\\LLVM\\bin');
+  if (fallbackLlvm.existsSync() && fallbackLlvm.listSync().any(_isLibclang)) {
+    return {'LIBCLANG_PATH': fallbackLlvm.path};
+  }
   throw StateError(
-    'No libclang under ${llvmRoot.path} (lib or lib64); the NDK Flutter '
+    'No libclang under ${llvmRoot.path} (lib, lib64, or bin); the NDK Flutter '
     'passed cannot run bindgen for rquickjs',
   );
 }
