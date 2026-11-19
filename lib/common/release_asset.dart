@@ -47,7 +47,7 @@ String releaseAssetName({
 }) {
   final parts = [
     releaseFilePrefix,
-    line.name,
+    if (line != ReleaseLine.dev) line.name,
     _checkedVersion(version),
     os.name,
     arch.name,
@@ -57,5 +57,7 @@ String releaseAssetName({
 }
 
 String releaseChecksumsName(ReleaseLine line, String version) {
-  return '$releaseFilePrefix-${line.name}-${_checkedVersion(version)}-SHA256SUMS';
+  final prefix =
+      line == ReleaseLine.dev ? releaseFilePrefix : '$releaseFilePrefix-${line.name}';
+  return '$prefix-${_checkedVersion(version)}-SHA256SUMS';
 }

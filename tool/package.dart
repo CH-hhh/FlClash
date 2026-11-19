@@ -27,7 +27,7 @@ ArgParser createPackageArgParser() {
   return ArgParser()
     ..addOption(
       'env',
-      defaultsTo: 'pre',
+      defaultsTo: 'stable',
       allowed: ['dev', 'pre', 'stable'],
       help: 'Application environment, written to env.json as APP_ENV.',
     )
