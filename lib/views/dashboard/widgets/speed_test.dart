@@ -53,6 +53,46 @@ class SpeedTestCard extends ConsumerWidget {
                 ),
             ],
             trailing: [
+              if (!isTesting)
+                PopupAnchor(
+                  targetBuilder: (open) => DashboardBlock(
+                    radius: DashboardCorner.tab,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    onTap: open,
+                    child: Row(
+                      spacing: 3,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${state.selectedTargetMB} MB',
+                          style: DashboardText.label(context).copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 11 * scale,
+                          ),
+                        ),
+                        GlyphIcon(
+                          AppGlyphs.chevronDown,
+                          size: 11,
+                          color: colorScheme.outline,
+                        ),
+                      ],
+                    ),
+                  ),
+                  popupBuilder: (_) => PopupMenu(
+                    items: [
+                      for (final tier in speedTestTiersMB)
+                        PopupMenuItem(
+                          label: tier >= 1000 ? '1000 MB (1 GB)' : '$tier MB',
+                          checked: tier == state.selectedTargetMB,
+                          onPressed: () => notifier.setTargetMB(tier),
+                        ),
+                    ],
+                  ),
+                ),
               if (isTesting)
                 DashboardBlock(
                   radius: DashboardCorner.tab,
@@ -149,8 +189,10 @@ class SpeedTestCard extends ConsumerWidget {
                       const SizedBox(height: 2),
                       Text(
                         isTesting
-                            ? '实时: $mbps Mbps'
-                            : (isCompleted ? '峰值: $mbps Mbps' : '真实下行带宽测试'),
+                            ? '实时: $mbps Mbps · 目标 ${state.selectedTargetMB} MB'
+                            : (isCompleted
+                                ? '峰值: $mbps Mbps · 已测 ${state.selectedTargetMB} MB'
+                                : '真实下行带宽测试 · ${state.selectedTargetMB} MB'),
                         style: DashboardText.label(context).copyWith(
                           fontSize: 11 * scale,
                           color: colorScheme.outline,
@@ -191,7 +233,7 @@ class SpeedTestCard extends ConsumerWidget {
                       _MetricBadge(
                         label: '流量',
                         value: state.totalBytes > 0
-                            ? '${state.totalBytes.traffic.value} MB'
+                            ? '${state.totalBytes.traffic.value} ${state.totalBytes.traffic.unit}'
                             : '0 MB',
                       ),
                     ],
@@ -262,7 +304,7 @@ class SpeedTestCard extends ConsumerWidget {
                             ),
                           )
                         : Text(
-                            '通过当前代理节点下载测速块，测试真实下行速度',
+                            '通过当前代理节点下载 ${state.selectedTargetMB}MB 测速块，测试真实下行速度',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

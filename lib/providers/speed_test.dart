@@ -10,13 +10,16 @@ enum SpeedTestStatus {
   error,
 }
 
+const speedTestTiersMB = [50, 250, 500, 1000];
+
 class SpeedTestState {
   final SpeedTestStatus status;
   final double currentSpeed; // bytes per second
   final double peakSpeed; // bytes per second
   final double avgSpeed; // bytes per second
   final int totalBytes; // bytes downloaded
-  final int targetBytes; // target bytes (e.g. 50MB)
+  final int targetBytes; // target bytes (e.g. 50MB, 250MB, 500MB, 1000MB)
+  final int selectedTargetMB; // 50, 250, 500, 1000
   final int? pingMs; // handshake latency
   final double progress; // 0.0 ~ 1.0
   final List<double> history; // recent speed samples (bytes/s)
@@ -31,6 +34,7 @@ class SpeedTestState {
     this.avgSpeed = 0,
     this.totalBytes = 0,
     this.targetBytes = 50 * 1024 * 1024,
+    this.selectedTargetMB = 50,
     this.pingMs,
     this.progress = 0,
     this.history = const [],
@@ -46,6 +50,7 @@ class SpeedTestState {
     double? avgSpeed,
     int? totalBytes,
     int? targetBytes,
+    int? selectedTargetMB,
     int? pingMs,
     double? progress,
     List<double>? history,
@@ -60,6 +65,7 @@ class SpeedTestState {
       avgSpeed: avgSpeed ?? this.avgSpeed,
       totalBytes: totalBytes ?? this.totalBytes,
       targetBytes: targetBytes ?? this.targetBytes,
+      selectedTargetMB: selectedTargetMB ?? this.selectedTargetMB,
       pingMs: pingMs ?? this.pingMs,
       progress: progress ?? this.progress,
       history: history ?? this.history,
@@ -79,6 +85,14 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
 
   @override
   SpeedTestState build() => const SpeedTestState();
+
+  void setTargetMB(int mb) {
+    if (state.status == SpeedTestStatus.testing) return;
+    state = state.copyWith(
+      selectedTargetMB: mb,
+      targetBytes: mb * 1024 * 1024,
+    );
+  }
 
   Future<void> startTest() async {
     if (state.status == SpeedTestStatus.testing) return;
@@ -109,8 +123,14 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
       }
     } catch (_) {}
 
+    final targetMB = state.selectedTargetMB;
+    final targetBytes = targetMB * 1024 * 1024;
+    final testUrl = 'https://speed.cloudflare.com/__down?bytes=$targetBytes';
+
     state = SpeedTestState(
       status: SpeedTestStatus.testing,
+      targetBytes: targetBytes,
+      selectedTargetMB: targetMB,
       nodeName: currentNode ?? '当前代理节点',
       history: const [],
     );
@@ -121,9 +141,6 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
     client.findProxy = (uri) => 'PROXY 127.0.0.1:$mixedPort';
     client.connectionTimeout = const Duration(seconds: 8);
 
-    const testUrl =
-        'https://speed.cloudflare.com/__down?bytes=50000000'; // 50MB
-    const targetBytes = 50 * 1024 * 1024;
     final stopwatch = Stopwatch()..start();
 
     try {
@@ -167,6 +184,7 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
             avgSpeed: avgSpeed,
             totalBytes: totalDownloaded,
             targetBytes: targetBytes,
+            selectedTargetMB: targetMB,
             pingMs: pingMs,
             progress: (totalDownloaded / targetBytes).clamp(0.0, 1.0),
             history: List.unmodifiable(history),
@@ -179,8 +197,9 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
         }
 
         if (totalDownloaded >= targetBytes) break;
-        // Cap test at 12 seconds to prevent excessive traffic usage
-        if (stopwatch.elapsedMilliseconds >= 12000) break;
+        // Cap test time according to payload: 50MB -> 12s, 250MB -> 25s, 500MB -> 45s, 1000MB -> 80s
+        final maxTimeoutMs = (targetMB * 80).clamp(12000, 80000);
+        if (stopwatch.elapsedMilliseconds >= maxTimeoutMs) break;
       }
 
       final totalElapsedSec =
@@ -195,6 +214,7 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
         avgSpeed: finalAvgSpeed,
         totalBytes: totalDownloaded,
         targetBytes: targetBytes,
+        selectedTargetMB: targetMB,
         pingMs: pingMs,
         progress: 1.0,
         history: List.unmodifiable(history),
@@ -206,6 +226,8 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
       if (!_isCancelled) {
         state = SpeedTestState(
           status: SpeedTestStatus.error,
+          targetBytes: targetBytes,
+          selectedTargetMB: targetMB,
           errorMessage: '测速异常: ${e.toString().split('\n').first}',
           nodeName: currentNode ?? '当前代理节点',
         );
@@ -230,6 +252,6 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
 
   void reset() {
     stopTest();
-    state = const SpeedTestState();
+    state = SpeedTestState(selectedTargetMB: state.selectedTargetMB);
   }
 }
