@@ -96,8 +96,10 @@ class SpeedTestCard extends ConsumerWidget {
               if (isTesting)
                 DashboardBlock(
                   radius: DashboardCorner.tab,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   onTap: notifier.stopTest,
                   child: Row(
                     spacing: 4,
@@ -124,8 +126,10 @@ class SpeedTestCard extends ConsumerWidget {
               else
                 DashboardBlock(
                   radius: DashboardCorner.tab,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                   onTap: notifier.startTest,
                   child: Row(
                     spacing: 4,
@@ -191,8 +195,8 @@ class SpeedTestCard extends ConsumerWidget {
                         isTesting
                             ? '实时: $mbps Mbps · 目标 ${state.selectedTargetMB} MB'
                             : (isCompleted
-                                ? '峰值: $mbps Mbps · 已测 ${state.selectedTargetMB} MB'
-                                : '真实下行带宽测试 · ${state.selectedTargetMB} MB'),
+                                  ? '峰值: $mbps Mbps · 已测 ${state.selectedTargetMB} MB'
+                                  : '真实下行带宽测试 · ${state.selectedTargetMB} MB'),
                         style: DashboardText.label(context).copyWith(
                           fontSize: 11 * scale,
                           color: colorScheme.outline,
@@ -212,7 +216,9 @@ class SpeedTestCard extends ConsumerWidget {
                     children: [
                       _MetricBadge(
                         label: '延迟',
-                        value: state.pingMs != null ? '${state.pingMs} ms' : '--',
+                        value: state.pingMs != null
+                            ? '${state.pingMs} ms'
+                            : '--',
                         color: state.pingMs != null && state.pingMs! < 100
                             ? const Color(0xFF4CAF50)
                             : colorScheme.onSurfaceVariant,
@@ -255,7 +261,8 @@ class SpeedTestCard extends ConsumerWidget {
                           child: LinearProgressIndicator(
                             value: state.progress > 0 ? state.progress : null,
                             minHeight: 4,
-                            backgroundColor: colorScheme.surfaceContainerHighest,
+                            backgroundColor:
+                                colorScheme.surfaceContainerHighest,
                           ),
                         ),
                       ),
@@ -271,47 +278,47 @@ class SpeedTestCard extends ConsumerWidget {
                     ],
                   )
                 : (isCompleted
-                    ? Row(
-                        children: [
-                          GlyphIcon(
-                            AppGlyphs.checkCircle,
-                            size: 14 * scale,
-                            color: const Color(0xFF4CAF50),
-                          ),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              _speedRatingText(state.peakSpeed),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 11 * scale,
-                                color: const Color(0xFF4CAF50),
-                                fontWeight: FontWeight.w600,
+                      ? Row(
+                          children: [
+                            GlyphIcon(
+                              AppGlyphs.checkCircle,
+                              size: 14 * scale,
+                              color: const Color(0xFF4CAF50),
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                _speedRatingText(state.peakSpeed),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 11 * scale,
+                                  color: const Color(0xFF4CAF50),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    : (isError
-                        ? Text(
-                            state.errorMessage ?? '测速失败',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 11 * scale,
-                              color: colorScheme.error,
-                            ),
-                          )
-                        : Text(
-                            '通过当前代理节点下载 ${state.selectedTargetMB}MB 测速块，测试真实下行速度',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 11 * scale,
-                              color: colorScheme.outline,
-                            ),
-                          ))),
+                          ],
+                        )
+                      : (isError
+                            ? Text(
+                                state.errorMessage ?? '测速失败',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 11 * scale,
+                                  color: colorScheme.error,
+                                ),
+                              )
+                            : Text(
+                                '通过当前代理节点下载 ${state.selectedTargetMB}MB 测速块，测试真实下行速度',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 11 * scale,
+                                  color: colorScheme.outline,
+                                ),
+                              ))),
           ),
         ],
       ),
@@ -332,11 +339,7 @@ class SpeedTestCard extends ConsumerWidget {
 }
 
 class _MetricBadge extends StatelessWidget {
-  const _MetricBadge({
-    required this.label,
-    required this.value,
-    this.color,
-  });
+  const _MetricBadge({required this.label, required this.value, this.color});
 
   final String label;
   final String value;
@@ -356,10 +359,7 @@ class _MetricBadge extends StatelessWidget {
           children: [
             TextSpan(
               text: '$label ',
-              style: TextStyle(
-                fontSize: 10,
-                color: colorScheme.outline,
-              ),
+              style: TextStyle(fontSize: 10, color: colorScheme.outline),
             ),
             TextSpan(
               text: value,

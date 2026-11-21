@@ -447,13 +447,15 @@ Future<DesktopEnvironmentInfo?> defaultDesktopEnvironmentLoader() async {
     var dnsResolvable = false;
     if (hasNetwork) {
       try {
-        final lookup = await InternetAddress.lookup('dns.alidns.com')
-            .timeout(const Duration(milliseconds: 1500));
+        final lookup = await InternetAddress.lookup(
+          'dns.alidns.com',
+        ).timeout(const Duration(milliseconds: 1500));
         dnsResolvable = lookup.isNotEmpty;
       } catch (_) {
         try {
-          final lookup = await InternetAddress.lookup('one.one.one.one')
-              .timeout(const Duration(milliseconds: 1500));
+          final lookup = await InternetAddress.lookup(
+            'one.one.one.one',
+          ).timeout(const Duration(milliseconds: 1500));
           dnsResolvable = lookup.isNotEmpty;
         } catch (_) {
           dnsResolvable = false;
@@ -637,8 +639,8 @@ EnvironmentCheckReport evaluateDesktopEnvironment({
       severity: networkSetting.systemProxy
           ? EnvironmentCheckSeverity.ok
           : (vpnProps.enable
-              ? EnvironmentCheckSeverity.ok
-              : EnvironmentCheckSeverity.warning),
+                ? EnvironmentCheckSeverity.ok
+                : EnvironmentCheckSeverity.warning),
       action: networkSetting.systemProxy
           ? EnvironmentCheckAction.openNetworkConfig
           : EnvironmentCheckAction.enableSystemProxy,

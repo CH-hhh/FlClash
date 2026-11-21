@@ -432,74 +432,78 @@ void main() {
       ]);
     });
 
-    testWidgets('renders desktop checks and handles helper and loopback fixes', (
-      tester,
-    ) async {
-      tester.view.physicalSize = const Size(420, 900);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.resetPhysicalSize);
-      addTearDown(tester.view.resetDevicePixelRatio);
+    testWidgets(
+      'renders desktop checks and handles helper and loopback fixes',
+      (tester) async {
+        tester.view.physicalSize = const Size(420, 900);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
 
-      container.listen(vpnSettingProvider, (_, _) {});
-      container.read(vpnSettingProvider.notifier).value = const VpnProps(
-        enable: false,
-      );
-      container.listen(networkSettingProvider, (_, _) {});
-      container.read(networkSettingProvider.notifier).value =
-          const NetworkProps(systemProxy: false);
+        container.listen(vpnSettingProvider, (_, _) {});
+        container.read(vpnSettingProvider.notifier).value = const VpnProps(
+          enable: false,
+        );
+        container.listen(networkSettingProvider, (_, _) {});
+        container.read(networkSettingProvider.notifier).value =
+            const NetworkProps(systemProxy: false);
 
-      var helperInstalled = false;
-      var loopbackLaunched = false;
+        var helperInstalled = false;
+        var loopbackLaunched = false;
 
-      await tester.pumpWidget(
-        UncontrolledProviderScope(
-          container: container,
-          child: TestApp(
-            child: EnvironmentCheckView(
-              desktopEnvironmentLoader: () async => _healthyDesktopInfo(
-                helperReadiness: HelperReadiness.notReady,
-                isLoopbackToolAvailable: true,
+        await tester.pumpWidget(
+          UncontrolledProviderScope(
+            container: container,
+            child: TestApp(
+              child: EnvironmentCheckView(
+                desktopEnvironmentLoader: () async => _healthyDesktopInfo(
+                  helperReadiness: HelperReadiness.notReady,
+                  isLoopbackToolAvailable: true,
+                ),
+                onInstallHelper: () async {
+                  helperInstalled = true;
+                  return true;
+                },
+                onLaunchLoopback: () async {
+                  loopbackLaunched = true;
+                },
               ),
-              onInstallHelper: () async {
-                helperInstalled = true;
-                return true;
-              },
-              onLaunchLoopback: () async {
-                loopbackLaunched = true;
-              },
             ),
           ),
-        ),
-      );
-      await tester.pumpAndSettle();
+        );
+        await tester.pumpAndSettle();
 
-      Future<void> tapCentered(Finder finder) async {
-        if (finder.evaluate().isEmpty) {
-          await tester.scrollUntilVisible(
-            finder,
-            200,
-            scrollable: find.byType(Scrollable).first,
+        Future<void> tapCentered(Finder finder) async {
+          if (finder.evaluate().isEmpty) {
+            await tester.scrollUntilVisible(
+              finder,
+              200,
+              scrollable: find.byType(Scrollable).first,
+            );
+            await tester.pumpAndSettle();
+          }
+          await Scrollable.ensureVisible(
+            tester.element(finder),
+            alignment: 0.5,
           );
           await tester.pumpAndSettle();
+          await tester.tap(finder);
+          await tester.pumpAndSettle();
         }
-        await Scrollable.ensureVisible(tester.element(finder), alignment: 0.5);
-        await tester.pumpAndSettle();
-        await tester.tap(finder);
-        await tester.pumpAndSettle();
-      }
 
-      expect(find.text(l10n.envCheckHelperService), findsOneWidget);
-      expect(find.text(l10n.loopback), findsOneWidget);
+        expect(find.text(l10n.envCheckHelperService), findsOneWidget);
+        expect(find.text(l10n.loopback), findsOneWidget);
 
-      await tapCentered(find.text(l10n.envCheckHelperService));
-      expect(helperInstalled, isTrue);
+        await tapCentered(find.text(l10n.envCheckHelperService));
+        expect(helperInstalled, isTrue);
 
-      await tapCentered(find.text(l10n.loopback));
-      expect(loopbackLaunched, isTrue);
+        await tapCentered(find.text(l10n.loopback));
+        expect(loopbackLaunched, isTrue);
 
-      await tapCentered(find.text(l10n.envCheckTakeoverMode));
-      expect(container.read(networkSettingProvider).systemProxy, isTrue);
-    });
+        await tapCentered(find.text(l10n.envCheckTakeoverMode));
+        expect(container.read(networkSettingProvider).systemProxy, isTrue);
+      },
+    );
   });
 }
 

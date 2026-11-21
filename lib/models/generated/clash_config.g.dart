@@ -898,7 +898,7 @@ _PatchClashConfig _$PatchClashConfigFromJson(Map<String, dynamic> json) =>
       disableKeepAlive: json['disable-keep-alive'] as bool? ?? false,
       routingMark: (json['routing-mark'] as num?)?.toInt() ?? 0,
       unifiedDelay: json['unified-delay'] as bool? ?? true,
-      tcpConcurrent: json['tcp-concurrent'] as bool? ?? true,
+      tcpConcurrent: json['tcp-concurrent'] as bool? ?? false,
       tun: json['tun'] == null
           ? defaultTun
           : Tun.safeFormJson(json['tun'] as Map<String, Object?>?),

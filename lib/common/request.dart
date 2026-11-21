@@ -77,10 +77,7 @@ class Request {
           target.uri,
           options: Options(
             responseType: responseType,
-            headers: {
-              'User-Agent': globalState.ua,
-              ...target.headers,
-            },
+            headers: {'User-Agent': globalState.ua, ...target.headers},
           ),
           cancelToken: cancelToken,
         )

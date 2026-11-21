@@ -841,7 +841,7 @@ void main() {
         mode: Mode.global,
         logLevel: LogLevel.debug,
         ipv6: true,
-        tcpConcurrent: false,
+        tcpConcurrent: true,
         externalController: ExternalControllerStatus.open,
         secret: 'secret',
         unifiedDelay: false,

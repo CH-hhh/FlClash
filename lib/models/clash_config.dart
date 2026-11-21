@@ -2163,7 +2163,7 @@ abstract class PatchClashConfig with _$PatchClashConfig {
     @Default(false) @JsonKey(name: 'disable-keep-alive') bool disableKeepAlive,
     @Default(0) @JsonKey(name: 'routing-mark') int routingMark,
     @Default(true) @JsonKey(name: 'unified-delay') bool unifiedDelay,
-    @Default(true) @JsonKey(name: 'tcp-concurrent') bool tcpConcurrent,
+    @Default(false) @JsonKey(name: 'tcp-concurrent') bool tcpConcurrent,
     @Default(defaultTun) @JsonKey(fromJson: Tun.safeFormJson) Tun tun,
     @Default(defaultDns) @JsonKey(fromJson: Dns.safeDnsFromJson) Dns dns,
     @Default({})

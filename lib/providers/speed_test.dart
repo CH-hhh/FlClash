@@ -3,12 +3,7 @@ import 'dart:io';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum SpeedTestStatus {
-  idle,
-  testing,
-  completed,
-  error,
-}
+enum SpeedTestStatus { idle, testing, completed, error }
 
 const speedTestTiersMB = [50, 250, 500, 1000];
 
@@ -76,8 +71,9 @@ class SpeedTestState {
   }
 }
 
-final speedTestProvider =
-    NotifierProvider<SpeedTestNotifier, SpeedTestState>(SpeedTestNotifier.new);
+final speedTestProvider = NotifierProvider<SpeedTestNotifier, SpeedTestState>(
+  SpeedTestNotifier.new,
+);
 
 class SpeedTestNotifier extends Notifier<SpeedTestState> {
   HttpClient? _client;
@@ -88,10 +84,7 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
 
   void setTargetMB(int mb) {
     if (state.status == SpeedTestStatus.testing) return;
-    state = state.copyWith(
-      selectedTargetMB: mb,
-      targetBytes: mb * 1024 * 1024,
-    );
+    state = state.copyWith(selectedTargetMB: mb, targetBytes: mb * 1024 * 1024);
   }
 
   Future<void> startTest() async {
@@ -108,8 +101,9 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
       return;
     }
 
-    final mixedPort =
-        ref.read(patchClashConfigProvider.select((s) => s.mixedPort));
+    final mixedPort = ref.read(
+      patchClashConfigProvider.select((s) => s.mixedPort),
+    );
 
     // Try to get current node name from visible groups
     String? currentNode;
@@ -174,8 +168,9 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
           if (history.length > 25) history.removeAt(0);
 
           final totalElapsedSec = (now - pingStart) / 1000.0;
-          final avgSpeed =
-              totalElapsedSec > 0 ? (totalDownloaded / totalElapsedSec) : 0.0;
+          final avgSpeed = totalElapsedSec > 0
+              ? (totalDownloaded / totalElapsedSec)
+              : 0.0;
 
           state = SpeedTestState(
             status: SpeedTestStatus.testing,
@@ -204,8 +199,9 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
 
       final totalElapsedSec =
           (stopwatch.elapsedMilliseconds - pingStart) / 1000.0;
-      final finalAvgSpeed =
-          totalElapsedSec > 0 ? (totalDownloaded / totalElapsedSec) : 0.0;
+      final finalAvgSpeed = totalElapsedSec > 0
+          ? (totalDownloaded / totalElapsedSec)
+          : 0.0;
 
       state = SpeedTestState(
         status: SpeedTestStatus.completed,
@@ -219,8 +215,9 @@ class SpeedTestNotifier extends Notifier<SpeedTestState> {
         progress: 1.0,
         history: List.unmodifiable(history),
         nodeName: currentNode ?? '当前代理节点',
-        elapsed:
-            Duration(milliseconds: stopwatch.elapsedMilliseconds - pingStart),
+        elapsed: Duration(
+          milliseconds: stopwatch.elapsedMilliseconds - pingStart,
+        ),
       );
     } catch (e) {
       if (!_isCancelled) {
